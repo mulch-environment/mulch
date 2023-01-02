@@ -2,7 +2,7 @@
 data_dir = get_option('datadir') / 'mulch'
 
 install_data(
-'template.db',
+'template.sql',
 install_dir : data_dir)
 
 conf = configuration_data()
