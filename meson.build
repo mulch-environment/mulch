@@ -3,12 +3,7 @@ files = ['src/Database.cpp',
 		 'src/Database.h'
 		 ]
 
-# installing data files
-data_dir = get_option('datadir') / 'mulch'
-
-install_data(
-'assets/template.db',
-install_dir : data_dir)
+subdir('assets')
 
 sqlite_dep = dependency('sqlite3')
 mulch_lib = static_library('mulch',
