@@ -7,7 +7,7 @@
 // 4. Optionally take returned rows and package them up into a std::map for some other thing to process 
 //
 
-
+#include "../assets/config.h"
 #include "Database.h"
 using namespace mulch;
 #include <sqlite3.h>
