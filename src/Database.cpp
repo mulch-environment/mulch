@@ -18,6 +18,7 @@ using namespace mulch;
 #include <fstream>
 #include <stdexcept>
 #include <exception>
+// #include <odb/core.hxx>
 
 std::vector<Result> Database::_results;
 
@@ -82,15 +83,10 @@ void Database::query(std::string query)
 	char *zErrMsg = 0;
 	_results.clear();
 	int rq = sqlite3_exec(_db, query.c_str(), callback, 0, &zErrMsg);
-	try
-	{
-		MulchExceptions::SQLiteError(rq);
-	}
-	catch (std::invalid_argument& e)
-	{
-		std::cerr << e.what();
-	}
-
+	std::cout << "I'm in Database::query" <<std::endl; // debug
+	MulchExceptions::SQLiteErrorIfNeeded(rq, zErrMsg);
+	std::cout << "I'm in Database::query (but after error message)" <<std::endl; // debug
+	
 }
 
 int Database::callback(void *nu, int argc, char **argv, char **col_names)

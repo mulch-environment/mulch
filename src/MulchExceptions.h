@@ -12,7 +12,7 @@ class MulchExceptions//: public std::runtime_error
 {
 public:
 	static void NoFileError(int &input);
-	static void SQLiteError(int &input);
+	static void SQLiteErrorIfNeeded(int &c, char *zErrMsg);
 
 };
 
