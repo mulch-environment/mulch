@@ -15,6 +15,16 @@ std::string Utility::getFileContents(std::string &kk)
 }
 
 
+/* Activate Foreign keys constrain **/
+std::string Utility::SetForeignKeysOn()
+{
+	std::string query;
+	query = "PRAGMA FOREIGN_KEYS = ON";
+	query += ";";
+	return query;
+
+}
+
 bool isNull(std::string &str_input)
 {
 	if (str_input == "__NULL__")

@@ -16,6 +16,7 @@ class Utility
 	 	*  If the database is empty, call getFileContents() to read from a sql file, 
 	 	* assign contents of sql file to string and then run the queries to "fill" the database */
 		static std::string getFileContents(std::string &kk);
+		static std::string SetForeignKeysOn();
 		static bool isNull(std::string &arg);
 };
 

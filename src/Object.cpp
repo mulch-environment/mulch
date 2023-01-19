@@ -2,39 +2,47 @@
 
 #include "Object.h"
 #include "Database.h"
+#include "Utility.h"
 #include <iostream>
 using namespace mulch;
 
-// private:
-// void Object::initialInsert
-// void Object::updatePid
-// void Object::updateExisting
+
+void Object::initialInsert(Database *db)
+{
+	std::cout << "Starting updating Database" << std::endl; //debug
+	// first insert query that updates columns that have a no null constrain 
+	std::string constrain_query = insertQuery();	
+	db->query(constrain_query);	
+	std::cout << constrain_query << std::endl; //debug
+}
+
+void Object::updateExisting(Database *db)
+{
+	std::string query = updateQuery(); 
+	std::cout << query << std::endl; //debug
+	db->query(query);
+}
+
+void Object::updatePid(Database *db)
+{
+	std::string id_back = queryLastId();
+	db->query(id_back);
+}
 
 void Object::updateDatabase(Database *db)
 {
+
+	std::string querySetForeignOn = Utility::SetForeignKeysOn();
+	db->query(querySetForeignOn);
+
 	updateDependencies(db); 
-	
+
 	// if the object doesn't exist in the database yet,
 	if (!alreadyInDatabase())
 	{
-		std::cout << alreadyInDatabase() << std::endl;  // debug
-		std::cout << "Starting updating Database" << std::endl; //debug
-		// first insert query that updates constrains columns 
-		std::string constrain_query = insertQuery();		
-		// we need to create an INSERT query (sqlite3)
-		std::string query = updateQuery(); 
-		std::cout << constrain_query << std::endl; //debug
-		std::cout << query << std::endl; //debug
-
-		// update dependencies
-		db->query(constrain_query);
-		// send that query to the database
-		db->query(query);
-
-		// we also need to get back the primary ID which has been assigned to our object
-		std::string id_back = queryLastId();
-		db->query(id_back);
-
+		initialInsert(db);
+		updateExisting(db);
+		updatePid(db);
 		// now the database "results" should be populated with the last ID
 		std::vector<Result> res = db->results();
 

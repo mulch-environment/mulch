@@ -23,7 +23,6 @@ namespace mulch
 	private:
 		RepresentationType *_representationType = nullptr;
 		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
-
 		// have this for later
 		std::string _comments = "blah";
 	};

@@ -25,6 +25,9 @@ namespace mulch
 		void updateDatabase(Database *db);
 
 	protected:
+		void initialInsert(Database *db);
+		void updatePid(Database *db);
+		void updateExisting(Database *db);
 		virtual std::string insertQuery() = 0;
 		virtual std::string updateQuery() = 0;
 		virtual void updateDependencies(Database *db) {};

@@ -4,13 +4,15 @@
 #include "Model.h"
 #include "RepresentationType.h"
 #include "StructureTechniqueInfo.h"
+// #include "AtomicModelInfo.h"
 using namespace mulch;
 
 Model::Model()
 {
-	// columns in Model table with NotNULL containts 
 	_representationType = new RepresentationType();
 	_structureTechniqueInfo = new StructureTechniqueInfo();
+	// _atomicModelInfo = new AtomicModelInfo();
+
 }
 
 std::string Model::insertQuery()
@@ -33,10 +35,7 @@ std::string Model::updateQuery()
 	query = "UPDATE Model SET comments = 'blahblah' WHERE model_ID = ";
 	query += std::to_string(primaryId());
 	query += ";";
-	// query = "INSERT INTO Model (comments) VALUES "; //debug-->Helen
-	// query += "(";
-	// query += "'my first model'";
-	// query += ");";
+
 
 	return query;
 }
@@ -46,5 +45,6 @@ void Model::updateDependencies(Database *db)
 	// send that representationType to the database
 	_representationType->updateDatabase(db);
 	_structureTechniqueInfo->updateDatabase(db);
+	// _atomicModelInfo->updateDatabase(db);
 	
 }
