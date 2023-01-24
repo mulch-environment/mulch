@@ -1,10 +1,11 @@
 #define BOOST_TEST_MODULE mulch_tests
 #include <boost/test/unit_test.hpp>
-#include <mulch/Database.h>
-#include <mulch/Utility.h>
-#include <mulch/MulchExceptions.h>
+#include <src/Database.h>
+#include <src/Utility.h>
+#include <src/MulchExceptions.h>
 #include <iostream>
-#include <mulch/Model.h>
+#include <src/Model.h>
+
 
 BOOST_AUTO_TEST_CASE(model_inserted_into_database)
 {

@@ -12,7 +12,17 @@ files = ['src/Database.cpp',
 		 'src/RepresentationType.h',
 		 'src/RepresentationType.cpp',
 		 'src/StructureTechniqueInfo.h',
-		 'src/StructureTechniqueInfo.cpp'
+		 'src/StructureTechniqueInfo.cpp',
+		 'src/AtomicModelInfo.h',
+		 'src/AtomicModelInfo.cpp',
+		 'src/BondBasedModelInfo.h',
+		 'src/BondBasedModelInfo.cpp',
+		 'src/CoarseGrainingModelInfo.h',
+		 'src/CoarseGrainingModelInfo.cpp',
+		 'src/EnsembleRefineInfo.h',
+		 'src/EnsembleRefineInfo.cpp',
+		 'src/TLSParametersInfo.h',
+		 'src/TLSParametersInfo.cpp'
 		 ]
 
 subdir('assets')
