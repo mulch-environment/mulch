@@ -66,9 +66,11 @@ void Database::tablesFromTemplate(int num_tables)
 {
 	if (num_tables == 0)
 	{
+		std::string defaultTemplate = defaultTemplateFile();
 		printf("Database is empty \n");
-		printf("Read and execute SQL commands from folder: %s\n", _defaultTemplate.c_str());
-		std::string sql_commands = Utility::getFileContents(_defaultTemplate);	
+		printf("Read and execute SQL commands from folder: %s\n", defaultTemplate.c_str());
+
+		std::string sql_commands = Utility::getFileContents(defaultTemplate);	
 		query(sql_commands);
 	} 
 	else {
@@ -111,6 +113,10 @@ void Database::closeConnection()
 	}
 }
 
+std::string Database::defaultTemplateFile()
+{
+	return std::string(MULCH_DATA_DIRECTORY)+"/template.sql";
+}
 
 
 

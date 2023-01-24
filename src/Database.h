@@ -36,7 +36,8 @@ private:
 		static std::vector<Result> _results;
 		static int callback(void *nu, int argc, char **argv, char **col_names);
 		std::string _filename; 
-		std::string _defaultTemplate= "/Users/vapostolop/Desktop/MULTCH/mulch/test1.sql";
+		// std::string _defaultTemplate= "/Users/vapostolop/Desktop/MULCH/mulch/test1.sql";
+		std::string defaultTemplateFile();
 
 	};
 }
