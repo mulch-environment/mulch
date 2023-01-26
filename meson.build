@@ -22,7 +22,13 @@ files = ['src/Database.cpp',
 		 'src/EnsembleRefineInfo.h',
 		 'src/EnsembleRefineInfo.cpp',
 		 'src/TLSParametersInfo.h',
-		 'src/TLSParametersInfo.cpp'
+		 'src/TLSParametersInfo.cpp', 
+		 'src/CrystallographicInfo.h',
+		 'src/CrystallographicInfo.cpp',
+		 'src/NMRInfo.h', 
+		 'src/NMRInfo.cpp',
+		 'src/CryoEMInfo.h', 
+		 'src/CryoEMInfo.cpp'
 		 ]
 
 subdir('assets')

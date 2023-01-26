@@ -1,4 +1,4 @@
-// StructureTechniqueInfo.cpp
+// RepresentationType.cpp
 
 #include "BondBasedModelInfo.h"
 using namespace mulch;
