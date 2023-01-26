@@ -1,10 +1,12 @@
 // 
 // Mulch library
 // 
+#ifndef __mulch__Database_h__
+#define __mulch__Database_h__
+
 #include <string>
 #include <map>
 #include <vector>
-
 
 namespace mulch
 {
@@ -41,5 +43,8 @@ private:
 
 	};
 }
+
+
+#endif
 
 

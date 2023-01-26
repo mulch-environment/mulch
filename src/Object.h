@@ -31,6 +31,11 @@ namespace mulch
 		virtual std::string insertQuery() = 0;
 		virtual std::string updateQuery() = 0;
 		virtual void updateDependencies(Database *db) {};
+		// setter function 
+		void setPrimaryId(const int pid)
+		{ 
+			_pid = pid;
+		}
 	private:
 		std::string queryLastId();
 

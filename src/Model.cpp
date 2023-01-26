@@ -46,3 +46,12 @@ void Model::updateDependencies(Database *db)
 	_structureTechniqueInfo->updateDatabase(db);
 	
 }
+
+
+Model Model::modelFromResult(const Result &res)
+{
+	Model exportedModel;
+	int pid = atoi(res.at("model_id").c_str());
+	exportedModel.setPrimaryId(pid);
+	return exportedModel;
+}

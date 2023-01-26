@@ -27,6 +27,25 @@ BOOST_AUTO_TEST_CASE(model_starts_with_negative_primary_id)
 	BOOST_TEST(id == -1);
 };
 
+BOOST_AUTO_TEST_CASE(model_exported_from_database)
+{
+	mulch::Database db("mulch.db");
+	db.open();
+
+	db.query("SELECT * FROM Model;");
+	const std::vector<mulch::Result> &res = db.results();
+	for (const mulch::Result &r: res)
+	{
+		for (auto it = r.begin(); it != r.end(); it++)
+		{
+			std::cout << it->first << " " << it->second <<std::endl;
+		}
+		std::cout << std::endl;
+		mulch::Model m = mulch::Model::modelFromResult(r);
+		std::cout<< m.primaryId()<< std::endl;
+	}
+};
+
 // BOOST_AUTO_TEST_CASE(database_has_filename)
 // {
 // 	mulch::Database db("mulch.db");

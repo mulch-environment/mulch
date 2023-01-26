@@ -5,6 +5,7 @@
 #define __mulch__Model_h__
 
 #include "Object.h"
+#include "Database.h"
 
 namespace mulch
 {
@@ -14,6 +15,7 @@ namespace mulch
 	{
 	public:
 		Model();
+		static Model modelFromResult(const Result &res);
 
 	protected:
 		virtual std::string insertQuery();
