@@ -37,6 +37,11 @@ void Database::open()
 
 }
 
+std::string Database::defaultTemplateFile()
+{
+	return std::string(MULCH_DATA_DIRECTORY)+"/template.sql";
+}
+
 void Database::openConnection()
 {
 	/** Open the mulch database */
@@ -113,10 +118,7 @@ void Database::closeConnection()
 	}
 }
 
-std::string Database::defaultTemplateFile()
-{
-	return std::string(MULCH_DATA_DIRECTORY)+"/template.sql";
-}
+
 
 
 

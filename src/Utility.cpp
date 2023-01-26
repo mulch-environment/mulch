@@ -7,7 +7,7 @@
 
 std::string Utility::getFileContents(std::string &kk)
 {
-		std::ifstream ifs(std::__fs::filesystem::path(kk).filename());
+		std::ifstream ifs(kk);
 		std::string content( (std::istreambuf_iterator<char>(ifs) ),
 			(std::istreambuf_iterator<char>() ) );
 

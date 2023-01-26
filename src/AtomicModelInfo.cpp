@@ -22,8 +22,8 @@ std::string AtomicModelInfo::updateQuery()
 	std::string query;
 	query = "UPDATE AtomicModelInfo SET haspdb = 'FALSE' WHERE atomic_model_id = 6";
 	query += ";";
-	query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
-	query += ";";
+	// query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
+	// query += ";";
 	return query;
 }
 

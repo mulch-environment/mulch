@@ -4,14 +4,13 @@
 #include "Model.h"
 #include "RepresentationType.h"
 #include "StructureTechniqueInfo.h"
-// #include "AtomicModelInfo.h"
+#include "AtomicModelInfo.h"
 using namespace mulch;
 
 Model::Model()
 {
 	_representationType = new RepresentationType();
 	_structureTechniqueInfo = new StructureTechniqueInfo();
-	// _atomicModelInfo = new AtomicModelInfo();
 
 }
 
@@ -45,6 +44,5 @@ void Model::updateDependencies(Database *db)
 	// send that representationType to the database
 	_representationType->updateDatabase(db);
 	_structureTechniqueInfo->updateDatabase(db);
-	// _atomicModelInfo->updateDatabase(db);
 	
 }

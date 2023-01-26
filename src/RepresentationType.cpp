@@ -25,8 +25,10 @@ std::string RepresentationType::insertQuery()
 std::string RepresentationType::updateQuery()
 {
 	std::string query;
-	query = "UPDATE RepresentationType SET bondbased_model_ID = 1 WHERE representation_type_ID = 4";
+	query = "UPDATE RepresentationType SET bondbased_model_ID = 1 WHERE representation_type_ID = 3";
 	query += ";";
+	// query = "UPDATE RepresentationType SET atomic_model_ID= 1 WHERE representation_type_ID = 4";
+	// query += ";";
 	return query;
 	// return "";
 }

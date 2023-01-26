@@ -1,5 +1,5 @@
 // Object (mirrored from database)
-// AtomicModelInfo will be a type of Object
+
 
 #ifndef __mulch__BondBasedModelInfo_h__
 #define __mulch__BondBasedModelInfo_h__
