@@ -149,6 +149,76 @@ CREATE TABLE "CryoEMInfo"(
 );
 
 
+CREATE TABLE "ModelDataPair"(
+  modeldatapair_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  data_id INTEGER,
+  model_id INTEGER,
+  CONSTRAINT "DataInfo_Dataset"
+    FOREIGN KEY (data_id) REFERENCES "Data" (data_id),
+  CONSTRAINT "Model_Dataset" FOREIGN KEY (model_id) REFERENCES "Model" (model_id)
+);
+
+CREATE TABLE "Data"(
+  data_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  data_nmr_info_id INTEGER,
+  data_crystallographic_info_id INTEGER,
+  data_cryoem_info_id INTEGER,
+  CONSTRAINT "CryoEMDataInfo_DataInfo"
+    FOREIGN KEY (data_cryoem_info_id)
+      REFERENCES "DataCryoEMInfo" (data_cryoem_info_id) ON DELETE No action
+      ON UPDATE No action,
+  CONSTRAINT "CrystallographicDataInfo_DataInfo"
+    FOREIGN KEY (data_crystallographic_info_id)
+      REFERENCES "DataCrystallographicInfo" (data_crystallographic_info_id)
+      ON DELETE No action ON UPDATE No action,
+  CONSTRAINT "NMRDataInfo_DataInfo"
+    FOREIGN KEY (nmr_data_info_id) REFERENCES "DataNMRInfo" (data_nmr_info_id)
+      ON DELETE No action ON UPDATE No action
+);
+
+CREATE TABLE "DataNMRInfo"(
+  data_nmr_info_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  comments VARCHAR,
+  "NMRQualityData_nmrqualitydata_id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  CONSTRAINT "NMRDataInfo_ak_1" UNIQUE(data_nmr_info_id),
+  CONSTRAINT "NMRQualityData_DataNMRInfo"
+    FOREIGN KEY ("NMRQualityData_nmrqualitydata_id")
+      REFERENCES "NMRQualityData" (nmrqualitydata_id)
+);
 
 
+CREATE TABLE "DataCrystallographicInfo"(
+  data_crystallographic_info_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  crystalqualitydata_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  reflections_no INTEGER,
+  wavelength REAL,
+  comments VARCHAR,
+  CONSTRAINT "CrystallographicDataInfo_ak_1" UNIQUE(data_crystallographic_info_id),
+  CONSTRAINT "QualityData_DataCrystallographicInfo"
+    FOREIGN KEY (crystalqualitydata_id)
+      REFERENCES "CrystalQualityData" (crystalqualitydata_id)
+);
+
+CREATE TABLE "DataCryoEMInfo"(
+  data_cryoem_info_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  cryoemqualitydata_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  comments VARCHAR,
+  CONSTRAINT "CryoEMDataInfo_ak_1" UNIQUE(data_cryoem_info_id),
+  CONSTRAINT "CryoemQualityData_DataCryoEMInfo"
+    FOREIGN KEY (cryoemqualitydata_id)
+      REFERENCES "CryoemQualityData" (cryoemqualitydata_id)
+);
+
+CREATE TABLE "Group"
+  (group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fixed BLOB);
+
+CREATE TABLE "GroupHasDataset"(
+  grouphasdataset_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  modeldatapair_id INTEGER NOT NULL,
+  group_id INTEGER NOT NULL,
+  CONSTRAINT "Dataset_GroupHadDataset"
+    FOREIGN KEY ("modeldatapair_id") REFERENCES "ModelDataPair" (modeldatapair_id),
+  CONSTRAINT "Group_GroupHadDataset"
+    FOREIGN KEY (group_id) REFERENCES "Group" (group_id)
+);
 

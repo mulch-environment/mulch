@@ -39,6 +39,7 @@ void Database::open()
 
 std::string Database::defaultTemplateFile()
 {
+	std::cout << std::string(MULCH_DATA_DIRECTORY) << std::endl;
 	return std::string(MULCH_DATA_DIRECTORY)+"/template.sql";
 }
 
