@@ -20,3 +20,11 @@ std::string EnsembleRefineInfo::updateQuery()
 	return "";
 }
 
+std::string EnsembleRefineInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT ensemble_refine_id FROM EnsembleRefineInfo";
+	query += ";";
+
+	return query;
+}

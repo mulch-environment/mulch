@@ -1,8 +1,8 @@
 // Object (mirrored from database)
 // crystallographic Model will be a type of Object
 
-#ifndef __mulch__GroupHasDatset_h__
-#define __mulch__GroupHasDatset_h__
+#ifndef __mulch__CollectionHasDatset_h__
+#define __mulch__CollectionHasDatset_h__
 
 #include "Object.h"
 #include "Database.h"
@@ -10,21 +10,26 @@
 namespace mulch
 {
 	class ModelDataPair;
-	// class Group;
-	class GroupHasDataset : public Object
+	class Collection;
+	class CollectionHasDataset : public Object
 	{
 	public:
-		GroupHasDataset();
-		static GroupHasDataset groupHasDatasetFromResult(const Result &res);
+		CollectionHasDataset();
 
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
 		virtual void updateDependencies(Database *db);
 
 	private:
+		virtual std::string sqlIdName()
+		{
+			return "collectionhasdataset_id";
+		}	
+
 		ModelDataPair *_modelDataPair = nullptr;
-		// Group *_group = nullptr;
+		Collection *_collection = nullptr;
 
 	};
 }

@@ -27,6 +27,16 @@ std::string AtomicModelInfo::updateQuery()
 	return query;
 }
 
+std::string AtomicModelInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT atomic_model_id FROM AtomicModelInfo";
+	query += ";";
+
+	return query;
+}
+
+
 void AtomicModelInfo::updateDependencies(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 

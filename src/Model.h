@@ -15,14 +15,21 @@ namespace mulch
 	{
 	public:
 		Model();
-		static Model modelFromResult(const Result &res);
 
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
 		virtual void updateDependencies(Database *db);
+		virtual void retrieveDependencies(Database *db);
+		virtual void fillInFromResults(const Result &res);
 
 	private:
+		virtual std::string sqlIdName()
+		{
+			return "model_id";
+		}
+
 		RepresentationType *_representationType = nullptr;
 		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
 		// have this for later

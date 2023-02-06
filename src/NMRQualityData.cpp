@@ -22,3 +22,12 @@ std::string NMRQualityData::updateQuery()
 	// query += ";";
 	return " ";
 }
+
+std::string NMRQualityData::selectQuery()
+{
+	std::string query;
+	query = "SELECT nmrqualitydata_id FROM NMRQualityData";
+	query += ";";
+
+	return query;
+}

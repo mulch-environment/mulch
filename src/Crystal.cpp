@@ -27,6 +27,15 @@ std::string Crystal::updateQuery()
 	return query;
 }
 
+std::string Crystal::selectQuery()
+{
+	std::string query;
+	query = "SELECT Crystal_id FROM Crystal";
+	query += ";";
+
+	return query;
+}
+
 void Crystal::updateDependencies(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 

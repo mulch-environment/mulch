@@ -19,14 +19,22 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
 		virtual void updateDependencies(Database *db);
 	private:
+		virtual std::string sqlIdName()
+		{
+			return "representation_type_id";
+		}
+
 		AtomicModelInfo* _atomicModelInfo = nullptr;
 		BondBasedModelInfo* _bondBasedModelInfo = nullptr;
 		CoarseGrainingModelInfo* _coarseGrainingModelInfo = nullptr;
 		EnsembleRefineInfo* _ensembleRefineInfo = nullptr;
 		// have this for later
 		std::string _comments = "blah";
+
+
 		
 	};
 }

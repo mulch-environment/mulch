@@ -16,8 +16,13 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
 		virtual void updateDependencies(Database *db);
 	private:
+		virtual std::string sqlIdName()
+		{
+			return "data_crystallographic_info_id";
+		}		
 		CrystalQualityData* _crystalQualityData = nullptr;
 	};
 }

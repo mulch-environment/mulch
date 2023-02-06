@@ -25,6 +25,15 @@ std::string RfactrosInfo::updateQuery()
 	return query;
 }
 
+std::string RfactrosInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT rfactrosinfo_id FROM RfactrosInfo";
+	query += ";";
+
+	return query;
+}
+
 void RfactrosInfo::updateDependencies(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 

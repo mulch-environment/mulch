@@ -5,6 +5,7 @@
 #define __mulch__Group_h__
 
 #include "Object.h"
+#include "Database.h"
 
 namespace mulch
 {

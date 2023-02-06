@@ -35,6 +35,15 @@ std::string ModelDataPair::updateQuery()
 	return query;
 }
 
+std::string ModelDataPair::selectQuery()
+{
+	std::string query;
+	query = "SELECT modeldatapair_id FROM ModelDataPair";
+	query += ";";
+
+	return query;
+}
+
 void ModelDataPair::updateDependencies(Database *db)
 {
 	// send that representationType to the database
@@ -44,6 +53,7 @@ void ModelDataPair::updateDependencies(Database *db)
 }
 
 
+
 ModelDataPair ModelDataPair::modelDataPairFromResult(const Result &res)
 {
 	ModelDataPair exportedmodelDataPair;
@@ -51,3 +61,5 @@ ModelDataPair ModelDataPair::modelDataPairFromResult(const Result &res)
 	exportedmodelDataPair.setPrimaryId(pid);
 	return exportedmodelDataPair;
 }
+
+

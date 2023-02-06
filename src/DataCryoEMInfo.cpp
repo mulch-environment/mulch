@@ -20,3 +20,11 @@ std::string DataCryoEMInfo::updateQuery()
 	return "";
 }
 
+std::string DataCryoEMInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT data_cryoem_info_id FROM DataCryoEMInfo";
+	query += ";";
+
+	return query;
+}

@@ -20,9 +20,15 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
 		virtual void updateDependencies(Database *db);
 
 	private:
+		virtual std::string sqlIdName()
+		{
+			return "modeldatapair_id";
+		}
+
 		Model *_model = nullptr;
 		Data *_data = nullptr;
 		// have this for later

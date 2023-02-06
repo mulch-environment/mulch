@@ -17,6 +17,9 @@ std::string Group::insertQuery()
 
 std::string Group::updateQuery()
 {
-	return "";
+	std::string query;
+	// query = "UPDATE Group SET fixed = 'blah' WHERE group_ID = 4;";
+
+	return " ";
 }
 

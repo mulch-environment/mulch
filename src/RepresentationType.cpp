@@ -33,6 +33,16 @@ std::string RepresentationType::updateQuery()
 	// return "";
 }
 
+std::string RepresentationType::selectQuery()
+{
+	std::string query;
+	query = "SELECT representation_type_ID FROM RepresentationType";
+	query += ";";
+
+	return query;
+}
+
+
 void RepresentationType::updateDependencies(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 

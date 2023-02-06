@@ -29,9 +29,18 @@ std::string Data::insertQuery()
 std::string Data::updateQuery()
 {
 	std::string query;
-	query = "UPDATE Data SET comments = 'blahblah' WHERE Data_ID = 5";
+	query = "UPDATE Data SET data_cryoem_info_id = 2 WHERE data_ID = ";
+	query += "(";
 	query += std::to_string(primaryId());
-	query += ";";
+	query += ");";
+	query += "UPDATE Data SET data_nmr_info_id = ";
+	query += "(";
+	query += std::to_string(_dataNMRInfo->primaryId());
+	query += ")";
+	query += " WHERE data_ID = ";
+	query += "(";
+	query += std::to_string(primaryId());
+	query += ");";
 	return query;
 }
 
@@ -43,11 +52,19 @@ void Data::updateDependencies(Database *db)
 	_dataCryoEMInfo->updateDatabase(db);
 }
 
-
-Data Data::dataFromResult(const Result &res)
+std::string Data::selectQuery()
 {
-	Data exportedDataInfo;
-	int pid = atoi(res.at("DataInfo_id").c_str());
-	exportedDataInfo.setPrimaryId(pid);
-	return exportedDataInfo;
+	std::string query;
+	query = "SELECT data_id FROM Data";
+	query += ";";
+
+	return query;
 }
+
+// Data Data::dataFromResult(const Result &res)
+// {
+// 	Data exportedDataInfo;
+// 	int pid = atoi(res.at("DataInfo_id").c_str());
+// 	exportedDataInfo.setPrimaryId(pid);
+// 	return exportedDataInfo;
+// }

@@ -32,5 +32,14 @@ void DataCrystallographicInfo::updateDependencies(Database *db)
 	_crystalQualityData->updateDatabase(db);
 }
 
+std::string DataCrystallographicInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT data_crystallographic_info_id FROM DataCrystallographicInfo";
+	query += ";";
+
+	return query;
+}
+
 
 

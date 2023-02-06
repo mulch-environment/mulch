@@ -23,5 +23,14 @@ std::string CrystalQualityData::updateQuery()
 	return query;
 }
 
+std::string CrystalQualityData::selectQuery()
+{
+	std::string query;
+	query = "SELECT crystalqualitydata_id FROM CrystalQualityData";
+	query += ";";
+
+	return query;
+}
+
 
 

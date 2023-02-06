@@ -27,6 +27,15 @@ std::string ReflectionsData::updateQuery()
 	return query;
 }
 
+std::string ReflectionsData::selectQuery()
+{
+	std::string query;
+	query = "SELECT reflectionsdata_id FROM ReflectionsData";
+	query += ";";
+
+	return query;
+}
+
 void ReflectionsData::updateDependencies(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 

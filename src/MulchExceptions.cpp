@@ -15,6 +15,6 @@ void MulchExceptions::SQLiteErrorIfNeeded(int &c, char *zErrMsg)
 {
 	if (c != 0)
 	{
-		throw std::invalid_argument(std::string(zErrMsg));
+		throw std::invalid_argument("mulch exception: " + std::string(zErrMsg));
 	}
 }

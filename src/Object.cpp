@@ -6,6 +6,10 @@
 #include <iostream>
 using namespace mulch;
 
+// Object::Object()
+// {
+
+// }
 
 void Object::initialInsert(Database *db)
 {
@@ -18,15 +22,66 @@ void Object::initialInsert(Database *db)
 
 void Object::updateExisting(Database *db)
 {
+
+	if (primaryId() < 0)
+	{
+		throw std::runtime_error("negative pid");
+	}
+
 	std::string query = updateQuery(); 
-	std::cout << query << std::endl; //debug
 	db->query(query);
 }
+
+
+void Object::selectExisting(Database *db)
+{
+
+	if (primaryId() < 0)
+	{
+		throw std::runtime_error("negative pid");
+	}
+
+	std::string query = selectQuery(); 
+	db->query(query);
+}
+
 
 void Object::updatePid(Database *db)
 {
 	std::string id_back = queryLastId();
 	db->query(id_back);
+	std::vector<Result> res = db->results();
+
+	std::string pid = res[0]["pid"];
+	_pid = atoi(pid.c_str());	
+	std::cout << "INSIDE updatePid: _pid = " << std::endl;
+	std::cout << _pid << std::endl;
+}
+
+// Object *Object::retrieveFromResult(Database *db, const Result &res)
+// {
+// 	// Object *exportedData = newObject();
+
+// 	// this line can be used to get the pid from Object tables:: startings the cascade 
+// 	std::string nameofID = sqlIdName();
+	
+
+// 	exportedData->setPrimaryId(_pid);
+// 	exportedData->fillInFromResults(res);
+// 	exportedData->retrieveDependencies(db);
+// 	return exportedData;
+// }
+
+void Object::getPidFromResults(const Result &res)
+{
+	std::string nameofID = sqlIdName();
+	std::cout << "Representation type ID from fillInFromResults \n" << std::endl;
+	// std::cout << res[nameofID] << std::endl;
+	int name_pid = atoi(res.at(nameofID).c_str());
+
+
+	// set primary ID
+	setPrimaryId(name_pid);
 }
 
 void Object::updateDatabase(Database *db)
@@ -40,30 +95,21 @@ void Object::updateDatabase(Database *db)
 	// if the object doesn't exist in the database yet,
 	if (!alreadyInDatabase())
 	{
+
 		initialInsert(db);
-		updateExisting(db);
 		updatePid(db);
-		// now the database "results" should be populated with the last ID
-		std::vector<Result> res = db->results();
-
-		for (const Result &r : res)
-		{
-			for (auto it = r.begin(); it != r.end(); it++)
-			{
-				std::cout << "result: " << it->first << " to " << it->second << std::endl;
-			}
-		}
-
-		if (res.size() != 1)
-		{
-		//	throw mulch::SQLiteError("ID of inserted object not available");
-		}
-
-		std::string pid = res[0]["pid"]; // haven't actually tested this - hope it works!
-		std::cout << pid << std::endl; // this still needs converting into an integer and putting into _pid
-		_pid = atoi(pid.c_str());	
-
+		updateExisting(db);
 	}
+		// now the database "results" should be populated with the last ID
+		// for (const Result &r : res)
+		// {
+		// 	for (auto it = r.begin(); it != r.end(); it++)
+		// 	{
+		// 		std::cout << "result: " << it->first << " to " << it->second << std::endl;
+		// 	}
+		// }
+
+	// }
 
 	else
 	{
@@ -72,6 +118,24 @@ void Object::updateDatabase(Database *db)
 	}
 
 	// and just make sure there are no errors
+	
+}
+
+mulch::Result Object::retrieveExisting(Database *db)
+{
+	selectExisting(db);
+	std::vector<Result> res = db->results();
+
+	if (res.size() == 0)
+	{
+		std::cout << "res.size()" << std::endl;
+		std::cout << res.size() << std::endl;
+		throw std::runtime_error("something is wrong with res");
+	}  
+
+	std::cout << res[1]["model_id"] << std::endl;
+	// std::cout << typeid(&res[0]).name() << std::endl;
+	return res[0];
 }
 
 std::string Object::queryLastId()

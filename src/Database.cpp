@@ -23,10 +23,10 @@ using namespace mulch;
 std::vector<Result> Database::_results;
 
 
-Database::Database(std::string filename)
+Database::Database(std::string filepath)
 {
 	_db = NULL;
-	_filename = filename;
+	_filepath = filepath;
 }
 
 void Database::open()
@@ -46,8 +46,8 @@ std::string Database::defaultTemplateFile()
 void Database::openConnection()
 {
 	/** Open the mulch database */
-	// open a database file sqlite3_open(path/filename, ref to database connection)
-	int rc = sqlite3_open(_filename.c_str(), &_db);
+	// open a database file sqlite3_open(path, ref to database connection)
+	int rc = sqlite3_open(_filepath.c_str(), &_db);
 	try
 	{
 		MulchExceptions::NoFileError(rc);
@@ -88,12 +88,12 @@ void Database::tablesFromTemplate(int num_tables)
 void Database::query(std::string query)
 {
 	/** Exectute queries */
+	std::cout << "IN Database::query! \n" << std::endl;
+	std::cout << query << std::endl;
 	char *zErrMsg = 0;
 	_results.clear();
 	int rq = sqlite3_exec(_db, query.c_str(), callback, 0, &zErrMsg);
-	std::cout << "I'm in Database::query" <<std::endl; // debug
 	MulchExceptions::SQLiteErrorIfNeeded(rq, zErrMsg);
-	std::cout << "I'm in Database::query (but after error message)" <<std::endl; // debug
 	
 }
 

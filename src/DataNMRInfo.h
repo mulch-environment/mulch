@@ -16,7 +16,13 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
+		virtual void updateDependencies(Database *db);
 	private:
+		virtual std::string sqlIdName()
+		{
+			return "data_nmr_info_id";
+		}
 		NMRQualityData* _nmrQualityData = nullptr;
 	};
 }

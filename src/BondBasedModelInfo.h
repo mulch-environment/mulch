@@ -15,6 +15,13 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string selectQuery();
+	private:
+		virtual std::string sqlIdName()
+		{
+			return "bondbased_model_id";
+		}
+		
 	};
 }
 

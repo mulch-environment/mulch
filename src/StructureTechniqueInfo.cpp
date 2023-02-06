@@ -31,6 +31,15 @@ std::string StructureTechniqueInfo::updateQuery()
 	return "";
 }
 
+std::string StructureTechniqueInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT structure_technique_ID FROM StructureTechniqueInfo";
+	query += ";";
+
+	return query;
+}
+
 void StructureTechniqueInfo::updateDependencies(Database *db)
 {
 	_crystallographicInfo->updateDatabase(db);

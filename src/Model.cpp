@@ -1,6 +1,8 @@
 // Model.cpp
 
-
+#include <typeinfo>
+#include <string>
+#include <iostream>
 #include "Model.h"
 #include "RepresentationType.h"
 #include "StructureTechniqueInfo.h"
@@ -39,6 +41,16 @@ std::string Model::updateQuery()
 	return query;
 }
 
+std::string Model::selectQuery()
+{
+	std::string query;
+	query = "SELECT model_id FROM Model";
+	query += ";";
+
+
+	return query;
+}
+
 void Model::updateDependencies(Database *db)
 {
 	// send that representationType to the database
@@ -47,11 +59,23 @@ void Model::updateDependencies(Database *db)
 	
 }
 
-
-Model Model::modelFromResult(const Result &res)
+void Model::retrieveDependencies(Database *db)
 {
-	Model exportedModel;
-	int pid = atoi(res.at("model_id").c_str());
-	exportedModel.setPrimaryId(pid);
-	return exportedModel;
+	// send that representationType to the database
+	_representationType->updateDatabase(db);
+	_structureTechniqueInfo->updateDatabase(db);
+	
 }
+
+void Model::fillInFromResults(const Result &res) 
+{
+	std::cout << "!!!!!!!!!!!!!!!!!!!!!!!! typeid(res).name() = "<< std::endl;
+	std::cout << typeid(res).name() << std::endl;
+	// _comments = res["comments"];
+	_representationType->getPidFromResults(res);
+	_structureTechniqueInfo->getPidFromResults(res);
+
+};
+
+
+

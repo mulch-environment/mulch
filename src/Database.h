@@ -15,13 +15,13 @@ namespace mulch
 	class Database
 	{
 public:
-		Database(std::string filename);
+		Database(std::string filepath);
 		// "getter" function
-		/** returns filename associated with sqlite3 database */
-		const std::string &filename()
+		/** returns filepath associated with sqlite3 database */
+		const std::string &filepath()
 		{
 			// for more details on the auto-documentation search for doxygen 
-			return _filename;
+			return _filepath;
 		};
 		void open();
 		void closeConnection();
@@ -37,7 +37,7 @@ private:
 		void tablesFromTemplate(int num_tables); 
 		static std::vector<Result> _results;
 		static int callback(void *nu, int argc, char **argv, char **col_names);
-		std::string _filename; 
+		std::string _filepath; 
 		// std::string _defaultTemplate= "/Users/vapostolop/Desktop/MULCH/mulch/test1.sql";
 		std::string defaultTemplateFile();
 

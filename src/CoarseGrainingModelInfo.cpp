@@ -20,3 +20,11 @@ std::string CoarseGrainingModelInfo::updateQuery()
 	return "";
 }
 
+std::string CoarseGrainingModelInfo::selectQuery()
+{
+	std::string query;
+	query = "SELECT coarsegraining_model_id FROM CoarseGrainingModelInfo";
+	query += ";";
+
+	return query;
+}

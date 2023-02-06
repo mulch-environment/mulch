@@ -1,17 +1,18 @@
 // Object (mirrored from database)
+// Collection will be a type of Object
 
-
-#ifndef __mulch__DataCryoEMInfo_h__
-#define __mulch__DataCryoEMInfo_h__
+#ifndef __mulch__Collection_h__
+#define __mulch__Collection_h__
 
 #include "Object.h"
+#include "Database.h"
 
 namespace mulch
 {
-	class DataCryoEMInfo: public Object
+	class Collection: public Object
 	{
 	public:
-		DataCryoEMInfo();
+		Collection();
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
@@ -19,8 +20,8 @@ namespace mulch
 	private:
 		virtual std::string sqlIdName()
 		{
-			return "data_cryoem_info_id";
-		}	
+			return "collection_id";
+		}
 	};
 }
 
