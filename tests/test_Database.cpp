@@ -6,6 +6,7 @@
 #include <iostream>
 #include <src/Model.h>
 #include <src/Data.h>
+#include <src/StructureTechniqueInfo.h>
 #include <src/DataNMRInfo.h>
 #include <src/ModelDataPair.h>
 #include <src/Collection.h>
@@ -49,6 +50,26 @@ BOOST_AUTO_TEST_CASE(model_exported_from_database)
 	
 
 };
+
+
+// BOOST_AUTO_TEST_CASE(structureTechniqueInfo_exported_from_database)
+// {
+// 	mulch::Database db("mulch.db");
+// 	db.open();
+
+// 	// const std::vector<mulch::Result> retrieved_res = db.results();
+// 	// std::cout << retrieved_res << std::endl;
+// 	mulch::StructureTechniqueInfo structureTechniqueInfo;
+// 	std::cout << "StructureTechniqueInfo has been created" << std::endl;
+
+// 	structureTechniqueInfo.updateDatabase(&db);
+// 	std::cout << "StructureTechniqueInfo has been updated" << std::endl;
+	
+// 	structureTechniqueInfo.retrieveExisting(&db);
+// 	std::cout << "retrieveExisting() finished running!" << std::endl;
+	
+
+// };
 
 // BOOST_AUTO_TEST_CASE(model_exported_from_database)
 // {

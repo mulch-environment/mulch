@@ -88,7 +88,7 @@ namespace mulch
 		**/
 		virtual std::string insertQuery() = 0;
 		virtual std::string updateQuery() = 0;
-		virtual std::string selectQuery() = 0;
+		virtual std::string selectPidQuery() = 0;
 		// {
 		// 	return "";
 		// } 

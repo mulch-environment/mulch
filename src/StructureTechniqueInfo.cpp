@@ -1,5 +1,8 @@
 // StructureTechniqueInfo.cpp
 
+#include <typeinfo>
+#include <string>
+#include <iostream>
 #include "StructureTechniqueInfo.h"
 #include "CrystallographicInfo.h"
 #include "NMRInfo.h"
@@ -34,7 +37,8 @@ std::string StructureTechniqueInfo::updateQuery()
 std::string StructureTechniqueInfo::selectQuery()
 {
 	std::string query;
-	query = "SELECT structure_technique_ID FROM StructureTechniqueInfo";
+	query = "SELECT structure_technique_ID FROM StructureTechniqueInfo = ";
+	query += std::to_string(primaryId());
 	query += ";";
 
 	return query;
@@ -47,3 +51,22 @@ void StructureTechniqueInfo::updateDependencies(Database *db)
 	_cryoEMInfo->updateDatabase(db);	
 }
 
+void StructureTechniqueInfo::retrieveDependencies(Database *db)
+{
+	// send that representationType to the database
+	_crystallographicInfo->updateDatabase(db);
+	_nmrInfo->updateDatabase(db);
+	_cryoEMInfo->updateDatabase(db);
+	
+}
+
+void StructureTechniqueInfo::fillInFromResults(const Result &res) 
+{
+	std::cout << "!!!!!!!!!!!!!!!!!!!!!!!! typeid(res).name() = "<< std::endl;
+	std::cout << typeid(res).name() << std::endl;
+	// _comments = res["comments"];
+	_crystallographicInfo->getPidFromResults(res);
+	_nmrInfo->getPidFromResults(res);
+	_cryoEMInfo->getPidFromResults(res);	
+
+};

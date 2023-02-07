@@ -41,7 +41,7 @@ void Object::selectExisting(Database *db)
 		throw std::runtime_error("negative pid");
 	}
 
-	std::string query = selectQuery(); 
+	std::string query = selectPidQuery(); 
 	db->query(query);
 }
 
@@ -126,15 +126,14 @@ mulch::Result Object::retrieveExisting(Database *db)
 	selectExisting(db);
 	std::vector<Result> res = db->results();
 
-	if (res.size() == 0)
+	if (res.size() != 1)
 	{
-		std::cout << "res.size()" << std::endl;
-		std::cout << res.size() << std::endl;
 		throw std::runtime_error("something is wrong with res");
 	}  
 
-	std::cout << res[1]["model_id"] << std::endl;
-	// std::cout << typeid(&res[0]).name() << std::endl;
+	for (int i = 0; i < res.size(); i++) {
+        std::cout << res.at(i)["model_id"] << ' ';
+    }
 	return res[0];
 }
 

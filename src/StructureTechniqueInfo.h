@@ -21,6 +21,8 @@ namespace mulch
 		virtual std::string updateQuery();
 		virtual std::string selectQuery();
 		virtual void updateDependencies(Database *db);
+		virtual void retrieveDependencies(Database *db);
+		virtual void fillInFromResults(const Result &res);
 	private:
 		virtual std::string sqlIdName()
 		{

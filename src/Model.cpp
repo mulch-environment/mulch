@@ -41,10 +41,11 @@ std::string Model::updateQuery()
 	return query;
 }
 
-std::string Model::selectQuery()
+std::string Model::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT model_id FROM Model";
+	query = "SELECT * FROM Model WHERE model_ID = ";
+	query += std::to_string(primaryId());
 	query += ";";
 
 

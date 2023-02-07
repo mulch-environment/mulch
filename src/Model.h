@@ -15,11 +15,13 @@ namespace mulch
 	{
 	public:
 		Model();
-
+		// need to be defined in Model.cpp
+		// to add later (modified on 07/02/2023)
+		// static std::vector<Model*> modelsByRepType(enum RepEnum, Database *db);
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
-		virtual std::string selectQuery();
+		virtual std::string selecPidtQuery();
 		virtual void updateDependencies(Database *db);
 		virtual void retrieveDependencies(Database *db);
 		virtual void fillInFromResults(const Result &res);
