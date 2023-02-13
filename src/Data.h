@@ -21,7 +21,7 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
-		virtual std::string selectQuery();
+		virtual std::string selectPidQuery();
 		virtual void updateDependencies(Database *db);
 
 	private:

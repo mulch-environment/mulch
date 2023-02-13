@@ -20,7 +20,7 @@ std::string CoarseGrainingModelInfo::updateQuery()
 	return "";
 }
 
-std::string CoarseGrainingModelInfo::selectQuery()
+std::string CoarseGrainingModelInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT coarsegraining_model_id FROM CoarseGrainingModelInfo";

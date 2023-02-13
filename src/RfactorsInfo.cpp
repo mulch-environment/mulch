@@ -25,7 +25,7 @@ std::string RfactrosInfo::updateQuery()
 	return query;
 }
 
-std::string RfactrosInfo::selectQuery()
+std::string RfactrosInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT rfactrosinfo_id FROM RfactrosInfo";

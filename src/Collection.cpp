@@ -23,7 +23,7 @@ std::string Collection::updateQuery()
 	return query;
 }
 
-std::string Collection::selectQuery()
+std::string Collection::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT collection_id FROM Collection";

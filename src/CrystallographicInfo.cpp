@@ -20,7 +20,7 @@ std::string CrystallographicInfo::updateQuery()
 	return "";
 }
 
-std::string CrystallographicInfo::selectQuery()
+std::string CrystallographicInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT crystallographic_info_id FROM CrystallographicInfo";

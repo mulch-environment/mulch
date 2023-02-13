@@ -30,7 +30,7 @@ void DataNMRInfo::updateDependencies(Database *db)
 	_nmrQualityData->updateDatabase(db);
 }
 
-std::string DataNMRInfo::selectQuery()
+std::string DataNMRInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT data_nmr_info_id FROM DataNMRInfo";

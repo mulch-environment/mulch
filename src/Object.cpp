@@ -58,19 +58,6 @@ void Object::updatePid(Database *db)
 	std::cout << _pid << std::endl;
 }
 
-// Object *Object::retrieveFromResult(Database *db, const Result &res)
-// {
-// 	// Object *exportedData = newObject();
-
-// 	// this line can be used to get the pid from Object tables:: startings the cascade 
-// 	std::string nameofID = sqlIdName();
-	
-
-// 	exportedData->setPrimaryId(_pid);
-// 	exportedData->fillInFromResults(res);
-// 	exportedData->retrieveDependencies(db);
-// 	return exportedData;
-// }
 
 void Object::getPidFromResults(const Result &res)
 {

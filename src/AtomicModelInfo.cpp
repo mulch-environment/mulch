@@ -27,7 +27,7 @@ std::string AtomicModelInfo::updateQuery()
 	return query;
 }
 
-std::string AtomicModelInfo::selectQuery()
+std::string AtomicModelInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT atomic_model_id FROM AtomicModelInfo";

@@ -20,7 +20,7 @@ std::string TLSParametersInfo::updateQuery()
 	return "";
 }
 
-std::string TLSParametersInfo::selectQuery()
+std::string TLSParametersInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT tlsparameters_id FROM TLSParametersInfo";

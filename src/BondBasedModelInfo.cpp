@@ -20,7 +20,7 @@ std::string BondBasedModelInfo::updateQuery()
 	return "";
 }
 
-std::string BondBasedModelInfo::selectQuery()
+std::string BondBasedModelInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT bondbased_model_id FROM BondBasedModelInfo";

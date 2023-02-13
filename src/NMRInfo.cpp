@@ -20,7 +20,7 @@ std::string NMRInfo::updateQuery()
 	return "";
 }
 
-std::string NMRInfo::selectQuery()
+std::string NMRInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT nmr_info_id FROM NMRInfo";

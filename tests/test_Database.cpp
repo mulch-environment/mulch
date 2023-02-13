@@ -6,7 +6,9 @@
 #include <iostream>
 #include <src/Model.h>
 #include <src/Data.h>
+#include <src/ModelDataPair.h>
 #include <src/StructureTechniqueInfo.h>
+#include <src/RepresentationType.h>
 #include <src/DataNMRInfo.h>
 #include <src/ModelDataPair.h>
 #include <src/Collection.h>
@@ -32,24 +34,24 @@
 // 	BOOST_TEST(id == -1);
 // };
 
-BOOST_AUTO_TEST_CASE(model_exported_from_database)
-{
-	mulch::Database db("mulch.db");
-	db.open();
+// BOOST_AUTO_TEST_CASE(model_exported_from_database)
+// {
+// 	mulch::Database db("mulch.db");
+// 	db.open();
 
-	// const std::vector<mulch::Result> retrieved_res = db.results();
-	// std::cout << retrieved_res << std::endl;
-	mulch::Model model;
-	std::cout << "Model has been created" << std::endl;
+// 	// const std::vector<mulch::Result> retrieved_res = db.results();
+// 	// std::cout << retrieved_res << std::endl;
+// 	mulch::Model model;
+// 	std::cout << "Model has been created" << std::endl;
 
-	model.updateDatabase(&db);
-	std::cout << "Model has been updated" << std::endl;
+// 	model.updateDatabase(&db);
+// 	std::cout << "Model has been updated" << std::endl;
 	
-	model.retrieveExisting(&db);
-	std::cout << "retrieveExisting() finished running!" << std::endl;
+// 	model.retrieveExisting(&db);
+// 	std::cout << "retrieveExisting() finished running!" << std::endl;
 	
 
-};
+// };
 
 
 // BOOST_AUTO_TEST_CASE(structureTechniqueInfo_exported_from_database)
@@ -70,6 +72,45 @@ BOOST_AUTO_TEST_CASE(model_exported_from_database)
 	
 
 // };
+
+// BOOST_AUTO_TEST_CASE(select_models_by_structure_type)
+// {
+// 	mulch::Database db("mulch.db");
+// 	db.open();
+
+// 	// const std::vector<mulch::Result> retrieved_res = db.results();
+// 	// std::cout << retrieved_res << std::endl;
+// 	mulch::RepresentationType representationType;
+// 	std::cout << "RepresentationType has been created" << std::endl;
+
+// 	representationType.updateDatabase(&db);
+// 	std::cout << "RepresentationType has been updated" << std::endl;
+	
+// 	representationType.retrieveExisting(&db);
+// 	std::cout << "retrieveExisting() finished running!" << std::endl;
+
+// 	model.retrieveExisting(&db);
+// 	std::cout << "retrieveExisting() finished running!" << std::endl;
+
+// };
+
+BOOST_AUTO_TEST_CASE(select_models_from_pair)
+{
+	mulch::Database db("mulch.db");
+	db.open();
+
+	mulch::ModelDataPair pair;
+	mulch::Model model;
+	std::string model_comment = "First comment in models";
+	model.setComments(model_comment);
+	model.updateDatabase(&db);
+
+	// model* model();
+	// pair.modelCom()->setComments("first RoPe model");
+	// pair.updateDatabase(&db);
+
+
+};
 
 // BOOST_AUTO_TEST_CASE(model_exported_from_database)
 // {

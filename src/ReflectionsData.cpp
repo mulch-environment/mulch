@@ -27,7 +27,7 @@ std::string ReflectionsData::updateQuery()
 	return query;
 }
 
-std::string ReflectionsData::selectQuery()
+std::string ReflectionsData::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT reflectionsdata_id FROM ReflectionsData";

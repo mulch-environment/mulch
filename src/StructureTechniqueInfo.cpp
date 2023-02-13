@@ -34,10 +34,10 @@ std::string StructureTechniqueInfo::updateQuery()
 	return "";
 }
 
-std::string StructureTechniqueInfo::selectQuery()
+std::string StructureTechniqueInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT structure_technique_ID FROM StructureTechniqueInfo = ";
+	query = "SELECT * FROM StructureTechniqueInfo WHERE structure_technique_ID =";
 	query += std::to_string(primaryId());
 	query += ";";
 
@@ -62,9 +62,7 @@ void StructureTechniqueInfo::retrieveDependencies(Database *db)
 
 void StructureTechniqueInfo::fillInFromResults(const Result &res) 
 {
-	std::cout << "!!!!!!!!!!!!!!!!!!!!!!!! typeid(res).name() = "<< std::endl;
 	std::cout << typeid(res).name() << std::endl;
-	// _comments = res["comments"];
 	_crystallographicInfo->getPidFromResults(res);
 	_nmrInfo->getPidFromResults(res);
 	_cryoEMInfo->getPidFromResults(res);	

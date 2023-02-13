@@ -27,7 +27,7 @@ std::string Crystal::updateQuery()
 	return query;
 }
 
-std::string Crystal::selectQuery()
+std::string Crystal::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT Crystal_id FROM Crystal";

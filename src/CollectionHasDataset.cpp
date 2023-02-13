@@ -37,7 +37,7 @@ std::string CollectionHasDataset::updateQuery()
 	return query;
 }
 
-std::string CollectionHasDataset::selectQuery()
+std::string CollectionHasDataset::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT collectionhasdataset_id FROM CollectionHasDataset";

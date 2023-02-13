@@ -15,12 +15,13 @@ namespace mulch
 	{
 	public:
 		ModelDataPair();
+		// To add this later. Commenrt made 07.02.2023
 		static ModelDataPair modelDataPairFromResult(const Result &res);
 
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
-		virtual std::string selectQuery();
+		virtual std::string selectPidQuery();
 		virtual void updateDependencies(Database *db);
 
 	private:

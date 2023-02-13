@@ -20,7 +20,7 @@ std::string CryoEMInfo::updateQuery()
 	return "";
 }
 
-std::string CryoEMInfo::selectQuery()
+std::string CryoEMInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT cryoem_info_id FROM CryoEMInfo";

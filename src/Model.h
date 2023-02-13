@@ -15,26 +15,28 @@ namespace mulch
 	{
 	public:
 		Model();
+		virtual void setComments(std::string comments);	
 		// need to be defined in Model.cpp
-		// to add later (modified on 07/02/2023)
+		// to add later (comment added on 07/02/2023)
 		// static std::vector<Model*> modelsByRepType(enum RepEnum, Database *db);
+
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
-		virtual std::string selecPidtQuery();
+		virtual std::string selectPidQuery();
+		virtual std::string selectModelsByType();
 		virtual void updateDependencies(Database *db);
 		virtual void retrieveDependencies(Database *db);
 		virtual void fillInFromResults(const Result &res);
+
 
 	private:
 		virtual std::string sqlIdName()
 		{
 			return "model_id";
 		}
-
 		RepresentationType *_representationType = nullptr;
 		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
-		// have this for later
 		std::string _comments = "blah";
 	};
 }

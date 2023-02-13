@@ -33,10 +33,11 @@ std::string RepresentationType::updateQuery()
 	// return "";
 }
 
-std::string RepresentationType::selectQuery()
+std::string RepresentationType::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT representation_type_ID FROM RepresentationType";
+	query = "SELECT * FROM RepresentationType WHERE representation_type_ID = ";
+	query += std::to_string(primaryId());
 	query += ";";
 
 	return query;

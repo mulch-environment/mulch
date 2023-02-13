@@ -52,7 +52,7 @@ void Data::updateDependencies(Database *db)
 	_dataCryoEMInfo->updateDatabase(db);
 }
 
-std::string Data::selectQuery()
+std::string Data::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT data_id FROM Data";

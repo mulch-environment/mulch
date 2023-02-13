@@ -20,7 +20,7 @@ std::string EnsembleRefineInfo::updateQuery()
 	return "";
 }
 
-std::string EnsembleRefineInfo::selectQuery()
+std::string EnsembleRefineInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT ensemble_refine_id FROM EnsembleRefineInfo";
