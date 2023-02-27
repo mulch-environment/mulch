@@ -124,6 +124,8 @@ mulch::Result Object::retrieveExisting(Database *db)
 	return res[0];
 }
 
+
+
 std::string Object::queryLastId()
 {
 	return "SELECT last_insert_rowid() AS pid;"; // debug 

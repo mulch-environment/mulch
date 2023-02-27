@@ -75,6 +75,14 @@ namespace mulch
 		**/
 		virtual void fillInFromResults(const Result &res) {};
 
+		/* setPrimaryId:
+		get the value of the primary ID of the referring Object table.
+		**/
+		void setPrimaryId(const int pid)
+		{ 
+			_pid = pid;
+		}
+
 	protected:
 		/* updatePid(Database *db):
 		Query that updates the table. It will be an UPDATE sqlite3 query in most cases.
@@ -109,13 +117,6 @@ namespace mulch
 		**/
 		virtual std::string sqlIdName() = 0;
 
-		/* setPrimaryId:
-		get the value of the primary ID of the referring Object table.
-		**/
-		void setPrimaryId(const int pid)
-		{ 
-			_pid = pid;
-		}
 // ---------------- ADD THE FOLLOWING? ------------- 		
 		// virtual Object *newObject()
 		// {

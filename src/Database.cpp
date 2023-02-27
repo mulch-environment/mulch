@@ -88,8 +88,6 @@ void Database::tablesFromTemplate(int num_tables)
 void Database::query(std::string query)
 {
 	/** Exectute queries */
-	std::cout << "IN Database::query! \n" << std::endl;
-	std::cout << query << std::endl;
 	char *zErrMsg = 0;
 	_results.clear();
 	int rq = sqlite3_exec(_db, query.c_str(), callback, 0, &zErrMsg);

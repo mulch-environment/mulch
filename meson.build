@@ -3,6 +3,8 @@ files = ['src/Database.cpp',
 		 'src/Database.h',
 		 'src/Object.cpp', 
 		 'src/Object.h',
+		 'src/IModel.h',
+		 'src/IModel.cpp',
 		 'src/Model.h',
 		 'src/Model.cpp',
 		 'src/Utility.cpp', 
@@ -54,8 +56,8 @@ files = ['src/Database.cpp',
 		 'src/CryoEMQualityData.h',
 		 'src/CryoEMQualityData.cpp',
 		 'src/ReflectionsData.h', 
-		 'src/ReflectionsData.cpp'
-
+		 'src/ReflectionsData.cpp',
+		 'src/EnumTables.h'
 		 ]
 
 subdir('assets')
