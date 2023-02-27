@@ -7,6 +7,7 @@
 #include "RepresentationType.h"
 #include "StructureTechniqueInfo.h"
 #include "AtomicModelInfo.h"
+#include "Utility.h"
 using namespace mulch;
 
 
@@ -27,6 +28,7 @@ std::string Model::insertQuery()
 	query += std::to_string(_structureTechniqueInfo->primaryId());
 	query += ");";
 
+	Utiliy::protectsql(&query);
 	return query;
 }
 
@@ -35,14 +37,14 @@ std::string Model::updateQuery()
 {
 	std::string query;
 	query = "UPDATE Model SET comments = ";
-	query += " ' ";
+	query += "'";
 	query += _comments;
-	query += " ' ";
+	query += "'";
 	query += " WHERE model_ID = ";
 	query += std::to_string(primaryId());
 	query += ";";
 
-
+	Utiliy::protectsql(&query);
 	return query;
 }
 
@@ -57,18 +59,47 @@ std::string Model::selectPidQuery()
 	return query;
 }
 
-std::string Model::selectModelsByType()
+std::string Model::selectQueryModelsByType(RepresentationEnum rep)
 {
-	// change the type of the model to be able to select any RepresentationType 
+	std::string table, id;
+	switch (rep)
+	{
+		case Atomic:
+		table = "AtomicModelInfo";
+		id = "atomic_model_id";
+		break;
+
+		case BondBased:
+		table = "bondbasedmodelinfo";
+		id = "bondbased_model_id";
+		break;
+
+		case CG:
+		table = "CoarseGrainingModelInfo";
+		id = "coarsegraining_model_id";
+		break;
+
+		case Ensemble:
+		table = "EnsembleRefineInfo";
+		id = "ensemble_refine_id";
+		break;
+
+		default:
+		std::cout << "default\n";
+		break;	
+	};
+
+  	std::string apostrophe = "'";
 	std::string query;
-	query = "SELECT model.pdb_code, bondbasedmodelinfo.comments";
-	query += "FROM RepresentationType";
-	query += "JOIN bondbasedmodelinfo";
-	query += "ON bondbasedmodelinfo.bondbased_model_id = RepresentationType.bondbased_model_id";
-	query += "JOIN model";
-	query += "ON model.representation_type_id = RepresentationType.representation_type_id";
+	query = "SELECT model.model_id AS model_id, model.pdb_code,";
+	query += table+".comments " + "FROM RepresentationType ";
+	query += " JOIN "+table;
+	query += " ON " + table + "." + id + " = RepresentationType."+id;
+	query += " JOIN model ";
+	query += "ON model.representation_type_id = RepresentationType.representation_type_id ";
 	query += ";";
 
+	Utiliy::protectsql(&query);
 	return query;
 }
 
@@ -96,13 +127,5 @@ void Model::fillInFromResults(const Result &res)
 	_structureTechniqueInfo->getPidFromResults(res);
 
 };
-
-void Model::setComments(std::string comments)
-{
-	_comments = comments;	
-	std::cout << _comments << std::endl;
-}
-
-
 
 
