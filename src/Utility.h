@@ -24,7 +24,7 @@ class Utility
 		/* Instead of using apostrophe and percentage characters in queries, use the following function. 
 		These characters might create errors when writing complicated queries.
 		**/
-		static std::string querykeys(std::string key);
+		static void protectsql(std::string &query);
 		static bool isNull(std::string &arg);
 };
 

@@ -5,6 +5,7 @@
 #define __mulch__RfactrosInfo_h__
 
 #include "Object.h"
+#include "EnumTables.h"
 
 namespace mulch
 {

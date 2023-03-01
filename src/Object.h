@@ -6,6 +6,7 @@
 
 #include <string>
 #include "Database.h"
+#include "EnumTables.h"
 
 namespace mulch
 {

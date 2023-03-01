@@ -5,7 +5,9 @@
 #define __mulch__ModelDataPair_h__
 
 #include "Object.h"
+#include "IModel.h"
 #include "Database.h"
+#include "EnumTables.h"
 
 namespace mulch
 {
@@ -14,8 +16,7 @@ namespace mulch
 	class ModelDataPair : public Object
 	{
 	public:
-		ModelDataPair();
-		// To add this later. Commenrt made 07.02.2023
+		ModelDataPair(std::string pdbName, std::string dataFile, RepresentationEnum res, DataEnum data);
 		static ModelDataPair modelDataPairFromResult(const Result &res);
 
 	protected:

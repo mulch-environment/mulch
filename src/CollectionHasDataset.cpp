@@ -8,7 +8,7 @@ using namespace mulch;
 
 CollectionHasDataset::CollectionHasDataset()
 {
-	_modelDataPair = new ModelDataPair();
+	_modelDataPair = new ModelDataPair("pdb", "mtz", Atomic, Xray);
 	_collection = new Collection();
 
 }

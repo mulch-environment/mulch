@@ -5,7 +5,7 @@
 #define __mulch__Data_h__
 
 #include "Object.h"
-#include "Database.h"
+
 
 namespace mulch
 {
@@ -16,24 +16,43 @@ namespace mulch
 	{
 	public:
 		Data();
-		static Data dataFromResult(const Result &res);
+		static std::string selectQueryDataByInfo(DataEnum dat);
+		virtual void setDataInfo(DataEnum dat);
+		virtual void setFileName(std::string fileName);
+		virtual std::string sqlIdName()
+		{
+			return staticSqlIDName(); 	
+		};
 
+		static std::string staticSqlIDName()
+		{
+			return "data_id";
+		};
+
+		virtual void setComments(std::string comments)  
+		{
+			_comments = comments;
+		};
+		virtual const std::string &getComments() const
+		{
+			return _comments;
+		};
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 		virtual void updateDependencies(Database *db);
+		virtual void retrieveDependencies(Database *db);
+		virtual void fillInFromResults(const Result &res);
+
 
 	private:
-		virtual std::string sqlIdName()
-		{
-			return "data_id";
-		}	
 		DataNMRInfo *_dataNMRInfo = nullptr;
 		DataCrystallographicInfo *_dataCrystallographicDataInfo = nullptr;
 		DataCryoEMInfo *_dataCryoEMInfo = nullptr;
-		// have this for later
 		std::string _comments = "blah";
+		DataEnum _datInfo = NoneData;
+		std::string _fileData = "";
 	};
 }
 

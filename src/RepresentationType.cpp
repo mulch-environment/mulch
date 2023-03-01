@@ -1,10 +1,12 @@
 // RepresentationType.cpp
-
+#include <iostream>
+#include "MulchExceptions.h"
 #include "RepresentationType.h"
 #include "AtomicModelInfo.h"
 #include "BondBasedModelInfo.h"
 #include "CoarseGrainingModelInfo.h"
 #include "EnsembleRefineInfo.h"
+#include "Utility.h"
 using namespace mulch;
 
 RepresentationType::RepresentationType()
@@ -19,6 +21,7 @@ std::string RepresentationType::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO RepresentationType DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
@@ -55,3 +58,32 @@ void RepresentationType::updateDependencies(Database *db)
 	_ensembleRefineInfo->updateDatabase(db);
 }
 
+void RepresentationType::setRepType(RepresentationEnum rep)
+{
+	MulchExceptions::RepTypeIsNone(_type);
+	_type = rep;
+	if (_type == Atomic)
+	{
+		_atomicModelInfo = new AtomicModelInfo();
+	}
+	else if (_type == BondBased)
+	{
+		_bondBasedModelInfo = new BondBasedModelInfo();
+	}
+	else if (_type == CG)
+	{
+		_coarseGrainingModelInfo = new CoarseGrainingModelInfo();
+	}
+	else if (_type == Ensemble)
+	{
+		_ensembleRefineInfo = new EnsembleRefineInfo();
+	}
+
+};
+
+void RepresentationType::setFileName(std::string pdbName)
+{
+	MulchExceptions::FileNameIsNone(_pdbCode);
+	std::string _pdbCode = pdbName;
+
+};

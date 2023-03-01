@@ -2,12 +2,12 @@
 
 #include "RfactrosInfo.h"
 #include "ModelDataPair.h"
+#include "EnumTables.h"
 using namespace mulch;
 
 RfactrosInfo::RfactrosInfo()
 {
-	_modelDataPair = new ModelDataPair();
-
+	_modelDataPair = new ModelDataPair("pdb", "mtz", Atomic, Xray);
 }
 
 std::string RfactrosInfo::insertQuery()

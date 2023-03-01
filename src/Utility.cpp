@@ -25,9 +25,9 @@ std::string Utility::SetForeignKeysOn()
 
 }
 
-void Utility::potectsql(std::string &query)
+void Utility::protectsql(std::string &query)
 {
-	for (size_t = 0; i < query.length(); i++)
+	for (size_t i = 0; i < query.length(); i++)
 	{
 		if (query[i] == '\'')
 		{

@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include <stdexcept>
-
+#include "EnumTables.h"
 
 
 class MulchExceptions//: public std::runtime_error
@@ -13,6 +13,9 @@ class MulchExceptions//: public std::runtime_error
 public:
 	static void NoFileError(int &input);
 	static void SQLiteErrorIfNeeded(int &c, char *zErrMsg);
+	static void RepTypeIsNone(RepresentationEnum repType);
+	static void FileNameIsNone(std::string fileName);
+	static void DataTypeIsNone(DataEnum datInfo);
 
 };
 

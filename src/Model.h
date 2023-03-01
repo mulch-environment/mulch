@@ -16,6 +16,8 @@ namespace mulch
 	public:
 		Model();
 		static std::string selectQueryModelsByType(RepresentationEnum rep);
+		virtual void setRepType(RepresentationEnum rep);
+		virtual void setFileName(std::string pdbName);
 		virtual std::string sqlIdName()
 		{
 			return staticSqlIDName(); 	
@@ -34,6 +36,7 @@ namespace mulch
 		{
 			return _comments;
 		};
+
 
 	protected:
 		// static std::string selectQueryModelsByType(RepresentationEnum rep);

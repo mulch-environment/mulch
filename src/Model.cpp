@@ -28,7 +28,7 @@ std::string Model::insertQuery()
 	query += std::to_string(_structureTechniqueInfo->primaryId());
 	query += ");";
 
-	Utiliy::protectsql(&query);
+	Utility::protectsql(query);
 	return query;
 }
 
@@ -44,7 +44,6 @@ std::string Model::updateQuery()
 	query += std::to_string(primaryId());
 	query += ";";
 
-	Utiliy::protectsql(&query);
 	return query;
 }
 
@@ -89,7 +88,6 @@ std::string Model::selectQueryModelsByType(RepresentationEnum rep)
 		break;	
 	};
 
-  	std::string apostrophe = "'";
 	std::string query;
 	query = "SELECT model.model_id AS model_id, model.pdb_code,";
 	query += table+".comments " + "FROM RepresentationType ";
@@ -99,7 +97,7 @@ std::string Model::selectQueryModelsByType(RepresentationEnum rep)
 	query += "ON model.representation_type_id = RepresentationType.representation_type_id ";
 	query += ";";
 
-	Utiliy::protectsql(&query);
+	Utility::protectsql(query);
 	return query;
 }
 
@@ -127,5 +125,43 @@ void Model::fillInFromResults(const Result &res)
 	_structureTechniqueInfo->getPidFromResults(res);
 
 };
+
+void Model::setRepType(RepresentationEnum rep)
+{	
+
+	_representationType->setRepType(rep);
+
+}
+
+void Model::setFileName(std::string pdbName)
+{	
+
+	_representationType->setFileName(pdbName);
+
+}
+
+// void Mode::setFileName(std::string pdbName)
+// {	
+// 	_represrentationType->setFileName(pdbName);
+	
+// }
+
+
+
+	// _representationType->insertQuery();
+	// _representationType->updatePid(db);
+	// std::cout << _pid << std::endl;
+
+	// std::string query;
+	// query = "UPDATE " + table;
+	// query += "SET pdb_code = " + pdbName; // repace xyz with input 'std::string pdbname' instead
+	// query += "WHERE " + id + " IN ";
+	// query += "(SELECT " + id + " FROM RepresentationType ";
+	// query += "WHERE representation_type_id = ";
+	// query += _pid;
+	// query += ";";
+
+	// Utility::protectsql(query);
+	// std::cout<<query<<std::endl;
 
 
