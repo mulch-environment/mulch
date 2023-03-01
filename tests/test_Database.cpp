@@ -15,16 +15,28 @@
 #include <src/ModelDataPair.h>
 #include <src/Collection.h>
 #include <src/CollectionHasDataset.h>
-#include <src/EnumRepresentation.h>
+#include <src/EnumTables.h>
+// #include <src/EnumRepresentation.h>
 
-BOOST_AUTO_TEST_CASE(test_Model_Interface)
+
+BOOST_AUTO_TEST_CASE(test_MDL_Interface)
 {
 	mulch::Database db("mulch.db");
 	mulch::Model model;
 	db.open();
+	ModelDataPair *mdp = new ModelDataPair("xyz", "zyx", Atomic, Xray);
+	mdp->updateDatabase(&db);
+
+};
+
+// BOOST_AUTO_TEST_CASE(test_Model_Interface)
+// {
+// 	mulch::Database db("mulch.db");
+// 	mulch::Model model;
+// 	db.open();
 	
-	std::cout << "BondBased" << std::endl;
-	model.modelsByRepType(BondBased, &db);
+// 	std::cout << "BondBased" << std::endl;
+// 	model.modelsByRepType(BondBased, &db);
 
 	// std::cout << "Atomic" << std::endl;
 	// model.modelsByRepType(Atomic, &db);
@@ -40,4 +52,4 @@ BOOST_AUTO_TEST_CASE(test_Model_Interface)
 
 	// model.retrieveExisting(&db);
 	// std::cout << "retrieveExisting() finished running!" << std::endl;
-};
+// };
