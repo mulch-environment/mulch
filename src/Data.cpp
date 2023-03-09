@@ -118,6 +118,7 @@ void Data::setDataInfo(DataEnum dat)
 {	
 	MulchExceptions::DataTypeIsNone(_datInfo);
 	_datInfo = dat;
+	std::cout<< _datInfo <<std::endl;
 	if (_datInfo == NMR)
 	{
 		_dataNMRInfo = new DataNMRInfo();
@@ -135,8 +136,10 @@ void Data::setDataInfo(DataEnum dat)
 
 void Data::setFileName(std::string fileName)
 {	
-	MulchExceptions::FileNameIsNone(_fileData);
-	std::string _fileData = fileName;
+	if (_dataCrystallographicDataInfo!=nullptr)
+	{
+		_dataCrystallographicDataInfo->setFileName(fileName);
+	}
 };
 
 // Data Data::dataFromResult(const Result &res)

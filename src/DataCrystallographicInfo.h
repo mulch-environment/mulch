@@ -13,12 +13,20 @@ namespace mulch
 	{
 	public:
 		DataCrystallographicInfo();
+		virtual void setFileName(std::string fileName);
+		virtual const std::string &getFileName() const
+		{
+			 return _fileData;
+		};
+
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 		virtual void updateDependencies(Database *db);
+
 	private:
+		std::string _fileData;
 		virtual std::string sqlIdName()
 		{
 			return "data_crystallographic_info_id";

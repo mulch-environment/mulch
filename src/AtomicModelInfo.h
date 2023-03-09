@@ -13,12 +13,19 @@ namespace mulch
 	{
 	public:
 		AtomicModelInfo();
+		virtual void setFileName(std::string pdbName);
+		virtual const std::string &getPDBCode() const
+		{
+			 return _pdbCode;
+		};
+
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 		virtual void updateDependencies(Database *db);
 	private:
+		std::string _pdbCode;
 		virtual std::string sqlIdName()
 		{
 			return "atomic_model_id";

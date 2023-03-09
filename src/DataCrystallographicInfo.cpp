@@ -1,7 +1,9 @@
 // RepresentationType.cpp
-
+#include <iostream>
 #include "DataCrystallographicInfo.h"
 #include "CrystalQualityData.h"
+#include "Utility.h"
+#include "MulchExceptions.h"
 using namespace mulch;
 
 DataCrystallographicInfo::DataCrystallographicInfo()
@@ -19,17 +21,13 @@ std::string DataCrystallographicInfo::insertQuery()
 std::string DataCrystallographicInfo::updateQuery()
 {
 	std::string query;
-	query = "";
-
-	return "";
-}
-
-void DataCrystallographicInfo::updateDependencies(Database *db)
-{
-	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
-	MUST contain a value that exists in the foreigh column it references.
-	**/
-	_crystalQualityData->updateDatabase(db);
+	query =	"UPDATE DataCrystallographicInfo SET file_name = ";
+	query += "'";
+	query += DataCrystallographicInfo::getFileName();
+	query += "'";
+	query += " WHERE data_crystallographic_info_id = ";		
+	query += std::to_string(DataCrystallographicInfo::primaryId());
+	return query;
 }
 
 std::string DataCrystallographicInfo::selectPidQuery()
@@ -40,6 +38,22 @@ std::string DataCrystallographicInfo::selectPidQuery()
 
 	return query;
 }
+
+void DataCrystallographicInfo::updateDependencies(Database *db)
+{
+	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
+	MUST contain a value that exists in the foreigh column it references.
+	**/
+	_crystalQualityData->updateDatabase(db);
+}
+
+
+void DataCrystallographicInfo::setFileName(std::string fileName)
+{	
+	MulchExceptions::FileNameIsNone(_fileData);
+	_fileData = fileName;
+	std::cout<< _fileData <<std::endl;
+};
 
 
 

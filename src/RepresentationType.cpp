@@ -60,8 +60,10 @@ void RepresentationType::updateDependencies(Database *db)
 
 void RepresentationType::setRepType(RepresentationEnum rep)
 {
+
 	MulchExceptions::RepTypeIsNone(_type);
 	_type = rep;
+	std::cout<<_type<<std::endl;
 	if (_type == Atomic)
 	{
 		_atomicModelInfo = new AtomicModelInfo();
@@ -81,9 +83,15 @@ void RepresentationType::setRepType(RepresentationEnum rep)
 
 };
 
-void RepresentationType::setFileName(std::string pdbName)
-{
-	MulchExceptions::FileNameIsNone(_pdbCode);
-	std::string _pdbCode = pdbName;
 
-};
+void RepresentationType::setFileName(std::string pdbName)
+{	
+	if  (_atomicModelInfo!=nullptr)
+	{
+		_atomicModelInfo->setFileName(pdbName);
+	}
+}
+
+
+
+

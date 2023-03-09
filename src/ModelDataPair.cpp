@@ -1,23 +1,43 @@
-// Model.cpp
+// PModel.cpp
 
 #include <iostream>
 #include "ModelDataPair.h"
 #include "Data.h" // to change to DataInterface
-#include "IModel.h"
 #include "Model.h"
+#include "PModel.h"
 #include "EnumTables.h"
 
 using namespace mulch;
 
-ModelDataPair::ModelDataPair(std::string pdbName, std::string datafile, RepresentationEnum rep, DataEnum datatype)
+ModelDataPair::ModelDataPair()
 {
 	// create new object
-	_model = new Model();
-	_model->setRepType(rep);
-	_model->setFileName(pdbName);
+	_model = new PModel();
 	_data = new Data();
+}
+
+void ModelDataPair::setRep(RepresentationEnum rep)
+{
+	_model->setRepType(rep);	
+}
+
+void ModelDataPair::setFile(std::string pdbName)
+{
+	_model->setFileName(pdbName);
+}
+
+void ModelDataPair::setDataType(DataEnum datatype)
+{
 	_data->setDataInfo(datatype);
 }
+
+void ModelDataPair::setDataFile(std::string datafile)
+{
+	_data->setFileName(datafile);
+}
+
+
+
 
 std::string ModelDataPair::insertQuery()
 {	
@@ -37,8 +57,19 @@ std::string ModelDataPair::updateQuery()
 {
 	std::string query;
 	query = "";
-
+	// query += std::to_string(primaryId());
+	// query += ";";
 	return query;
+
+	// std::string query;
+	// query = "UPDATE " + table;
+	// query += "SET pdb_code = " + pdbName; // repace xyz with input 'std::string pdbname' instead
+	// query += "WHERE " + id + " IN ";
+	// query += "(SELECT " + id + " FROM RepresentationType ";
+	// query += "WHERE representation_type_id = ";
+	// query += _pid;
+	// query += ";";
+
 }
 
 std::string ModelDataPair::selectPidQuery()
@@ -58,28 +89,3 @@ void ModelDataPair::updateDependencies(Database *db)
 	_data->updateDatabase(db);
 	
 }
-
-
-
-
-
-// std::vector<ModelDataPair*>  ModelDataPair::setRepType(RepresentationEnum rep, Database *db)
-// {
-// 	std::vector<IModel*> models;
-// 	std::string query = Model::selectQueryModelsByType(rep);
-// 	std::string idName = Model::staticSqlIDName(); 
-// 	db->query(query);
-// }
-
-
-
-
-// ModelDataPair ModelDataPair::modelDataPairFromResult(const Result &res)
-// {
-// 	ModelDataPair exportedmodelDataPair;
-// 	int pid = atoi(res.at("modeldatapair_id").c_str());
-// 	exportedmodelDataPair.setPrimaryId(pid);
-// 	return exportedmodelDataPair;
-// }
-
-

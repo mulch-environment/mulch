@@ -7,7 +7,7 @@ using namespace mulch;
 
 RfactrosInfo::RfactrosInfo()
 {
-	_modelDataPair = new ModelDataPair("pdb", "mtz", Atomic, Xray);
+	_modelDataPair = new ModelDataPair();
 }
 
 std::string RfactrosInfo::insertQuery()

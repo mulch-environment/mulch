@@ -1,7 +1,9 @@
 // StructureTechniqueInfo.cpp
-
+#include <iostream>
 #include "AtomicModelInfo.h"
 #include "TLSParametersInfo.h"
+#include "MulchExceptions.h"
+
 using namespace mulch;
 
 AtomicModelInfo::AtomicModelInfo()
@@ -20,10 +22,11 @@ std::string AtomicModelInfo::insertQuery()
 std::string AtomicModelInfo::updateQuery()
 {
 	std::string query;
-	query = "UPDATE AtomicModelInfo SET haspdb = 'FALSE' WHERE atomic_model_id = 6";
-	query += ";";
-	// query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
-	// query += ";";
+	query =	"UPDATE AtomicModelInfo SET pdb_code = ";
+	query += "'";
+	query += AtomicModelInfo::getPDBCode();
+	query += "'";
+	query += " WHERE atomic_model_id = 40;";				
 	return query;
 }
 
@@ -44,3 +47,14 @@ void AtomicModelInfo::updateDependencies(Database *db)
 	**/
 	_tlsParametersInfo->updateDatabase(db);
 }
+
+
+void AtomicModelInfo::setFileName(std::string pdbName)
+{
+	MulchExceptions::FileNameIsNone(_pdbCode);
+	_pdbCode = pdbName;
+	std::cout<< _pdbCode<<std::endl;
+};
+
+
+

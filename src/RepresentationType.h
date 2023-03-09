@@ -5,7 +5,7 @@
 #define __mulch__RepresentationType_h__
 
 #include "Object.h"
-
+#include "RepresentationType.h"
 namespace mulch
 {	
 	class AtomicModelInfo;
@@ -16,8 +16,13 @@ namespace mulch
 	{
 	public:
 		RepresentationType();
+		/* sets representation type */
 		virtual void setRepType(RepresentationEnum rep);
+		/* sends pdbName to AtomicInfo */
 		virtual void setFileName(std::string pdbName);
+
+
+	
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
@@ -31,13 +36,13 @@ namespace mulch
 		}
 
 		RepresentationEnum _type = NoneRepresentation;
-		std::string _pdbCode = "";
-
 		AtomicModelInfo* _atomicModelInfo = nullptr;
 		BondBasedModelInfo* _bondBasedModelInfo = nullptr;
 		CoarseGrainingModelInfo* _coarseGrainingModelInfo = nullptr;
 		EnsembleRefineInfo* _ensembleRefineInfo = nullptr;
 		std::string _comments = "blah";
+		
+
 
 		
 	};

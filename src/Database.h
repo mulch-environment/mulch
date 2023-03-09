@@ -25,6 +25,7 @@ public:
 		};
 		void open();
 		void closeConnection();
+		void close();
 		void query(std::string query);	
 		const std::vector<Result> &results()
 		{

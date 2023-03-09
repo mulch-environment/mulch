@@ -1,9 +1,8 @@
 // Object.cpp
-
+#include <iostream>
 #include "Object.h"
 #include "Database.h"
 #include "Utility.h"
-#include <iostream>
 using namespace mulch;
 
 // Object::Object()
@@ -129,5 +128,11 @@ std::string Object::queryLastId()
 	return "SELECT last_insert_rowid() AS pid;"; // debug 
 }
 
-
+void Object::persist()
+{
+	Database *db = new Database("mulch.db");
+	db->open();
+	updateDatabase(db);
+	db->close();
+}
 

@@ -7,7 +7,7 @@
 #include <string>
 #include "Database.h"
 #include "EnumTables.h"
-
+#include "Utility.h"
 namespace mulch
 {
 	class Database;
@@ -83,6 +83,12 @@ namespace mulch
 		{ 
 			_pid = pid;
 		}
+
+		/* persist:
+		get the value of the primary ID of the referring Object table.
+		**/
+		void persist();
+
 
 	protected:
 		/* updatePid(Database *db):

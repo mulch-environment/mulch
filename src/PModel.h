@@ -1,49 +1,45 @@
 // Object (mirrored from database)
 // crystallographic Model will be a type of Object
 
-#ifndef __mulch__Data_h__
-#define __mulch__Data_h__
+#ifndef __mulch__PModel_h__
+#define __mulch__PModel_h__
 
 #include "Object.h"
-
+#include "Model.h"
 
 namespace mulch
 {
-	class DataNMRInfo;
-	class DataCrystallographicInfo;
-	class DataCryoEMInfo; 
-	class Data : public Object
+	class RepresentationType;
+	class StructureTechniqueInfo;
+	class PModel: public Model, public Object
 	{
 	public:
-		Data();
-		static std::string selectQueryDataByInfo(DataEnum dat);
-		virtual void setDataInfo(DataEnum dat);
-		virtual void setFileName(std::string fileName);
-		virtual const std::string &getFileName() const
-		{
-			 return _fileData;
-		};
-
-
+		PModel();
+		static std::string selectQueryModelsByType(RepresentationEnum rep);
+		virtual void setRepType(RepresentationEnum rep);
+		virtual void setFileName(std::string pdbName);
 		virtual std::string sqlIdName()
 		{
 			return staticSqlIDName(); 	
-		};
+		}
 
 		static std::string staticSqlIDName()
 		{
-			return "data_id";
-		};
-
+			return "model_id";
+		}
+		// std::vector<Model*> modelsByRepType(RepresentationEnum rep, mulch::Database *db);
 		virtual void setComments(std::string comments)  
 		{
 			_comments = comments;
-		};
+		}
 		virtual const std::string &getComments() const
 		{
 			return _comments;
 		};
+
+
 	protected:
+		// static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
@@ -51,18 +47,11 @@ namespace mulch
 		virtual void retrieveDependencies(Database *db);
 		virtual void fillInFromResults(const Result &res);
 
-
 	private:
-		DataEnum _datInfo = NoneData;
-		std::string _fileData;
-		
-		DataNMRInfo *_dataNMRInfo = nullptr;
-		DataCrystallographicInfo *_dataCrystallographicDataInfo = nullptr;
-		DataCryoEMInfo *_dataCryoEMInfo = nullptr;
+		RepresentationType *_representationType = nullptr;
+		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
 		std::string _comments = "blah";
-
 	};
 }
 
 #endif
-

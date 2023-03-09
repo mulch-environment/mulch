@@ -34,7 +34,11 @@ void Database::open()
 	openConnection();
 	int total_num_tables = countTables();
 	tablesFromTemplate(total_num_tables);
+}
 
+void Database::close()
+{
+    closeConnection(); 
 }
 
 std::string Database::defaultTemplateFile()
