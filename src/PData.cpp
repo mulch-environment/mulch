@@ -1,21 +1,21 @@
 // RepresentationType.cpp
 #include <iostream>
 #include "MulchExceptions.h"
-#include "Data.h"
+#include "PData.h"
 #include "DataNMRInfo.h"
 #include "DataCrystallographicInfo.h"
 #include "DataCryoEMInfo.h"
 #include "Utility.h"
 using namespace mulch;
 
-Data::Data()
+PData::PData()
 {
 	_dataNMRInfo = new DataNMRInfo();
 	_dataCrystallographicDataInfo = new DataCrystallographicInfo();
 	_dataCryoEMInfo = new DataCryoEMInfo();
 }
 
-std::string Data::insertQuery()
+std::string PData::insertQuery()
 {	
 	std::string query;
 	query = "INSERT INTO Data (data_nmr_info_id, data_crystallographic_info_id) VALUES";
@@ -28,7 +28,7 @@ std::string Data::insertQuery()
 	return query;
 }
 
-std::string Data::updateQuery()
+std::string PData::updateQuery()
 {
 	std::string query;
 	query = "UPDATE Data SET comments = ";
@@ -46,7 +46,7 @@ std::string Data::updateQuery()
 	return query;
 }
 
-std::string Data::selectPidQuery()
+std::string PData::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT data_id FROM Data";
@@ -55,7 +55,7 @@ std::string Data::selectPidQuery()
 	return query;
 }
 
-std::string Data::selectQueryDataByInfo(DataEnum dat)
+std::string PData::selectQueryDataByInfo(DataEnum dat)
 {
 	std::string table, id;
 	switch (dat)
@@ -87,7 +87,7 @@ std::string Data::selectQueryDataByInfo(DataEnum dat)
 	return query;
 }
 
-void Data::updateDependencies(Database *db)
+void PData::updateDependencies(Database *db)
 {
 	// send that representationType to the database
 	_dataNMRInfo->updateDatabase(db);
@@ -95,7 +95,7 @@ void Data::updateDependencies(Database *db)
 	_dataCryoEMInfo->updateDatabase(db);
 }
 
-void Data::retrieveDependencies(Database *db)
+void PData::retrieveDependencies(Database *db)
 {
 	// send that representationType to the database
 	_dataNMRInfo->updateDatabase(db);
@@ -104,7 +104,7 @@ void Data::retrieveDependencies(Database *db)
 	
 }
 
-void Data::fillInFromResults(const Result &res) 
+void PData::fillInFromResults(const Result &res) 
 {
 	std::cout << typeid(res).name() << std::endl;
 	// _comments = res["comments"];
@@ -114,7 +114,7 @@ void Data::fillInFromResults(const Result &res)
 
 };
 
-void Data::setDataInfo(DataEnum dat)
+void PData::setDataInfo(DataEnum dat)
 {	
 	MulchExceptions::DataTypeIsNone(_datInfo);
 	_datInfo = dat;
@@ -134,7 +134,7 @@ void Data::setDataInfo(DataEnum dat)
 
 };
 
-void Data::setFileName(std::string fileName)
+void PData::setFileName(std::string fileName)
 {	
 	if (_dataCrystallographicDataInfo!=nullptr)
 	{
@@ -142,10 +142,3 @@ void Data::setFileName(std::string fileName)
 	}
 };
 
-// Data Data::dataFromResult(const Result &res)
-// {
-// 	Data exportedDataInfo;
-// 	int pid = atoi(res.at("DataInfo_id").c_str());
-// 	exportedDataInfo.setPrimaryId(pid);
-// 	return exportedDataInfo;
-// }

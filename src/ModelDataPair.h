@@ -12,7 +12,7 @@
 namespace mulch
 {
 	class PModel;
-	class Data;
+	class PData;
 	class ModelDataPair : public Object
 	{
 	public:
@@ -37,7 +37,7 @@ namespace mulch
 		}
 
 		PModel *_model = nullptr;
-		Data *_data = nullptr;
+		PData *_data = nullptr;
 		// have this for later
 		std::string _comments = "blah";
 	};

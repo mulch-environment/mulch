@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include "ModelDataPair.h"
-#include "Data.h" // to change to DataInterface
-#include "Model.h"
+#include "PData.h" // to change to DataInterface
 #include "PModel.h"
 #include "EnumTables.h"
 
@@ -13,7 +12,7 @@ ModelDataPair::ModelDataPair()
 {
 	// create new object
 	_model = new PModel();
-	_data = new Data();
+	_data = new PData();
 }
 
 void ModelDataPair::setRep(RepresentationEnum rep)
