@@ -4,10 +4,9 @@
 #include <src/Utility.h>
 #include <src/MulchExceptions.h>
 #include <iostream>
+#include <src/PModel.h>
 #include <src/Model.h>
-#include <src/IModel.h>
-#include <src/IModel.cpp>
-#include <src/Data.h>
+#include <src/PData.h>
 #include <src/ModelDataPair.h>
 #include <src/StructureTechniqueInfo.h>
 #include <src/RepresentationType.h>
@@ -21,11 +20,14 @@
 
 BOOST_AUTO_TEST_CASE(test_MDL_Interface)
 {
-	mulch::Database db("mulch.db");
-	mulch::Model model;
-	db.open();
-	ModelDataPair *mdp = new ModelDataPair("xyz", "zyx", Atomic, Xray);
-	mdp->updateDatabase(&db);
+	mulch::ModelDataPair *mdp = new mulch::ModelDataPair();
+	// mdp->updateDatabase(&db);
+	mdp->setRep(Atomic);
+	mdp->setFile("xyz");
+	mdp->setDataType(Xray);
+	mdp->setDataFile("myx");
+
+	mdp->persist();
 
 };
 
