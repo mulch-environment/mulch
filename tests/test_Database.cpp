@@ -18,19 +18,32 @@
 // #include <src/EnumRepresentation.h>
 
 
-BOOST_AUTO_TEST_CASE(test_MDL_Interface)
-{
-	mulch::ModelDataPair *mdp = new mulch::ModelDataPair();
-	// mdp->updateDatabase(&db);
-	mdp->setRep(Atomic);
-	mdp->setFile("xyz");
-	mdp->setDataType(Xray);
-	mdp->setDataFile("myx");
+// BOOST_AUTO_TEST_CASE(test_MDL_Interface)
+// {
+// 	mulch::ModelDataPair *mdp = new mulch::ModelDataPair();
 
-	mdp->persist();
+// 	mdp->setRep(Atomic);
+// 	mdp->setFile("xyz");
+// 	mdp->setDataType(Xray);
+// 	mdp->setDataFile("myx");
+
+// 	mdp->persist();
+
+// };
+
+
+BOOST_AUTO_TEST_CASE(test_COLLECTION_Interface)
+{
+	mulch::Collection *collect = new mulch::Collection();
+
+	collect->addModel(Atomic, "xyz");
+	collect->addData(Xray, "myx");
+	collect->addModelDataPair(Atomic, "xyz", Xray, "myx");
+
+
+	collect->persist();
 
 };
-
 // BOOST_AUTO_TEST_CASE(test_Model_Interface)
 // {
 // 	mulch::Database db("mulch.db");
