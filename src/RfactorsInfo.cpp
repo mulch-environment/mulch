@@ -34,7 +34,7 @@ std::string RfactrosInfo::selectPidQuery()
 	return query;
 }
 
-void RfactrosInfo::updateDependencies(Database *db)
+void RfactrosInfo::updateDependenciesBefore(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
 	MUST contain a value that exists in the foreigh column it references.
