@@ -1,29 +1,41 @@
-// PModel.cpp
+
+// ModelDataPair.cpp
 
 #include <iostream>
 #include "ModelDataPair.h"
-#include "PData.h" // to change to DataInterface
+#include "RepresentationType.h"
+#include "PData.h"
 #include "PModel.h"
-#include "EnumTables.h"
 
 using namespace mulch;
 
 ModelDataPair::ModelDataPair()
 {
-	// create new object
+	// _model = nullptr;
+	// _data = nullptr;
+
+	// change: only allocate when you set up the representationtype 
 	_model = new PModel();
+	// change: only allocate when you set up the datatype
 	_data = new PData();
 }
 
+// RepresentationEnum ModelDataPair::representationType()
+// {	
+// 	return _model->_representationType;
+// }
+
 void ModelDataPair::setRep(RepresentationEnum rep)
 {
-	_model->setRepType(rep);	
+	_model->setRepType(rep);
 }
+
 
 void ModelDataPair::setFile(std::string pdbName)
 {
 	_model->setFileName(pdbName);
 }
+
 
 void ModelDataPair::setDataType(DataEnum datatype)
 {
@@ -36,55 +48,52 @@ void ModelDataPair::setDataFile(std::string datafile)
 }
 
 
-
-
 std::string ModelDataPair::insertQuery()
 {	
 	std::string query;
-	query = "INSERT INTO ModelDataPair (data_ID, model_ID) VALUES";
+	query = "INSERT INTO ModelDataPair (data_ID, model_ID) VALUES ";
 	query += "(";
 	query += std::to_string(_data->primaryId());
 	query += ",";
 	query += std::to_string(_model->primaryId());
 	query += ");";
-
-	return query;
+	return query;	
 }
-
 
 std::string ModelDataPair::updateQuery()
 {
 	std::string query;
-	query = "";
-	// query += std::to_string(primaryId());
-	// query += ";";
+	query = " ";
 	return query;
-
-	// std::string query;
-	// query = "UPDATE " + table;
-	// query += "SET pdb_code = " + pdbName; // repace xyz with input 'std::string pdbname' instead
-	// query += "WHERE " + id + " IN ";
-	// query += "(SELECT " + id + " FROM RepresentationType ";
-	// query += "WHERE representation_type_id = ";
-	// query += _pid;
-	// query += ";";
-
 }
 
 std::string ModelDataPair::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT modeldatapair_id FROM ModelDataPair";
+	query = "SELECT * FROM ModelDataPair WHERE modeldatapair_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
+	Utility::protectsql(query);
 
 	return query;
 }
 
-void ModelDataPair::updateDependencies(Database *db)
+void ModelDataPair::updateDependenciesBefore(Database *db)
 {
 	// send that representationType to the database
-
 	_model->updateDatabase(db);
 	_data->updateDatabase(db);
-	
+
 }
+
+std::vector<PModel*> ModelDataPair::retrieveModelByType(RepresentationEnum rep, Database *db)
+{
+	std::vector<PModel*> models;
+	std::cout << "In ModelDataPair::retrieveModelByType: All ok, continue" << std::endl;
+
+	models = _model->retrieveByType(rep, db);
+	return models;
+}
+
+
+
