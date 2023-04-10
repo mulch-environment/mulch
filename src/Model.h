@@ -15,7 +15,7 @@ namespace mulch
 	{
 	public:
 		Model() {};
-		static std::vector<Model*> modelsByRepType(RepresentationEnum rep, Database *db);
+		static void modelsByRepType(RepresentationEnum rep, Database *db);
 		virtual void setComments(std::string comments) = 0; // setter function 
 		virtual const std::string &getComments() const = 0; // getter function
 		
