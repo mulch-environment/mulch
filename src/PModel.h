@@ -3,7 +3,7 @@
 
 #ifndef __mulch__PModel_h__
 #define __mulch__PModel_h__
-
+#include <iostream>
 #include "Object.h"
 #include "Model.h"
 
@@ -15,9 +15,16 @@ namespace mulch
 	{
 	public:
 		PModel();
+		struct Date {
+		    int day;
+		    int month;
+		    int year;
+		};
 		static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual void setRepType(RepresentationEnum rep);
 		virtual void setFileName(std::string pdbName);
+		std::vector<PModel*> retrieveByType(RepresentationEnum rep, Database *db);
+		static PModel* modelByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName()
 		{
 			return staticSqlIDName(); 	
@@ -28,29 +35,69 @@ namespace mulch
 			return "model_id";
 		}
 		// std::vector<Model*> modelsByRepType(RepresentationEnum rep, mulch::Database *db);
+		// SET the valueson the columns in the Model tbale
 		virtual void setComments(std::string comments)  
 		{
 			_comments = comments;
 		}
+		virtual void setPdbName(std::string pdbName)
+		{
+			_pdbName = pdbName;
+		}
+		virtual void setHasPdb(std::string hasPdb)
+		{
+			_hasPdb = hasPdb;
+		}
+		virtual void setTime(Date creationDate)
+		{
+			_creationDate = creationDate;
+		}
+		// GET the values from the columns in the Model table
 		virtual const std::string &getComments() const
 		{
 			return _comments;
 		};
+		virtual const std::string &getPdbName() const
+		{
+			return _pdbName;
+		};
+		virtual const std::string &getHasPdb() const
+		{
+			return _hasPdb;
+		};
+		virtual const Date &getDate() const
+		{
+			return _creationDate;
+		};
+		// virtual	RepresentationEnum* getRepType()
+		// {
+		// 	if (_representationType != nullptr)
+		// 	{
+		// 		return _representationType;
+		// 	}
+		// 	else return new RepresentationEnum(); // or return nullptr, depending on your needs
 
+		// };
 
 	protected:
 		// static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		// virtual std::string updateCommentsQuery();
+		// virtual std::string updatePdbCodeQuery();
 		virtual std::string selectPidQuery();
-		virtual void updateDependencies(Database *db);
-		virtual void retrieveDependencies(Database *db);
+		virtual void retrieveDependencies(Result &res, Database *db);
+		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
+
 
 	private:
 		RepresentationType *_representationType = nullptr;
 		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
-		std::string _comments = "blah";
+		std::string _comments =  "No comments yet";
+		std::string _pdbName =  "No pdb yet";
+		std::string _hasPdb = "false";
+		Date _creationDate;
 	};
 }
 
