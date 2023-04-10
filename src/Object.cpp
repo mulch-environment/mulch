@@ -21,27 +21,42 @@ void Object::initialInsert(Database *db)
 
 void Object::updateExisting(Database *db)
 {
-
+	std::cout << "Which table are you currently updating the dependecies?" << std::endl;
+	std::cout << sqlIdName() << std::endl;	
 	if (primaryId() < 0)
 	{
 		throw std::runtime_error("negative pid");
 	}
 
 	std::string query = updateQuery(); 
+	std::cout << query << std::endl;
 	db->query(query);
 }
 
 
 void Object::selectExisting(Database *db)
 {
+	// DEBUGGING
+	// --> previous
+	// if (primaryId() < 0)
+	// {
+	// 	throw std::runtime_error("negative pid");
+	// }
 
+	// std::string query = selectPidQuery(); 
+	// std::cout << query << std::endl;
+	// db->query(query);
+
+	//---> now (10.04.2023)
 	if (primaryId() < 0)
 	{
-		throw std::runtime_error("negative pid");
+		_pid = _tableId;
 	}
 
 	std::string query = selectPidQuery(); 
+	std::cout << query << std::endl;
 	db->query(query);
+
 }
 
 
@@ -53,7 +68,6 @@ void Object::updatePid(Database *db)
 
 	std::string pid = res[0]["pid"];
 	_pid = atoi(pid.c_str());	
-	std::cout << "INSIDE updatePid: _pid = " << std::endl;
 	std::cout << _pid << std::endl;
 }
 
@@ -61,7 +75,6 @@ void Object::updatePid(Database *db)
 void Object::getPidFromResults(const Result &res)
 {
 	std::string nameofID = sqlIdName();
-	std::cout << "Representation type ID from fillInFromResults \n" << std::endl;
 	// std::cout << res[nameofID] << std::endl;
 	int name_pid = atoi(res.at(nameofID).c_str());
 
@@ -72,56 +85,68 @@ void Object::getPidFromResults(const Result &res)
 
 void Object::updateDatabase(Database *db)
 {
-
+	std::cout << "Beginning updating Database... \n" << std::endl;
 	std::string querySetForeignOn = Utility::SetForeignKeysOn();
 	db->query(querySetForeignOn);
 
-	updateDependencies(db); 
-
+	updateDependenciesBefore(db); 
+	std::cout << "Finish updating dependecies.\n" << std::endl;
 	// if the object doesn't exist in the database yet,
 	if (!alreadyInDatabase())
 	{
-
 		initialInsert(db);
 		updatePid(db);
 		updateExisting(db);
 	}
-		// now the database "results" should be populated with the last ID
-		// for (const Result &r : res)
-		// {
-		// 	for (auto it = r.begin(); it != r.end(); it++)
-		// 	{
-		// 		std::cout << "result: " << it->first << " to " << it->second << std::endl;
-		// 	}
-		// }
-
-	// }
-
 	else
 	{
+		// std::cout << "In updateDatabase, but something wrong. Do nothing for now. \n" << std::endl;
 		// we need to create an UPDATE query that only acts on our primary ID
 		// send that query to the database
 	}
 
-	// and just make sure there are no errors
-	
+	std::cout << "Which table are you currently updating the dependecies?" << std::endl;
+	std::cout << sqlIdName() << std::endl;	
+	updateDependenciesAfter(db);	
 }
 
-mulch::Result Object::retrieveExisting(Database *db)
+// mulch::Result Object::retrieveExisting(int pid, Database *db)
+// {
+// 	setPrimaryId(pid);
+// 	// fill al my other infos in the table
+// 	selectExisting(db);
+// 	std::vector<Result> results = db->results();
+
+// 	fillInFromResults(results);
+// 	//result[0] is a map. it will have: model_id = 3, rep_id = 3 ...
+// 	retrieveDependencies(results[0] , db);
+// }
+mulch::Result Object::retrieveExisting(int pid, Database *db)
 {
-	selectExisting(db);
-	std::vector<Result> res = db->results();
 
-	if (res.size() != 1)
-	{
-		throw std::runtime_error("something is wrong with res");
-	}  
+    setPrimaryId(pid);
+    selectExisting(db);
+    std::vector<Result> results = db->results();
 
-	for (int i = 0; i < res.size(); i++) {
-        std::cout << res.at(i)["model_id"] << ' ';
+    // Call fillInFromResults on each element of the vector
+    for (const auto& res : results) {
+        fillInFromResults(res);
     }
-	return res[0];
+
+    // Combine the results into a single mulch::Result object
+    mulch::Result combinedResult;
+    for (const auto& res : results) {
+        for (const auto& kvp : res) {
+            combinedResult[kvp.first] = kvp.second;
+        }
+    }
+
+    retrieveDependencies(results[0] , db);
+
+    return combinedResult;
 }
+
+
 
 std::string Object::queryLastId()
 {
@@ -135,4 +160,49 @@ void Object::persist()
 	updateDatabase(db);
 	db->close();
 }
+
+
+// void Object::retrieveFromResult(const mulch::Result &res, Database *db)
+// {
+// 	std::string nameId = sqlIdName();
+// 	// debug 
+// 	for (const auto& [key, value] : res) 
+// 	{
+//         std::cout << "Key: " << key << ", Value: " << value << std::endl;
+//     }
+
+// 	int pid = std::stoi(res.at(nameId));
+
+// 	setPrimaryId(pid);
+// 	fillInFromDatabase(res, db);
+// }
+void Object::retrieveFromResult(const mulch::Result &res, Database *db)
+{
+    std::string nameId = sqlIdName();
+    // debug 
+	for (auto it = res.begin(); it != res.end(); ++it) 
+	{
+	    const std::string& key = it->first;
+	    const std::string& value = it->second;
+	    std::cout << "Key: " << key << ", Value: " << value << std::endl;
+	}
+
+    int pid = std::stoi(res.at(nameId));
+
+    setPrimaryId(pid);
+
+    mulch::Result copyOfRes = res; // create a non-const copy of the res object
+    fillInFromDatabase(copyOfRes, db);
+}
+
+
+void Object::fillInFromDatabase(Result &res, Database *db)
+{
+
+	mulch::Result fullRes = retrieveExisting(_pid, db);
+	fillInFromResults(fullRes);
+	retrieveDependencies(res, db);
+
+}
+
 
