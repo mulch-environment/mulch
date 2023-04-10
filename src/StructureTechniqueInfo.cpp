@@ -44,11 +44,17 @@ std::string StructureTechniqueInfo::selectPidQuery()
 	return query;
 }
 
-void StructureTechniqueInfo::updateDependencies(Database *db)
+void StructureTechniqueInfo::updateDependenciesBefore(Database *db)
 {
 	_crystallographicInfo->updateDatabase(db);
 	_nmrInfo->updateDatabase(db);
 	_cryoEMInfo->updateDatabase(db);	
+}
+
+StructureTechniqueInfo* StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(int id, Database *db)
+{
+	StructureTechniqueInfo *structureTechnique = new StructureTechniqueInfo();
+	structureTechnique->retrieveExisting(id, db);
 }
 
 void StructureTechniqueInfo::retrieveDependencies(Database *db)
@@ -59,6 +65,8 @@ void StructureTechniqueInfo::retrieveDependencies(Database *db)
 	_cryoEMInfo->updateDatabase(db);
 	
 }
+
+
 
 void StructureTechniqueInfo::fillInFromResults(const Result &res) 
 {

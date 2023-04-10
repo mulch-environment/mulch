@@ -16,11 +16,17 @@ namespace mulch
 	{
 	public:
 		StructureTechniqueInfo();
+		// static void structureTechniqueInfoByPrimaryId(std::string str_id, Database *db);
+		static StructureTechniqueInfo* structureTechniqueInfoByPrimaryId(int id, Database *db);
+		static std::string staticSqlIDName()
+		{
+			return "structure_technique_id";
+		}
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
-		virtual void updateDependencies(Database *db);
+		virtual void updateDependenciesBefore(Database *db);
 		virtual void retrieveDependencies(Database *db);
 		virtual void fillInFromResults(const Result &res);
 	private:
