@@ -39,7 +39,7 @@ std::string DataCrystallographicInfo::selectPidQuery()
 	return query;
 }
 
-void DataCrystallographicInfo::updateDependencies(Database *db)
+void DataCrystallographicInfo::updateDependenciesBefore(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
 	MUST contain a value that exists in the foreigh column it references.
