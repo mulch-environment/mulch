@@ -94,7 +94,7 @@ void Database::query(std::string query)
 	/** Exectute queries */
 	char *zErrMsg = 0;
 	_results.clear();
-	std::cout << query.c_str() <<std::endl;
+	// std::cout << query.c_str() <<std::endl;
 	int rq = sqlite3_exec(_db, query.c_str(), callback, 0, &zErrMsg);
 	MulchExceptions::SQLiteErrorIfNeeded(rq, zErrMsg);
 	
