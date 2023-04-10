@@ -1,6 +1,4 @@
 // CollectionHasDataset.cpp
-
-
 #include "CollectionHasDataset.h"
 #include "ModelDataPair.h"
 #include "Collection.h"
@@ -8,8 +6,10 @@ using namespace mulch;
 
 CollectionHasDataset::CollectionHasDataset()
 {
-	_modelDataPair = new ModelDataPair();
-	_collection = new Collection();
+	// _modelDataPair = new ModelDataPair();
+	// _collection = new Collection();
+	_modelDataPair = nullptr;
+	_collection = nullptr;
 
 }
 
@@ -30,29 +30,46 @@ std::string CollectionHasDataset::insertQuery()
 std::string CollectionHasDataset::updateQuery()
 {
 	std::string query;
-	query = "UPDATE CollectionHasDataset SET modeldatapair_id =  WHERE Collectionhasdataset_id = 2";
-	query += std::to_string(primaryId());
 	query = " ";
-
 	return query;
 }
 
 std::string CollectionHasDataset::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT collectionhasdataset_id FROM CollectionHasDataset";
+	query = "SELECT * FROM CollectionHasDataset WHERE collectionhasdataset_id =";
+	query += std::to_string(primaryId());
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
 }
 
 
-void CollectionHasDataset::updateDependencies(Database *db)
+void CollectionHasDataset::updateDependenciesBefore(Database *db)
 {
 	// send that representationType to the database
-	_modelDataPair->updateDatabase(db);
-	_collection->updateDatabase(db);
-	
+	_modelDataPair->updateDatabase(db);	
+}
+
+
+void CollectionHasDataset::setCollection(Collection* collection)
+{
+	std::cout<<"In CollectionHasDataset::setCollection"<<std::endl;
+	_collection = collection;
+
+}
+
+void CollectionHasDataset::setModelDataPair(ModelDataPair* _MDpair)
+{
+	_modelDataPair = _MDpair;
+}
+
+
+void CollectionHasDataset::fillInFromResult(const Result &res)
+{
+	std::cout << typeid(res).name() << std::endl;
+	_modelDataPair->getPidFromResults(res);
+	_collection->getPidFromResults(res);
 }
 
 
