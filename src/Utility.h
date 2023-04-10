@@ -21,6 +21,7 @@ class Utility
 	 	* assign contents of sql file to string and then run the queries to "fill" the database */
 		static std::string getFileContents(std::string &kk);
 		static std::string SetForeignKeysOn();
+		static std::string boolToString(bool input);
 		/* Instead of using apostrophe and percentage characters in queries, use the following function. 
 		These characters might create errors when writing complicated queries.
 		**/

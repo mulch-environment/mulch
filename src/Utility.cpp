@@ -48,3 +48,26 @@ bool isNull(std::string &str_input)
 		return false;
 	}
 }
+
+std::string Utility::boolToString(bool input) 
+{
+   //using ternary operators
+   return input ? "true" : "false";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
