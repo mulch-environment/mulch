@@ -23,7 +23,7 @@ namespace mulch
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
-		virtual void updateDependencies(Database *db);
+		virtual void updateDependenciesBefore(Database *db);
 	private:
 		std::string _pdbCode;
 		virtual std::string sqlIdName()
