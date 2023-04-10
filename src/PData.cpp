@@ -10,20 +10,28 @@ using namespace mulch;
 
 PData::PData()
 {
-	_dataNMRInfo = new DataNMRInfo();
-	_dataCrystallographicDataInfo = new DataCrystallographicInfo();
-	_dataCryoEMInfo = new DataCryoEMInfo();
+	_dataNMRInfo = nullptr;
+	_dataCrystallographicDataInfo = nullptr;
+	_dataCryoEMInfo = nullptr;
+
+	if (_dataNMRInfo != nullptr || _dataCrystallographicDataInfo != nullptr || _dataCryoEMInfo != nullptr)
+	{
+		throw  std::runtime_error("Issue in PData: more thatn one type of data.");
+	}
+	// _dataNMRInfo = new DataNMRInfo();
+	// _dataCrystallographicDataInfo = new DataCrystallographicInfo();
+	// _dataCryoEMInfo = new DataCryoEMInfo();
+
+
 }
 
 std::string PData::insertQuery()
 {	
 	std::string query;
-	query = "INSERT INTO Data (data_nmr_info_id, data_crystallographic_info_id) VALUES";
-	query += "(";
-	query += std::to_string(_dataNMRInfo->primaryId());
-	query += ",";
-	query += std::to_string(_dataCrystallographicDataInfo->primaryId());
-	query += ");";
+	query = "INSERT INTO Data DEFAULT VALUES";
+	// query += "(";
+	// query += std::to_string(_dataCrystallographicDataInfo->primaryId());
+	// query += ");";
 
 	return query;
 }
@@ -32,24 +40,33 @@ std::string PData::updateQuery()
 {
 	std::string query;
 	query = "UPDATE Data SET comments = ";
-	query += "(";
-	query += std::to_string(primaryId());
-	query += ");";
-	query += "UPDATE Data SET data_nmr_info_id = ";
-	query += "(";
-	query += std::to_string(_dataNMRInfo->primaryId());
-	query += ")";
+	query += "'";
+	query += _comments;
+	query += "'";
 	query += " WHERE data_ID = ";
-	query += "(";
 	query += std::to_string(primaryId());
-	query += ");";
+	query += ";";
+
+	// query = "UPDATE Data SET comments = ";
+	// query += "(";
+	// query += std::to_string(primaryId());
+	// query += ");";
+	// query += "UPDATE Data SET data_nmr_info_id = ";
+	// query += "(";
+	// query += std::to_string(_dataNMRInfo->primaryId());
+	// query += ")";
+	// query += " WHERE data_ID = ";
+	// query += "(";
+	// query += std::to_string(primaryId());
+	// query += ");";
 	return query;
 }
 
 std::string PData::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT data_id FROM Data";
+	query = "SELECT * FROM Data WHERE data_ID = ";
+	query += std::to_string(primaryId());
 	query += ";";
 
 	return query;
@@ -87,12 +104,27 @@ std::string PData::selectQueryDataByInfo(DataEnum dat)
 	return query;
 }
 
-void PData::updateDependencies(Database *db)
+void PData::updateDependenciesBefore(Database *db)
 {
-	// send that representationType to the database
-	_dataNMRInfo->updateDatabase(db);
-	_dataCrystallographicDataInfo->updateDatabase(db);
-	_dataCryoEMInfo->updateDatabase(db);
+	if (_dataNMRInfo != nullptr)
+	{
+		std::cout << "Updating Data->DataNMRInfo \n" << std::endl;
+		_dataNMRInfo->updateDatabase(db);
+	}
+	else if (_dataCrystallographicDataInfo != nullptr)
+	{
+		std::cout << "Updating Data->DataCrystallographicDataInfo \n" << std::endl;
+		_dataCrystallographicDataInfo->updateDatabase(db);
+	}
+	else if (_dataCryoEMInfo != nullptr)
+	{
+		std::cout << "Updating Data->DataCryoEMInfo \n" << std::endl;
+		_dataCryoEMInfo->updateDatabase(db);
+	}
+	else
+	{
+		throw std::runtime_error("Can't update Data: no data info");
+	}
 }
 
 void PData::retrieveDependencies(Database *db)
@@ -119,7 +151,7 @@ void PData::setDataInfo(DataEnum dat)
 	MulchExceptions::DataTypeIsNone(_datInfo);
 	_datInfo = dat;
 	std::cout<< _datInfo <<std::endl;
-	if (_datInfo == NMR)
+	if (_datInfo == NMR) 
 	{
 		_dataNMRInfo = new DataNMRInfo();
 	}
