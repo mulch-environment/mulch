@@ -26,21 +26,24 @@ std::string AtomicModelInfo::updateQuery()
 	query += "'";
 	query += AtomicModelInfo::getPDBCode();
 	query += "'";
-	query += " WHERE atomic_model_id = 40;";				
+	query += " WHERE atomic_model_id = ";
+	query += "(";
+	query += std::to_string(primaryId());
+	query += ");";				
 	return query;
 }
 
 std::string AtomicModelInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT atomic_model_id FROM AtomicModelInfo";
+	query = "SELECT * FROM AtomicModelInfo";
 	query += ";";
 
 	return query;
 }
 
 
-void AtomicModelInfo::updateDependencies(Database *db)
+void AtomicModelInfo::updateDependenciesBefore(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
 	MUST contain a value that exists in the foreigh column it references.
