@@ -1,5 +1,6 @@
-// Object (mirrored from database)
-// Collection will be a type of Object
+/* Collection: class represents a collection of models and data, and can have multiple 
+ModelDataPair objects associated with it. Conversely, a ModelDataPair object can be 
+associated with multiple Collection objects.*/
 
 #ifndef __mulch__Collection_h__
 #define __mulch__Collection_h__
@@ -13,28 +14,54 @@ namespace mulch
 	class PModel;
 	class PData;
 	class ModelDataPair;
+	class CollectionHasDataset;
 	class Collection: public Object
 	{
 	public:
+		/* Constructor to initialize member variables */
 		Collection();
-		void addModel(RepresentationEnum rep, std::string pdbName);
-		void addData(DataEnum datatype, std::string datafile);
-		void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
 
+		/* Add a model to the collection with the given representation type and PDB file name */
+		void addModel(RepresentationEnum rep, std::string pdbName);
+
+		/* Add data to the collection with the given data type and data file name */
+		void addData(DataEnum datatype, std::string datafile);
+
+		/* Add a model-data pair to the collection with the given representation type, PDB file name,
+    	data type, and data file name, data type, and data file name */
+		void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
+		
+		/* Set the collection has dataset relationship with a given model-data pair object */
+		void sentToCHD(ModelDataPair *MDpair);
+
+		std::string getSqlIdName()
+	    {
+	        return sqlIdName();
+	    }
+
+		// void addData(DataEnum datatype, std::string datafile);
+		// void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
+
+		const ModelDataPair* getModelDataPairFromCollection(int index) const;
+		int datasetCount() const;
+		virtual void updateDependenciesBefore(Database *db);
+		virtual void updateDependenciesAfter(Database *db);
+		// void retrieveDependenciesBefore(Database* db, RepresentationEnum rep = RepresentationEnum::NoneRepresentation);		mulch::Result retrieveMPD(Database *db);
+		std::vector<Collection*> retrieveCollection(Database *db);
+		// void fillInFromResult(const Result &res);
+		// int numModelDataPairs() const; 
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 	private:
-		bool _fixed; 
-		std::vector<ModelDataPair*> _vectormdp ;
+		bool _fixed = true; 
 		virtual std::string sqlIdName()
 		{
 			return "collection_id";
 		}
-		PModel *_model = nullptr;
-		PData *_data = nullptr;
-		ModelDataPair *_mdp = nullptr;
+		std::vector<CollectionHasDataset*> _chds;
+		// ModelDataPair *_mdp = nullptr;
 
 	};
 }

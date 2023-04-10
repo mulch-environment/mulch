@@ -36,7 +36,7 @@ std::string Crystal::selectPidQuery()
 	return query;
 }
 
-void Crystal::updateDependencies(Database *db)
+void Crystal::updateDependenciesBefore(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
 	MUST contain a value that exists in the foreigh column it references.
