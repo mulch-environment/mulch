@@ -22,6 +22,11 @@ namespace mulch
 			return _pid;
 		}
 
+		virtual void setPrimaryId(int current_id)  
+		{
+			_tableId = current_id;
+		}
+
 		/* alreadyInDatabase: _pid initial default value is set to -1. 
 		Rerurn only if the _pid is no longer -1 (>0)
 		**/
@@ -55,7 +60,7 @@ namespace mulch
 		If primaryID > 0, then call selectQuery for that table to 
 		retrieve data from the the Database.
 		**/				
-		mulch::Result retrieveExisting(Database *db);
+		mulch::Result retrieveExisting(int pid, Database *db);
 
 		/* updateExisting(Database *db): 
 		Check if primaryID is negative, and throw exemption if so.
@@ -71,18 +76,15 @@ namespace mulch
 		**/			
 		void selectExisting(Database *db);
 
+		/* Takes a mulch::Result object and a pointer to a Database object as its parameters. 
+		Retrieve an Object instance's data from a mulch::Result object and 
+		initialize it for use in the application.**/
+		void retrieveFromResult(const mulch::Result &res, Database *db);
 		
-		/*
+		/* Takes a pointer to a Database object as its parameter. 
+		Fill in the data of an Object instance by retrieving it from the database.
 		**/
-		virtual void fillInFromResults(const Result &res) {};
-
-		/* setPrimaryId:
-		get the value of the primary ID of the referring Object table.
-		**/
-		void setPrimaryId(const int pid)
-		{ 
-			_pid = pid;
-		}
+		void fillInFromDatabase(Result &res, Database *db);
 
 		/* persist:
 		get the value of the primary ID of the referring Object table.
@@ -108,14 +110,17 @@ namespace mulch
 		// 	return "";
 		// } 
 
-		/* updateDependencies:
+		/* updateDependenciesBefore:
 		update tables dependencies when inserting data to table in the Database, 
 		retrieveDependencies:
 		retrieving data from the dependencies when exporting form the Database
-		Defined inside each of the Object-table cpp file. 
+		Defihttps://suite.endole.co.uk/insight/company/03616953-analytik-jena-uk-limitedned inside each of the Object-table cpp file. 
 		**/
-		virtual void updateDependencies(Database *db) {};
-		virtual void retrieveDependencies(Database *db) {};	
+		virtual void updateDependenciesBefore(Database *db) {};
+		virtual void retrieveDependencies(Result &res, Database *db) {};	
+		// virtual void updateDependenciesAfter(const mulch::Result &res, Database *db) {};
+		virtual void updateDependenciesAfter(Database *db) {};	
+		virtual void fillInFromResults(const mulch::Result &res){};
 
 		/* sqlIdName: 
 		Get the pid from Object tables.
@@ -124,22 +129,12 @@ namespace mulch
 		**/
 		virtual std::string sqlIdName() = 0;
 
-// ---------------- ADD THE FOLLOWING? ------------- 		
-		// virtual Object *newObject()
-		// {
-		// 	return nullptr;
-		// }
-
-		Object *retrieveFromResult(Database *db, const Result &res);
-		// setter function 
-// ----------------------------------------------------- 	
-
 	private:
 		/* queryLastId:
 		Last ID that was use in the query. 
 		**/
 		std::string queryLastId();
-
+		int _tableId;
 		int _pid = -1; // default is -1 because it's not inserted in the database
 
 	};
