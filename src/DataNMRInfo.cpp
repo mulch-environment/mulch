@@ -25,7 +25,7 @@ std::string DataNMRInfo::updateQuery()
 	return "";
 }
 
-void DataNMRInfo::updateDependencies(Database *db)
+void DataNMRInfo::updateDependenciesBefore(Database *db)
 {
 	_nmrQualityData->updateDatabase(db);
 }
