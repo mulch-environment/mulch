@@ -17,6 +17,7 @@ namespace mulch
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 	private:
+		std::string _comments = "No comments yet";
 		virtual std::string sqlIdName()
 		{
 			return "ensemble_refine_id";

@@ -12,18 +12,27 @@ std::string EnsembleRefineInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO EnsembleRefineInfo DEFAULT VALUES;";
-	return "";
+	return query;
 }
 
 std::string EnsembleRefineInfo::updateQuery()
 {
-	return "";
+	std::string query;
+	query =	"UPDATE EnsembleRefineInfo SET comments = ";
+	query += "'";
+	query += _comments;
+	query += "'";
+	query += "WHERE ensemble_refine_id = ";
+	query += "(";
+	query += std::to_string(primaryId());
+	query += ");";	
+	return query;
 }
 
 std::string EnsembleRefineInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT ensemble_refine_id FROM EnsembleRefineInfo";
+	query = "SELECT * FROM EnsembleRefineInfo";
 	query += ";";
 
 	return query;
