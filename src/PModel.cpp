@@ -15,7 +15,6 @@ PModel::PModel()
 {
 	_representationType = new RepresentationType();
 	_structureTechniqueInfo = new StructureTechniqueInfo();
-
 }
 
 std::string PModel::insertQuery()
@@ -27,7 +26,7 @@ std::string PModel::insertQuery()
 	query += ",";
 	query += std::to_string(_structureTechniqueInfo->primaryId());
 	query += ");";
-
+	std::cout<<query<<std::endl;
 	Utility::protectsql(query);
 	return query;
 }
@@ -36,16 +35,27 @@ std::string PModel::insertQuery()
 std::string PModel::updateQuery()
 {
 	std::string query;
-	query = "UPDATE Model SET comments = ";
+	query = "UPDATE Model SET pdb_code = ";
+	query += "'";
+	query += _pdbName;
+	query += "'";
+	query +=  ", haspdb = ";
+	query += "'";
+	query += _hasPdb;
+	query += "'";
+	query += ", comments = ";
 	query += "'";
 	query += _comments;
 	query += "'";
 	query += " WHERE model_ID = ";
+	query += "(";	
 	query += std::to_string(primaryId());
-	query += ";";
-
+	query += ");";
+	std::cout<<"Update query in PModel: "<<std::endl;
+	std::cout<<query<<std::endl;
 	return query;
 }
+
 
 std::string PModel::selectPidQuery()
 {
@@ -101,7 +111,7 @@ std::string PModel::selectQueryModelsByType(RepresentationEnum rep)
 	return query;
 }
 
-void PModel::updateDependencies(Database *db)
+void PModel::updateDependenciesBefore(Database *db)
 {
 	// send that representationType to the database
 	_representationType->updateDatabase(db);
@@ -109,22 +119,38 @@ void PModel::updateDependencies(Database *db)
 	
 }
 
-void PModel::retrieveDependencies(Database *db)
+
+/// ------------------ RETRIEVING STUFF -----------------------
+PModel* PModel::modelByPrimaryId(int id, Database *db)
 {
-	// send that representationType to the database
-	_representationType->updateDatabase(db);
-	_structureTechniqueInfo->updateDatabase(db);
-	
+	PModel *model = new PModel();
+	model->retrieveExisting(id, db);
+
+}
+
+void PModel::retrieveDependencies(Result &res, Database *db)
+{
+
+	delete _representationType;
+	delete _structureTechniqueInfo;
+
+	std::string rep_id = RepresentationType::staticSqlIDName();
+	std::string str_id =  StructureTechniqueInfo::staticSqlIDName();
+	std::cout << "res[rep_id] = " + res[rep_id] << std::endl;
+	std::cout << "res[str_id] = " + res[str_id] << std::endl;
+	// _representationType = RepresentationType::representationTypeByPrimaryId(res[rep_id], db);
+	// _structureTechniqueInfo = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(res[str_id], db);
 }
 
 void PModel::fillInFromResults(const Result &res) 
 {
-	std::cout << typeid(res).name() << std::endl;
-	// _comments = res["comments"];
-	_representationType->getPidFromResults(res);
-	_structureTechniqueInfo->getPidFromResults(res);
+    // std::cout << typeid(res).name() << std::endl;
+    // _comments = res["comments"];
+    _representationType->getPidFromResults(res);
+    _structureTechniqueInfo->getPidFromResults(res);
+}
 
-};
+
 
 void PModel::setRepType(RepresentationEnum rep)
 {	
@@ -139,22 +165,30 @@ void PModel::setFileName(std::string pdbName)
 }
 
 
+std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db)
+{
+	std::vector<PModel*> models;
+	std::string query;
+	query = selectQueryModelsByType(rep);
+	std::cout << query << std::endl;
+	std::vector<Result> results = db->results();
 
+	for (Result &res: results)
+	{
+		PModel *model = new PModel();
+		model->retrieveFromResult(res, db);
+		models.push_back(model);
+	}
+	return models;
+}
 
-	// _representationType->insertQuery();
-	// _representationType->updatePid(db);
-	// std::cout << _pid << std::endl;
+// void PModel::retrieveDependencies(Database *db)
+// {
+// 	// send that representationType to the database
+// 	_representationType->updateDatabase(db);
+// 	_structureTechniqueInfo->updateDatabase(db);
+	
+// }
 
-	// std::string query;
-	// query = "UPDATE " + table;
-	// query += "SET pdb_code = " + pdbName; // repace xyz with input 'std::string pdbname' instead
-	// query += "WHERE " + id + " IN ";
-	// query += "(SELECT " + id + " FROM RepresentationType ";
-	// query += "WHERE representation_type_id = ";
-	// query += _pid;
-	// query += ";";
-
-	// Utility::protectsql(query);
-	// std::cout<<query<<std::endl;
 
 
