@@ -130,6 +130,8 @@ enum ModelEnum
 enum ModelDataPairEnum
 {
 	NoneModelDataPair = 0,
+	haveModel = 1,
+	haveData =2
 };
 
 enum NMRInfoEnum
