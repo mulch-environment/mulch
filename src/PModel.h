@@ -25,11 +25,12 @@ namespace mulch
 		virtual void setFileName(std::string pdbName);
 		std::vector<PModel*> retrieveByType(RepresentationEnum rep, Database *db);
 		static PModel* modelByPrimaryId(int id, Database *db);
+		static std::vector<Result> showRetrievedValues(int pid, Database *db);
+
 		virtual std::string sqlIdName()
 		{
 			return staticSqlIDName(); 	
-		}
-
+		};
 		static std::string staticSqlIDName()
 		{
 			return "model_id";
@@ -89,8 +90,6 @@ namespace mulch
 		virtual void retrieveDependencies(Result &res, Database *db);
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
-
-
 	private:
 		RepresentationType *_representationType = nullptr;
 		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
@@ -98,6 +97,7 @@ namespace mulch
 		std::string _pdbName =  "No pdb yet";
 		std::string _hasPdb = "false";
 		Date _creationDate;
+
 	};
 }
 

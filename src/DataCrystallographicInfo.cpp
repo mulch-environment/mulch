@@ -55,5 +55,25 @@ void DataCrystallographicInfo::setFileName(std::string fileName)
 	std::cout<< _fileData <<std::endl;
 };
 
+/// ------------------ RETRIEVING STUFF -----------------------
+DataCrystallographicInfo* DataCrystallographicInfo::CrystInfolByPrimaryId(int id, Database *db)
+{
+	DataCrystallographicInfo *crystData = new DataCrystallographicInfo();
+	crystData->retrieveExisting(id, db);
+	return crystData;
+}
 
+void DataCrystallographicInfo::retrieveDependencies(Result &res, Database *db)
+{
+
+	delete _crystalQualityData;
+	std::string crysQual_id = CrystalQualityData::staticSqlIDName();
+	std::cout << "res[crysQual_id] = " + res[crysQual_id] << std::endl;
+	_crystalQualityData = CrystalQualityData::crystQualDataByPrimaryId(std::stoi(res[crysQual_id]), db);
+}
+
+void DataCrystallographicInfo::fillInFromResults(const Result &res) 
+{
+    _crystalQualityData->getPidFromResults(res);
+}
 

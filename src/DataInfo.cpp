@@ -53,7 +53,7 @@ void Data::updateDependencies(Database *db)
 DataInfo Data::dataInfoFromResult(const Result &res)
 {
 	Model exportedDataInfo;
-	int pid = atoi(res.at("DataInfo_id").c_str());
+	int pid = atoi(res.at("dataInfo_id").c_str());
 	exportedDataInfo.setPrimaryId(pid);
 	return exportedDataInfo;
 }

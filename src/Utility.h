@@ -2,9 +2,11 @@
 /** Utility library: contains classes that oftenly used */
 // 
 
+
 #ifndef __mulch__Utility_h__
 #define __mulch__Utility_h__
-
+#include "Database.h"
+#include <iostream>
 #include <string>
 #include <map>
 #include <vector>
@@ -26,8 +28,27 @@ class Utility
 		These characters might create errors when writing complicated queries.
 		**/
 		static void protectsql(std::string &query);
-		static bool isNull(std::string &arg);
+		static bool isNull(const std::string &arg);
+		static int fromNullToZero(std::string id);
+		void zeroToNull(int var);
+
+
 };
+
+
+inline std::ostream &operator<<(std::ostream& stream, const mulch::Result& r)
+{
+	// this will be called whenever you do the following
+
+	for (auto it = r.begin(); it != r.end(); it++)
+	{
+		stream << it->first << " " << it->second <<std::endl;
+	}
+
+	return stream;
+}
+
+
 
 #endif
 

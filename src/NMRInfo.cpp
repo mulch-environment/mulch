@@ -23,9 +23,18 @@ std::string NMRInfo::updateQuery()
 std::string NMRInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT nmr_info_id FROM NMRInfo";
+	query = "SELECT * FROM NMRInfo WHERE nmr_info_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
 }
 
+/// ------------------ RETRIEVING STUFF -----------------------
+
+NMRInfo* NMRInfo::nmrByPrimaryId(int id, Database *db)
+{
+	NMRInfo *nmrInfo = new NMRInfo();
+	nmrInfo->retrieveExisting(id, db);
+	return nmrInfo;
+}

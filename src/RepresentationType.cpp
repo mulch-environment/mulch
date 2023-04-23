@@ -157,7 +157,6 @@ void RepresentationType::setRepType(RepresentationEnum rep)
 
 };
 
-
 void RepresentationType::setFileName(std::string pdbName)
 {	
 	if  (_atomicModelInfo!=nullptr)
@@ -166,12 +165,95 @@ void RepresentationType::setFileName(std::string pdbName)
 	}
 }
 
+/// ------------------ RETRIEVING STUFF -----------------------
+
 RepresentationType* RepresentationType::representationTypeByPrimaryId(int id, Database *db)
 {
 	RepresentationType *representationType = new RepresentationType();
 	representationType->retrieveExisting(id, db);
+	return representationType;
 }
 
+void RepresentationType::retrieveDependencies(Result &res, Database *db)
+{
+	std::string atomic_id = AtomicModelInfo::staticSqlIDName();
+	std::string bond_id = BondBasedModelInfo::staticSqlIDName();
+	std::string cg_id = CoarseGrainingModelInfo::staticSqlIDName();
+	std::string ensembl_id = EnsembleRefineInfo::staticSqlIDName();
+
+	if (!Utility::isNull(res[atomic_id]))
+	{
+		std::cout << "Retrieving from RepresentationType->AtomicModelInfo \n" << std::endl;
+		delete _atomicModelInfo;
+
+		std::cout << "res[atomic_id] = " + res[atomic_id] << std::endl;
+		_atomicModelInfo = AtomicModelInfo::atomicModelByPrimaryId(std::stoi(res[atomic_id]), db);
+	}
+	else if (!Utility::isNull(res[bond_id]))
+	{
+		std::cout << "Retrieving from RepresentationType->BondBasedModelInfo \n" << std::endl;
+		delete _bondBasedModelInfo;
+
+		std::cout << "res[atomic_id] = " + res[bond_id] << std::endl;
+		_bondBasedModelInfo = BondBasedModelInfo::bondModelByPrimaryId(std::stoi(res[bond_id]), db);	
+	}
+	else if (!Utility::isNull(res[cg_id]))
+	{
+		std::cout << "Retrieving from RepresentationType->CoarseGrainingModelInfo \n" << std::endl;
+		delete _coarseGrainingModelInfo;
+		
+		
+		std::cout << "res[cg_id] = " + res[cg_id] << std::endl;
+		_coarseGrainingModelInfo = CoarseGrainingModelInfo::cgModelByPrimaryId(std::stoi(res[cg_id]), db);
+
+	}
+	else if (!Utility::isNull(res[ensembl_id]))
+	{
+		std::cout << "Retrieving from RepresentationType->EnsembleRefineInfo \n" << std::endl;
+		delete _ensembleRefineInfo;
+
+		std::cout << "res[ensembl_id] = " + res[ensembl_id] << std::endl;
+		_ensembleRefineInfo = EnsembleRefineInfo::ensembleByPrimaryId(std::stoi(res[ensembl_id]), db);
+		
+	}
+	else
+	{
+		std::cout << res << std::endl;
+		throw std::runtime_error("Can't retrieving dependencies for RepresentationType: no representation type");
+	}
+
+}
+
+void RepresentationType::fillInFromResults(const Result &res) 
+{
+
+	std::string atomic_id = AtomicModelInfo::staticSqlIDName();
+	std::string bond_id = BondBasedModelInfo::staticSqlIDName();
+	std::string cg_id = CoarseGrainingModelInfo::staticSqlIDName();
+	std::string ensembl_id = EnsembleRefineInfo::staticSqlIDName();
+
+	if (!Utility::isNull(res.at(atomic_id)))
+	{
+		_atomicModelInfo = new AtomicModelInfo();
+		_atomicModelInfo->getPidFromResults(res);
+	}
+	
+	if (!Utility::isNull(res.at(bond_id)))
+	{
+		_bondBasedModelInfo = new BondBasedModelInfo();
+		_bondBasedModelInfo->getPidFromResults(res);
+	} 
+	
+	if (!Utility::isNull(res.at(cg_id)))
+	{
+		_coarseGrainingModelInfo->getPidFromResults(res);
+	}
+
+	if (!Utility::isNull(res.at(ensembl_id)))
+	{
+		_ensembleRefineInfo->getPidFromResults(res);
+	}
+}
 
 
 // ~RepresentationType() {

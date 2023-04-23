@@ -8,10 +8,10 @@
 
 namespace mulch
 {
-	class DataNMRInfo: public Object
+	class NMRDataInfo: public Object
 	{
 	public:
-		DataNMRInfo();
+		NMRDataInfo();
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();

@@ -1,21 +1,21 @@
 // RepresentationType.cpp
 
-#include "DataNMRInfo.h"
+#include "NMRDataInfo.h"
 using namespace mulch;
 
-DataNMRInfo::DataNMRInfo()
+NMRDataInfo::NMRDataInfo()
 {
 
 }
 
-std::string DataNMRInfo::insertQuery()
+std::string NMRDataInfo::insertQuery()
 {
 	std::string query;
-	query = "INSERT INTO DataNMRInfo DEFAULT VALUES;";
+	query = "INSERT INTO NMRDataInfo DEFAULT VALUES;";
 	return query;
 }
 
-std::string DataNMRInfo::updateQuery()
+std::string NMRDataInfo::updateQuery()
 {
 	return "";
 }

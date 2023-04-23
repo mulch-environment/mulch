@@ -37,16 +37,9 @@ void Utility::protectsql(std::string &query)
 	}
 }
 
-bool isNull(std::string &str_input)
+bool Utility::isNull(const std::string &str_input)
 {
-	if (str_input == "__NULL__")
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (str_input == "__NULL__");
 }
 
 std::string Utility::boolToString(bool input) 
@@ -56,13 +49,26 @@ std::string Utility::boolToString(bool input)
 }
 
 
+int Utility::fromNullToZero(std::string id)
+{
+	if (isNull(id))
+	{
+		std::cout << "NOTE: the table id is NULL, return 0" << std::endl;
+		return 0;
+	}
+	else 
+	{
+		return std::stoi(id);
+	}
+}
 
-
-
-
-
-
-
+void Utility::zeroToNull(int var) 
+{
+    if (var == 0) 
+    {
+      var = NULL;
+    }
+}
 
 
 

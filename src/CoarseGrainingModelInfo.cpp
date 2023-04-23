@@ -1,6 +1,7 @@
 // StructureTechniqueInfo.cpp
 #include <iostream>
 #include "CoarseGrainingModelInfo.h"
+#include "MulchExceptions.h"
 using namespace mulch;
 
 CoarseGrainingModelInfo::CoarseGrainingModelInfo()
@@ -39,3 +40,20 @@ std::string CoarseGrainingModelInfo::selectPidQuery()
 	Utility::protectsql(query);
 	return query;
 }
+
+void CoarseGrainingModelInfo::setComments(std::string comments)
+{
+	MulchExceptions::FileNameIsNone(_comments);
+	_comments = comments;
+	std::cout<< _comments<<std::endl;
+};
+
+/// ------------------ RETRIEVING STUFF -----------------------
+CoarseGrainingModelInfo* CoarseGrainingModelInfo::cgModelByPrimaryId(int id, Database *db)
+{
+    CoarseGrainingModelInfo *coarseGrainingModelInfo = new CoarseGrainingModelInfo();
+    coarseGrainingModelInfo->retrieveExisting(id, db); // use the instance pointer
+    return coarseGrainingModelInfo; // return the instance pointer
+}
+
+

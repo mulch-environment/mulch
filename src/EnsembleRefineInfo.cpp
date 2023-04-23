@@ -1,6 +1,7 @@
 // StructureTechniqueInfo.cpp
 
 #include "EnsembleRefineInfo.h"
+#include "MulchExceptions.h"
 using namespace mulch;
 
 EnsembleRefineInfo::EnsembleRefineInfo()
@@ -37,3 +38,19 @@ std::string EnsembleRefineInfo::selectPidQuery()
 
 	return query;
 }
+
+void EnsembleRefineInfo::setComments(std::string comments)
+{
+	MulchExceptions::FileNameIsNone(_comments);
+	_comments = comments;
+	std::cout<< _comments<<std::endl;
+};
+
+/// ------------------ RETRIEVING STUFF -----------------------
+EnsembleRefineInfo* EnsembleRefineInfo::ensembleByPrimaryId(int id, Database *db)
+{
+    EnsembleRefineInfo *ensembleRefineInfo = new EnsembleRefineInfo();
+    ensembleRefineInfo->retrieveExisting(id, db); // use the instance pointer
+    return ensembleRefineInfo; // return the instance pointer
+}
+

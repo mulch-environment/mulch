@@ -32,5 +32,14 @@ std::string CrystalQualityData::selectPidQuery()
 	return query;
 }
 
+/// ------------------ RETRIEVING STUFF -----------------------
+CrystalQualityData* CrystalQualityData::crystQualDataByPrimaryId(int id, Database *db)
+{
+	CrystalQualityData *crystQualityData = new CrystalQualityData();
+	crystQualityData->retrieveExisting(id, db);
+	return crystQualityData;
+}
 
+
+ 
 

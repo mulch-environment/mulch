@@ -23,9 +23,18 @@ std::string BondBasedModelInfo::updateQuery()
 std::string BondBasedModelInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT bondbased_model_id FROM BondBasedModelInfo";
+	query = "SELECT * FROM BondBasedModelInfo";
 	query += ";";
 
 	return query;
 }
+
+/// ------------------ RETRIEVING STUFF -----------------------
+BondBasedModelInfo* BondBasedModelInfo::bondModelByPrimaryId(int id, Database *db)
+{
+	BondBasedModelInfo *bondBasedModelInfo = new BondBasedModelInfo();
+	bondBasedModelInfo->retrieveExisting(id, db);
+	return bondBasedModelInfo;
+}
+
 

@@ -23,8 +23,16 @@ std::string TLSParametersInfo::updateQuery()
 std::string TLSParametersInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT tlsparameters_id FROM TLSParametersInfo";
+	query = "SELECT * FROM TLSParametersInfo";
 	query += ";";
 
 	return query;
+}
+
+/// ------------------ RETRIEVING STUFF -----------------------
+TLSParametersInfo* TLSParametersInfo::TLSByPrimaryId(int id, Database *db)
+{
+	TLSParametersInfo *tlsParametersInfo = new TLSParametersInfo();
+	tlsParametersInfo->retrieveExisting(id, db);
+	return tlsParametersInfo;
 }

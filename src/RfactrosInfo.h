@@ -18,13 +18,16 @@ namespace mulch
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
-		virtual void updateDependencies(Database *db);
-	private:
+		virtual void updateDependenciesBefore(Database *db);
 		virtual std::string sqlIdName()
 		{
+			return staticSqlIDName(); 	
+		};
+		static std::string staticSqlIDName()
+		{
 			return "rfactors_id";
-		}
-
+		};
+	private:
 		ModelDataPair* _modelDataPair = nullptr;
 
 	};

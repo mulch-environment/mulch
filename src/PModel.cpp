@@ -1,5 +1,4 @@
 // PModel.cpp
-
 #include <typeinfo>
 #include <string>
 #include <iostream>
@@ -64,7 +63,6 @@ std::string PModel::selectPidQuery()
 	query += std::to_string(primaryId());
 	query += ";";
 
-
 	return query;
 }
 
@@ -125,7 +123,6 @@ PModel* PModel::modelByPrimaryId(int id, Database *db)
 {
 	PModel *model = new PModel();
 	model->retrieveExisting(id, db);
-
 }
 
 void PModel::retrieveDependencies(Result &res, Database *db)
@@ -138,17 +135,63 @@ void PModel::retrieveDependencies(Result &res, Database *db)
 	std::string str_id =  StructureTechniqueInfo::staticSqlIDName();
 	std::cout << "res[rep_id] = " + res[rep_id] << std::endl;
 	std::cout << "res[str_id] = " + res[str_id] << std::endl;
-	// _representationType = RepresentationType::representationTypeByPrimaryId(res[rep_id], db);
-	// _structureTechniqueInfo = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(res[str_id], db);
+	_representationType = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
+	_structureTechniqueInfo = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
 }
 
 void PModel::fillInFromResults(const Result &res) 
 {
     // std::cout << typeid(res).name() << std::endl;
-    // _comments = res["comments"];
+    _comments = res.at("comments");
     _representationType->getPidFromResults(res);
     _structureTechniqueInfo->getPidFromResults(res);
 }
+
+// std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
+// {
+// 	PModel* model = modelByPrimaryId(pid, db);
+// 	std::cout << "Retrieving values from Database" << std::endl;
+// 	std::cout << "Model_id = " << pid << std::endl;	
+// 	std::vector<Result> retrieved_res = db->results();
+// 	// std::cout << retrieved_res << std::endl;
+// 	for (const auto& res : retrieved_res) 
+// 	{
+//     	std::cout << "Result:" << std::endl;
+//     	for (const auto& kv : res) 
+//     	{
+//     		if (Utility::isNull(kv.second)) 
+//     		{
+//     			kv.second = std::string("Not yet assigned");
+//     		}
+//         	std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
+//     	}
+// 	}
+//     return retrieved_res;
+// }
+
+std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
+{
+    PModel* model = modelByPrimaryId(pid, db);
+    std::cout << "Retrieving values from Database" << std::endl;
+    std::cout << "Model_id = " << pid << std::endl;    
+    std::vector<Result> retrieved_res = db->results();
+    // std::cout << retrieved_res << std::endl;
+    for (auto& res : retrieved_res) 
+    {
+        std::cout << "Results from Model:" << std::endl;
+        for (auto& kv : res) 
+        {
+            if (Utility::isNull(kv.second)) 
+            {
+                std::string temp = std::string("Not yet assigned");
+                kv.second = temp;
+            }
+            std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
+        }
+    }
+    return retrieved_res;
+}
+
 
 
 
@@ -181,14 +224,5 @@ std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db
 	}
 	return models;
 }
-
-// void PModel::retrieveDependencies(Database *db)
-// {
-// 	// send that representationType to the database
-// 	_representationType->updateDatabase(db);
-// 	_structureTechniqueInfo->updateDatabase(db);
-	
-// }
-
 
 

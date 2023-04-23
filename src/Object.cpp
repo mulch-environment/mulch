@@ -5,10 +5,6 @@
 #include "Utility.h"
 using namespace mulch;
 
-// Object::Object()
-// {
-
-// }
 
 void Object::initialInsert(Database *db)
 {
@@ -36,27 +32,13 @@ void Object::updateExisting(Database *db)
 
 void Object::selectExisting(Database *db)
 {
-	// DEBUGGING
-	// --> previous
-	// if (primaryId() < 0)
-	// {
-	// 	throw std::runtime_error("negative pid");
-	// }
-
-	// std::string query = selectPidQuery(); 
-	// std::cout << query << std::endl;
-	// db->query(query);
-
-	//---> now (10.04.2023)
 	if (primaryId() < 0)
 	{
 		_pid = _tableId;
 	}
-
 	std::string query = selectPidQuery(); 
 	std::cout << query << std::endl;
 	db->query(query);
-
 }
 
 
@@ -75,6 +57,7 @@ void Object::updatePid(Database *db)
 void Object::getPidFromResults(const Result &res)
 {
 	std::string nameofID = sqlIdName();
+	std::cout << nameofID << std::endl;
 	// std::cout << res[nameofID] << std::endl;
 	int name_pid = atoi(res.at(nameofID).c_str());
 
@@ -127,11 +110,19 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
     setPrimaryId(pid);
     selectExisting(db);
     std::vector<Result> results = db->results();
-
-    // Call fillInFromResults on each element of the vector
-    for (const auto& res : results) {
-        fillInFromResults(res);
+    if (results.size() == 0)
+    {
+        throw std::runtime_error("While retrieveExisting: no existing value in the table");
     }
+    else
+    {
+    // Call fillInFromResults on each element of the vector
+	    std::cout << "Number of results: " << results.size() << std::endl;
+	    for (const auto& res : results) 
+	    {
+	        fillInFromResults(res);
+	    }
+	}
 
     // Combine the results into a single mulch::Result object
     mulch::Result combinedResult;
@@ -140,7 +131,6 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
             combinedResult[kvp.first] = kvp.second;
         }
     }
-
     retrieveDependencies(results[0] , db);
 
     return combinedResult;

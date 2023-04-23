@@ -1,17 +1,17 @@
 // Object (mirrored from database)
 
 
-#ifndef __mulch__DataCryoEMInfo_h__
-#define __mulch__DataCryoEMInfo_h__
+#ifndef __mulch__CryoEMDataInfo_h__
+#define __mulch__CryoEMDataInfo_h__
 
 #include "Object.h"
 
 namespace mulch
 {
-	class DataCryoEMInfo: public Object
+	class CryoEMDataInfo: public Object
 	{
 	public:
-		DataCryoEMInfo();
+		CryoEMDataInfo();
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();

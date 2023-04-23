@@ -3,7 +3,6 @@
 #include "AtomicModelInfo.h"
 #include "TLSParametersInfo.h"
 #include "MulchExceptions.h"
-
 using namespace mulch;
 
 AtomicModelInfo::AtomicModelInfo()
@@ -36,8 +35,10 @@ std::string AtomicModelInfo::updateQuery()
 std::string AtomicModelInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT * FROM AtomicModelInfo";
+	query = "SELECT * FROM AtomicModelInfo where atomic_model_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
+	Utility::protectsql(query);
 
 	return query;
 }
@@ -59,5 +60,29 @@ void AtomicModelInfo::setFileName(std::string pdbName)
 	std::cout<< _pdbCode<<std::endl;
 };
 
+/// ------------------ RETRIEVING STUFF -----------------------
+AtomicModelInfo* AtomicModelInfo::atomicModelByPrimaryId(int id, Database *db)
+{
+	AtomicModelInfo *atomicModelInfo = new AtomicModelInfo();
+	atomicModelInfo->retrieveExisting(id, db);
+	return atomicModelInfo;
+}
+
+void AtomicModelInfo::retrieveDependencies(Result &res, Database *db)
+{
+
+	delete _tlsParametersInfo;
+	std::string tls_id = TLSParametersInfo::staticSqlIDName();
+	std::cout << "res[tls_id] = " + res[tls_id] << std::endl;
+	_tlsParametersInfo = TLSParametersInfo::TLSByPrimaryId(std::stoi(res[tls_id]), db);
+	
+}
+
+void AtomicModelInfo::fillInFromResults(const Result &res) 
+{
+    // std::cout << typeid(res).name() << std::endl;
+    _comments = res.at("comments");
+    _tlsParametersInfo->getPidFromResults(res);
+}
 
 

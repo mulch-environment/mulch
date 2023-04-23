@@ -12,16 +12,22 @@ namespace mulch
 	{
 	public:
 		CoarseGrainingModelInfo();
+		virtual void setComments(std::string comments);
+		static CoarseGrainingModelInfo* cgModelByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName()
+		{
+			return staticSqlIDName(); 	
+		}
+		static std::string staticSqlIDName()
+		{
+			return "coarsegraining_model_id";
+		}
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 	private:
 		std::string _comments = "No comments yet";
-		virtual std::string sqlIdName()
-		{
-			return "coarsegraining_model_id";
-		}
 	};
 }
 

@@ -13,17 +13,36 @@ namespace mulch
 	{
 	public:
 		DataNMRInfo();
+		static DataNMRInfo* NmrInfoByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName()
+		{
+			return staticSqlIDName(); 	
+		};
+		static std::string staticSqlIDName()
+		{
+			return "data_nmr_info_id";
+		};
+		// SETTER
+		virtual void setComments(std::string comments)  
+		{
+			_comments = comments;
+		}
+		// GETTERS 
+		virtual const std::string &getComments() const
+		{
+			return _comments;
+		};
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 		virtual void updateDependenciesBefore(Database *db);
+		virtual void retrieveDependencies(Result &res, Database *db);
+		virtual void fillInFromResults(const Result &res);
+
 	private:
-		virtual std::string sqlIdName()
-		{
-			return "data_nmr_info_id";
-		}
 		NMRQualityData* _nmrQualityData = nullptr;
+		std::string _comments = "No comments yet";
 	};
 }
 

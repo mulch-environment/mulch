@@ -13,15 +13,20 @@ namespace mulch
 	{
 	public:
 		CrystalQualityData();
+		static CrystalQualityData* crystQualDataByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName()
+		{
+			return staticSqlIDName();
+		};
+		static std::string staticSqlIDName()
+		{
+			return "crystalqualitydata_id";
+		};
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
-	private:
-		virtual std::string sqlIdName()
-		{
-			return "crystalqualitydata_id";
-		}		
+	private:	
 	};
 }
 

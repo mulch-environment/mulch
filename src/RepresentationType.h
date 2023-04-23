@@ -24,6 +24,11 @@ namespace mulch
 		virtual void setFileName(std::string pdbName);
 		// static void representationTypeByPrimaryId(std::string rep_id, Database *db);
 		static RepresentationType* representationTypeByPrimaryId(int id, Database *db);
+		virtual void retrieveDependencies(Result &res, Database *db);
+		virtual std::string sqlIdName()
+		{
+			return staticSqlIDName(); 	
+		}
 		static std::string staticSqlIDName()
 		{
 			return "representation_type_id";
@@ -33,14 +38,10 @@ namespace mulch
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 		virtual void updateDependenciesBefore(Database *db);
+		virtual void fillInFromResults(const Result &res);
 		std::string updateRepType(std::string repTypeIdName, int repTypeIdValue);
 
 	private:
-		virtual std::string sqlIdName()
-		{
-			return "representation_type_id";
-		}
-
 		RepresentationEnum _type = NoneRepresentation;
 		AtomicModelInfo* _atomicModelInfo = nullptr;
 		BondBasedModelInfo* _bondBasedModelInfo = nullptr;

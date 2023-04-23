@@ -26,8 +26,17 @@ std::string NMRQualityData::updateQuery()
 std::string NMRQualityData::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT nmrqualitydata_id FROM NMRQualityData";
+	query = "SELECT * FROM NMRQualityData WHERE nmrqualitydata_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
+}
+
+/// ------------------ RETRIEVING STUFF -----------------------
+NMRQualityData* NMRQualityData::NMRQualDataByPrimaryId(int id, Database *db)
+{
+	NMRQualityData *nmrQualityData = new NMRQualityData();
+	nmrQualityData->retrieveExisting(id, db);
+	return nmrQualityData;
 }

@@ -3,9 +3,8 @@
 
 #ifndef __mulch__PData_h__
 #define __mulch__PData_h__
-
+#include <iostream>
 #include "Object.h"
-#include "Data.h"
 
 namespace mulch
 {
@@ -18,18 +17,13 @@ namespace mulch
 		PData();
 		static std::string selectQueryDataByInfo(DataEnum dat);
 		virtual void setDataInfo(DataEnum dat);
-		virtual void setFileName(std::string fileName);
-		virtual const std::string &getFileName() const
-		{
-			 return _fileData;
-		};
-
-
+		static PData* dataByPrimaryId(int id, Database *db);
+		static std::vector<Result> showRetrievedValues(int pid, Database *db);
+		virtual void setFileName(std::string fileData);
 		virtual std::string sqlIdName()
 		{
 			return staticSqlIDName(); 	
 		};
-
 		static std::string staticSqlIDName()
 		{
 			return "data_id";
@@ -39,28 +33,31 @@ namespace mulch
 		{
 			_comments = comments;
 		};
+		
+
+		// Getters //
 		virtual const std::string &getComments() const
 		{
 			return _comments;
+		};
+		virtual const std::string &getFileName() const
+		{
+			 return _fileData;
 		};
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
+		virtual void retrieveDependencies(Result &res, Database *db);
 		virtual void updateDependenciesBefore(Database *db);
-		virtual void retrieveDependencies(Database *db);
 		virtual void fillInFromResults(const Result &res);
-
-
 	private:
 		DataEnum _datInfo = NoneData;
-		std::string _fileData;
-		
 		DataNMRInfo *_dataNMRInfo = nullptr;
-		DataCrystallographicInfo *_dataCrystallographicDataInfo = nullptr;
+		DataCrystallographicInfo *_dataCrystallographicInfo = nullptr;
 		DataCryoEMInfo *_dataCryoEMInfo = nullptr;
-		std::string _comments = "blah";
-
+		std::string _fileData = "No data file yet";
+		std::string _comments = "No comments yet";
 	};
 }
 

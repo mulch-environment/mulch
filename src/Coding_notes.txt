@@ -1,0 +1,99 @@
+Notes while coding:
+
+----------
+11.04.2023
+----------
+The way the PModel:modelByPrimaryId(--wanted id number---, database), returns what's inside the PModel for a certain ID
+
+I want instead of returning what inside model, to retrun what inside the dependencies, i.e. representationType and  strucutreTechnique
+
+constructor/descruptor 
+-- For the Warning (inheretge etc)
+	-- the descrucotr ~PModel must virtual 
+
+
+-- Put 	
+virtual std::string sqlIdName()
+{
+	return staticSqlIDName(); 	
+}
+to Object, bevause is Used to every retrieving
+
+
+-- Need to INSERT something to BondBase and Coarsegrain so you can test stuff
+
+----------
+13.04.2023
+----------
+-- INSERT something to BondBase and Coarsegrain so you can test stuff
+-- what did we change last time so we can print stuff from res?
+-- add the Utility::checkIfEmpty to the other as well
+	- is it same to return zero? 
+	- maybe instead of return zeor it should break?
+-- Continue with retirveal: PData 
+
+----------
+17.04.2023
+----------
+-- What if I wan tto retrivev the rest, even thought this particular one doesn't exist?
+--structuretechnique and repretype have different, but equally correct implementation of 
+retrieveDependencies. Just need to keep only one of them. 
+-- I removed wht i have wrote in the RepresentationType::fillInFromResults. I don't 
+know if it right as it is at the moment, I need to rethink about this. Same goes for 
+PData::fillInFromResults
+--std::string PData::selectQueryDataByInfo(DataEnum dat), in line 78: the selectQuery mmust be ast
+the one in the last commit. Check that and correct
+-- void RepresentationType::fillInFromResults(const Result &res) doesn't nmeed to be there 
+apparently
+-- for tomorrow: build DataCryoEMInfo::atomicModelByPrimaryId(std::stoi(res[datCryo_id]), db);
+etc and make some tests
+-- I removed setDataInfo() form PData.h cause it was causing a liner error, but 
+it should be on the latest commit, so got and add that back 
+-- write RetrieveByDatInfo in PData 
+-- there is a contrain in data: you can only have one kind of data at times
+
+----------
+18.04.2023
+----------
+-- Rewrite StructureTechniqueInfo::retrieveDependencies  with the "format" of PData
+-- retriveing for maps: result.at("comments")
+-- make some test to retrievign e.g. pdf name from files
+-- use the insert template you have made
+-- write the "fillInFromResults" to other if it's missing 
+
+----------
+19.04.2023
+----------
+-- There is an issue with nmrqualityData and the dependencies on this one, so for now i removed the dependencies. it runs smoothly.
+-- I should fill up the dataabase with inserts 
+
+----------
+20.04.2023
+----------
+-- Find a correct way to present the results 
+-- continue with the cascade of PDat
+-- PRESENTATION
+
+
+-- Make a Utility  (or maybe just in model or Pmodel):
+	-- std::cout << model << std::endl;
+-- and ModelDataPair to the retrieve cascade 
+-- !!!!!!templating!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

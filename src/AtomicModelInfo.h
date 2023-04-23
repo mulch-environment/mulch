@@ -14,6 +14,16 @@ namespace mulch
 	public:
 		AtomicModelInfo();
 		virtual void setFileName(std::string pdbName);
+		static AtomicModelInfo* atomicModelByPrimaryId(int id, Database *db);
+		virtual void retrieveDependencies(Result &res, Database *db);
+		virtual std::string sqlIdName()
+		{
+			return staticSqlIDName(); 	
+		}
+		static std::string staticSqlIDName()
+		{
+			return "atomic_model_id";
+		}
 		virtual const std::string &getPDBCode() const
 		{
 			 return _pdbCode;
@@ -24,14 +34,11 @@ namespace mulch
 		virtual std::string updateQuery();
 		virtual std::string selectPidQuery();
 		virtual void updateDependenciesBefore(Database *db);
+		virtual void fillInFromResults(const Result &res);
 	private:
 		std::string _pdbCode;
-		virtual std::string sqlIdName()
-		{
-			return "atomic_model_id";
-		}
-
 		TLSParametersInfo* _tlsParametersInfo = nullptr;
+		std::string _comments = "No comments yet";
 
 	};
 }

@@ -23,8 +23,22 @@ std::string CrystallographicInfo::updateQuery()
 std::string CrystallographicInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT crystallographic_info_id FROM CrystallographicInfo";
+	query = "SELECT * FROM CrystallographicInfo WHERE crystallographic_info_id =";
+	query += std::to_string(primaryId());
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
 }
+
+
+/// ------------------ RETRIEVING STUFF -----------------------
+
+CrystallographicInfo* CrystallographicInfo::crystallographicInfoByPrimaryId(int id, Database *db)
+{
+	CrystallographicInfo *crystallographicInfo = new CrystallographicInfo();
+	crystallographicInfo->retrieveExisting(id, db);
+	return crystallographicInfo;
+}
+
+
+
