@@ -32,10 +32,8 @@ std::string CryoEMInfo::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-
-CryoEMInfo* CryoEMInfo::cryoByPrimaryId(int id, Database *db)
+std::pair<CryoEMInfo*, int> CryoEMInfo::cryoByPrimaryId(int id, Database *db)
 {
-	CryoEMInfo *cryoEMInfo = new CryoEMInfo();
-	cryoEMInfo->retrieveExisting(id, db);
-	return cryoEMInfo;
+    return Cache<CryoEMInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
+

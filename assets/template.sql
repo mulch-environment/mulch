@@ -50,8 +50,6 @@ CREATE TABLE "RepresentationType"(
                    )
 );
 
-
-
 CREATE TABLE "StructureTechniqueInfo"(
   structure_technique_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   crystallographic_info_id INTEGER,
@@ -179,10 +177,10 @@ CREATE TABLE "Data"(
 CREATE TABLE "DataNMRInfo"(
   data_nmr_info_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   comments VARCHAR,
-  "NMRQualityData_nmrqualitydata_id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  "nmrqualitydata_id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   CONSTRAINT "NMRDataInfo_ak_1" UNIQUE(data_nmr_info_id),
   CONSTRAINT "NMRQualityData_DataNMRInfo"
-    FOREIGN KEY ("NMRQualityData_nmrqualitydata_id")
+    FOREIGN KEY ("nmrqualitydata_id")
       REFERENCES "NMRQualityData" (nmrqualitydata_id)
 );
 

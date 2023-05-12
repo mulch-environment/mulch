@@ -152,20 +152,6 @@ void Object::persist()
 }
 
 
-// void Object::retrieveFromResult(const mulch::Result &res, Database *db)
-// {
-// 	std::string nameId = sqlIdName();
-// 	// debug 
-// 	for (const auto& [key, value] : res) 
-// 	{
-//         std::cout << "Key: " << key << ", Value: " << value << std::endl;
-//     }
-
-// 	int pid = std::stoi(res.at(nameId));
-
-// 	setPrimaryId(pid);
-// 	fillInFromDatabase(res, db);
-// }
 void Object::retrieveFromResult(const mulch::Result &res, Database *db)
 {
     std::string nameId = sqlIdName();

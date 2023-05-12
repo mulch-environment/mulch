@@ -8,14 +8,15 @@
 #include "Database.h"
 #include "EnumTables.h"
 #include "Utility.h"
+#include "Cache.h"
 namespace mulch
 {
 	class Database;
 
 	class Object
 	{
-	public:
-
+	public: 
+		virtual ~Object() {}
 		/* primaryId: returns the primary ID of a table **/
 		const int &primaryId() const
 		{
@@ -24,8 +25,14 @@ namespace mulch
 
 		virtual void setPrimaryId(int current_id)  
 		{
-			_tableId = current_id;
+			_pid = current_id;
 		}
+
+	    virtual std::pair<Object*, int> objectByPrimaryId(int id, Database* db) 
+	    {
+	        throw std::runtime_error("objectByPrimaryId is not implemented");
+	    }		
+
 
 		/* alreadyInDatabase: _pid initial default value is set to -1. 
 		Rerurn only if the _pid is no longer -1 (>0)
@@ -92,6 +99,7 @@ namespace mulch
 		void persist();
 
 
+
 	protected:
 		/* updatePid(Database *db):
 		Query that updates the table. It will be an UPDATE sqlite3 query in most cases.
@@ -103,13 +111,9 @@ namespace mulch
 		Handling INSERT, UPDATE, SELECT queries. 
 		Defined inside each of the Object-table cpp file. 
 		**/
-		virtual std::string insertQuery() = 0;
-		virtual std::string updateQuery() = 0;
-		virtual std::string selectPidQuery() = 0;
-		// {
-		// 	return "";
-		// } 
-
+		virtual std::string insertQuery() { return ""; };
+		virtual std::string updateQuery() { return ""; };
+		virtual std::string selectPidQuery() { return ""; };
 		/* updateDependenciesBefore:
 		update tables dependencies when inserting data to table in the Database, 
 		retrieveDependencies:
@@ -127,7 +131,7 @@ namespace mulch
 		fillInFromResults: 
 		Fill the columns of the Object table with the data you retrieved from the Database.
 		**/
-		virtual std::string sqlIdName() = 0;
+		virtual std::string sqlIdName() {return "";};
 
 	private:
 		/* queryLastId:
