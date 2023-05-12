@@ -23,6 +23,17 @@ namespace mulch
 		void setFile(std::string pdbName);
 		void setDataFile(std::string datafile);
 		void setDataType(DataEnum datatype);
+		static std::pair<ModelDataPair*, int> modelDataPairByPrimaryId(int id, Database *db);
+
+		virtual std::string sqlIdName() 
+		{
+			return staticSqlIDName(); 	
+		}
+		static std::string staticSqlIDName()
+		{
+			return "modeldatapair_id";
+		}
+		
 		std::vector<PModel*> retrieveModelByType(RepresentationEnum rep, Database *db);
 
 		// setters for Model columns
@@ -74,19 +85,14 @@ namespace mulch
 		// 	_model->getDataType();
 		//     return _datatype;
 		// }
-
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		// std::string updateMDP(std::string mdpType, int mdpTypeId);
 
 	private:
-		virtual std::string sqlIdName()
-		{
-			return "modeldatapair_id";
-		}
 		ModelDataPairEnum _hasmd = NoneModelDataPair;
 		PModel *_model = nullptr;
 		PData *_data = nullptr;

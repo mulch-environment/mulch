@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Object.h"
 #include "Model.h"
+#include "Cache.h"
 
 namespace mulch
 {
@@ -24,9 +25,12 @@ namespace mulch
 		virtual void setRepType(RepresentationEnum rep);
 		virtual void setFileName(std::string pdbName);
 		std::vector<PModel*> retrieveByType(RepresentationEnum rep, Database *db);
-		static PModel* modelByPrimaryId(int id, Database *db);
+		static std::pair<PModel*, int> modelByPrimaryId(int id, Database *db);
 		static std::vector<Result> showRetrievedValues(int pid, Database *db);
-
+		// std::pair<PModel*, int> objectByPrimaryId(int id, Database* db)  
+		// {
+  //       	return Cache<PModel>::cacheByPrimaryId(id, db);
+  //   	}
 		virtual std::string sqlIdName()
 		{
 			return staticSqlIDName(); 	
@@ -54,32 +58,28 @@ namespace mulch
 			_creationDate = creationDate;
 		}
 		// GET the values from the columns in the Model table
-		virtual const std::string &getComments() const
+		virtual const std::string &getComments() const 
 		{
 			return _comments;
 		};
-		virtual const std::string &getPdbName() const
+		virtual const std::string &getPdbName() const 
 		{
 			return _pdbName;
 		};
-		virtual const std::string &getHasPdb() const
+		virtual const std::string &getHasPdb() const 
 		{
 			return _hasPdb;
 		};
-		virtual const Date &getDate() const
+		virtual const Date &getDate() const 
 		{
 			return _creationDate;
 		};
-		// virtual	RepresentationEnum* getRepType()
-		// {
-		// 	if (_representationType != nullptr)
-		// 	{
-		// 		return _representationType;
-		// 	}
-		// 	else return new RepresentationEnum(); // or return nullptr, depending on your needs
 
-		// };
-
+		std::pair<Object*, int> objectByPrimaryId(int id, Database* db)
+		{
+		    auto pair = Cache<PModel>::cacheByPrimaryId(id, db);
+		    return std::make_pair(static_cast<Object*>(pair.first), pair.second);
+		}
 	protected:
 		// static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual std::string insertQuery();

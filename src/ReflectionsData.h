@@ -13,17 +13,22 @@ namespace mulch
 	{
 	public:
 		ReflectionsData();
-	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
-		virtual void updateDependenciesBefore(Database *db);
-	private:
-		virtual std::string sqlIdName()
+		static std::pair<ReflectionsData*, int> reflectDataByPrimaryId(int id, Database *db);
+
+		virtual std::string sqlIdName() 
+		{
+			return staticSqlIDName(); 	
+		};
+		static std::string staticSqlIDName()
 		{
 			return "reflectionsdata_id";
-		}
-
+		};
+	protected:
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
+		virtual void updateDependenciesBefore(Database *db);
+	private:
 		DataCrystallographicInfo* _dataCrystallographicInfo = nullptr;
 
 	};

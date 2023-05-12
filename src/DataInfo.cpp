@@ -13,7 +13,7 @@ DataInfo::DataInfo()
 	_cryoEMDataInfo = CryoEMDataInfo();
 }
 
-std::string Model::insertQuery()
+std::string DataInfo::insertQuery()
 {	
 	std::string query;
 	query = "INSERT INTO Data (nmrdatainfo_ID, crystallographic_data_info_ID) VALUES";
@@ -26,14 +26,14 @@ std::string Model::insertQuery()
 	return query;
 }
 
-std::string Data::insertQuery()
+std::string DataInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO Data DEFAULT VALUES;";
 	return query;
 }
 
-std::string Data::updateQuery()
+std::string DataInfo::updateQuery()
 {
 	query = "UPDATE Data SET comments = 'blahblah' WHERE Data_ID = 5";
 	query += std::to_string(primaryId());
@@ -41,7 +41,7 @@ std::string Data::updateQuery()
 	return "";
 }
 
-void Data::updateDependencies(Database *db)
+void DataInfo::updateDependencies(Database *db)
 {
 	// send that representationType to the database
 	_nmrDataInfo->updateDatabase(db);
@@ -50,10 +50,28 @@ void Data::updateDependencies(Database *db)
 }
 
 
-DataInfo Data::dataInfoFromResult(const Result &res)
+DataInfo DataInfo::dataInfoFromResult(const Result &res)
 {
 	Model exportedDataInfo;
 	int pid = atoi(res.at("dataInfo_id").c_str());
 	exportedDataInfo.setPrimaryId(pid);
 	return exportedDataInfo;
 }
+
+
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<DataInfo*, int> DataInfo::dataInfoByPrimaryId(int id, Database *db)
+{
+    return Cache<DataInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
+
+
+
+
+
+
+
+
+
+
+

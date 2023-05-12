@@ -13,8 +13,8 @@ namespace mulch
 	public:
 		CoarseGrainingModelInfo();
 		virtual void setComments(std::string comments);
-		static CoarseGrainingModelInfo* cgModelByPrimaryId(int id, Database *db);
-		virtual std::string sqlIdName()
+		static std::pair<CoarseGrainingModelInfo*, int> cgModelByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -23,9 +23,9 @@ namespace mulch
 			return "coarsegraining_model_id";
 		}
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 	private:
 		std::string _comments = "No comments yet";
 	};

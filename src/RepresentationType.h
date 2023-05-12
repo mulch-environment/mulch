@@ -22,10 +22,9 @@ namespace mulch
 		virtual void setRepType(RepresentationEnum rep);
 		/* sends pdbName to AtomicInfo */
 		virtual void setFileName(std::string pdbName);
-		// static void representationTypeByPrimaryId(std::string rep_id, Database *db);
-		static RepresentationType* representationTypeByPrimaryId(int id, Database *db);
+		static std::pair<RepresentationType*, int> representationTypeByPrimaryId(int id, Database *db);
 		virtual void retrieveDependencies(Result &res, Database *db);
-		virtual std::string sqlIdName()
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -34,9 +33,9 @@ namespace mulch
 			return "representation_type_id";
 		}
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
 		std::string updateRepType(std::string repTypeIdName, int repTypeIdValue);

@@ -1,43 +1,80 @@
 // RfactrosInfo.cpp
 
-#include "RfactrosInfo.h"
+#include "RfactorsInfo.h"
 #include "ModelDataPair.h"
-#include "EnumTables.h"
 using namespace mulch;
 
-RfactrosInfo::RfactrosInfo()
+RfactorsInfo::RfactorsInfo()
 {
 	_modelDataPair = new ModelDataPair();
 }
 
-std::string RfactrosInfo::insertQuery()
+std::string RfactorsInfo::insertQuery()
 {
 	std::string query;
-	query = "INSERT INTO RfactrosInfo DEFAULT VALUES;";
+	query = "INSERT INTO RfactorsInfo (modelDataPair_id) VALUES" ;
+	query += "(";
+	query += std::to_string(_modelDataPair ->primaryId());
+	query += ");";
 	return query;
 }
 
-std::string RfactrosInfo::updateQuery()
+std::string RfactorsInfo::updateQuery()
 {
 	std::string query;
-	query = "UPDATE RfactrosInfo SET Rfree = 0.2 WHERE rfactors_id = 6";
+	query = "UPDATE RfactorsInfo SET rfactors_id =";
+	query += _modelDataPair->primaryId();
+	query += "WHERE rfactors_id = ";
+	query += std::to_string(primaryId());;
 	query += ";";
 	return query;
 }
 
-std::string RfactrosInfo::selectPidQuery()
+std::string RfactorsInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT rfactrosinfo_id FROM RfactrosInfo";
+	query = "SELECT * FROM RfactorsInfo WHERE rfactrosinfo_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
+	Utility::protectsql(query);
+	return query;
 
 	return query;
 }
 
-void RfactrosInfo::updateDependenciesBefore(Database *db)
+void RfactorsInfo::updateDependenciesBefore(Database *db)
 {
 	/* Foreign keys (FK): if a column is assigned a FK, each row of that column 
 	MUST contain a value that exists in the foreigh column it references.
 	**/
 	_modelDataPair->updateDatabase(db);
 }
+
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<RfactorsInfo*, int> RfactorsInfo::rfactorsInfoByPrimaryId(int id, Database *db)
+{
+    return Cache<RfactorsInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

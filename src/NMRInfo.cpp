@@ -30,11 +30,23 @@ std::string NMRInfo::selectPidQuery()
 	return query;
 }
 
-/// ------------------ RETRIEVING STUFF -----------------------
 
-NMRInfo* NMRInfo::nmrByPrimaryId(int id, Database *db)
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<NMRInfo*, int> NMRInfo::nmrByPrimaryId(int id, Database *db)
 {
-	NMRInfo *nmrInfo = new NMRInfo();
-	nmrInfo->retrieveExisting(id, db);
-	return nmrInfo;
+    return Cache<NMRInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

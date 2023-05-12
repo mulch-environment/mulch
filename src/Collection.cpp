@@ -15,6 +15,7 @@ Collection::Collection()
 
 }
 
+
 std::string Collection::insertQuery()
 {
 	std::string query;
@@ -102,18 +103,26 @@ const ModelDataPair* Collection::getModelDataPairFromCollection(int index) const
 	return chd->getModelDataPair();
 }
 
-std::vector<Collection*> Collection::retrieveCollection(Database *db)
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<Collection*, int> Collection::collectByPrimaryId(int id, Database *db)
 {
-	std::vector<Result> results = db->results();
-	std::vector<Collection*> collects;
-	for (Result &res: results)
-	{
-		Collection *collect = new Collection();
-		collect->retrieveFromResult(res, db);
-		collects.push_back(collect);
-	}
-	return collects;
+    return Cache<Collection>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
+
+
+
+// std::vector<Collection*> Collection::retrieveCollection(Database *db)
+// {
+// 	std::vector<Result> results = db->results();
+// 	std::vector<Collection*> collects;
+// 	for (Result &res: results)
+// 	{
+// 		Collection *collect = new Collection();
+// 		collect->retrieveFromResult(res, db);
+// 		collects.push_back(collect);
+// 	}
+// 	return collects;
+// }
 
 // New stuff 30.03.2023 --------------------
 // void Collection::retrieveDependenciesBefore(Database* db, RepresentationEnum rep)

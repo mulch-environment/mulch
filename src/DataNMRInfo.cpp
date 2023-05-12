@@ -46,12 +46,11 @@ std::string DataNMRInfo::selectPidQuery()
 	return query;
 }
 
+
 /// ------------------ RETRIEVING STUFF -----------------------
-DataNMRInfo* DataNMRInfo::NmrInfoByPrimaryId(int id, Database *db)
+std::pair<DataNMRInfo*, int> DataNMRInfo::dataNMRInfoByPrimaryId(int id, Database *db)
 {
-	DataNMRInfo *nmrData = new DataNMRInfo();
-	nmrData->retrieveExisting(id, db);
-	return nmrData;
+    return Cache<DataNMRInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
 
 void DataNMRInfo::retrieveDependencies(Result &res, Database *db)
@@ -69,5 +68,20 @@ void DataNMRInfo::fillInFromResults(const Result &res)
 	_comments = res.at("comments");
     // _nmrQualityData->getPidFromResults(res);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

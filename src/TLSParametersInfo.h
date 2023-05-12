@@ -12,8 +12,9 @@ namespace mulch
 	{
 	public:
 		TLSParametersInfo();
-		static TLSParametersInfo* TLSByPrimaryId(int id, Database *db);
-		virtual std::string sqlIdName()
+		static std::pair<TLSParametersInfo*, int> tlsByPrimaryId(int id, Database *db);
+
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		};
@@ -22,8 +23,8 @@ namespace mulch
 			return "tlsparameters_id";
 		};
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
 		virtual std::string selectPidQuery();
 	private:
 	};

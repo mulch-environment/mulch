@@ -17,9 +17,6 @@ std::string NMRQualityData::insertQuery()
 
 std::string NMRQualityData::updateQuery()
 {
-	// std::string query;
-	// query = "UPDATE RfactrosInfo SET Rfree = 0.2 WHERE rfactors_id = 6";
-	// query += ";";
 	return " ";
 }
 
@@ -34,9 +31,21 @@ std::string NMRQualityData::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-NMRQualityData* NMRQualityData::NMRQualDataByPrimaryId(int id, Database *db)
+std::pair<NMRQualityData*, int> NMRQualityData::nmrQualityDataByPrimaryId(int id, Database *db)
 {
-	NMRQualityData *nmrQualityData = new NMRQualityData();
-	nmrQualityData->retrieveExisting(id, db);
-	return nmrQualityData;
+    return Cache<NMRQualityData>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

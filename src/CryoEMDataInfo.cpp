@@ -20,3 +20,9 @@ std::string CryoEMDataInfo::updateQuery()
 	return "";
 }
 
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<CryoEMDataInfo*, int> CryoEMDataInfo::cryoEMDataInfoByPrimaryId(int id, Database *db)
+{
+    return Cache<CryoEMDataInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
+

@@ -34,32 +34,31 @@ namespace mulch
 		/* Set the collection has dataset relationship with a given model-data pair object */
 		void sentToCHD(ModelDataPair *MDpair);
 
-		std::string getSqlIdName()
-	    {
-	        return sqlIdName();
-	    }
-
-		// void addData(DataEnum datatype, std::string datafile);
-		// void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
-
-		const ModelDataPair* getModelDataPairFromCollection(int index) const;
-		int datasetCount() const;
-		virtual void updateDependenciesBefore(Database *db);
-		virtual void updateDependenciesAfter(Database *db);
-		// void retrieveDependenciesBefore(Database* db, RepresentationEnum rep = RepresentationEnum::NoneRepresentation);		mulch::Result retrieveMPD(Database *db);
-		std::vector<Collection*> retrieveCollection(Database *db);
-		// void fillInFromResult(const Result &res);
-		// int numModelDataPairs() const; 
-	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
-	private:
-		bool _fixed = true; 
-		virtual std::string sqlIdName()
+		virtual std::string sqlIdName() 
+		{
+			return staticSqlIDName(); 	
+		}
+		static std::string staticSqlIDName()
 		{
 			return "collection_id";
 		}
+
+		// void addData(DataEnum datatype, std::string datafile);
+		// void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
+		static std::pair<Collection*, int> collectByPrimaryId(int id, Database *db);
+		const ModelDataPair* getModelDataPairFromCollection(int index) const;
+		// virtual void updateDependenciesBefore(Database *db);
+		virtual void updateDependenciesAfter(Database *db);
+		// void retrieveDependenciesBefore(Database* db, RepresentationEnum rep = RepresentationEnum::NoneRepresentation);		mulch::Result retrieveMPD(Database *db);
+		// std::vector<Collection*> retrieveCollection(Database *db);
+		// void fillInFromResult(const Result &res);
+		// int numModelDataPairs() const; 
+	protected:
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
+	private:
+		bool _fixed = true; 
 		std::vector<CollectionHasDataset*> _chds;
 		// ModelDataPair *_mdp = nullptr;
 

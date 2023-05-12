@@ -133,11 +133,13 @@ void PData::updateDependenciesBefore(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-PData* PData::dataByPrimaryId(int id, Database *db)
+std::pair<PData*, int> PData::dataByPrimaryId(int id, Database *db)
 {
-	PData *data = new PData();
-	data->retrieveExisting(id, db);
-	return data;
+	// PData *data = new PData();
+	// data->retrieveExisting(id, db);
+	// return data;
+    return Cache<PData>::cacheByPrimaryId(id, db); // Use the template function from the cache
+
 }
 
 void PData::retrieveDependencies(Result &res, Database *db)
@@ -153,7 +155,8 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 		std::string datNmr_id = DataNMRInfo::staticSqlIDName();
 		std::cout << "res[datNmr_id] = " + res[datNmr_id] << std::endl;
-		_dataNMRInfo = DataNMRInfo::NmrInfoByPrimaryId(std::stoi(res[datNmr_id]), db);
+		std::pair<DataNMRInfo*, int> dataNMRPair = DataNMRInfo::dataNMRInfoByPrimaryId(std::stoi(res[datNmr_id]), db);
+		_dataNMRInfo = dataNMRPair.first;
 	}
 	else if (!Utility::isNull(res[datCryst_id]))
 	{
@@ -162,7 +165,8 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 		std::string datCryst_id = DataCrystallographicInfo::staticSqlIDName();
 		std::cout << "res[datCryst_id] = " + res[datCryst_id] << std::endl;
-		_dataCrystallographicInfo = DataCrystallographicInfo::CrystInfolByPrimaryId(std::stoi(res[datCryst_id]), db);	
+		std::pair<DataCrystallographicInfo*, int > dataCrystPair = DataCrystallographicInfo::dataCrystallographicInfoByPrimaryId(std::stoi(res[datCryst_id]), db);	
+		_dataCrystallographicInfo = dataCrystPair.first;
 	}
 	else if (!Utility::isNull(res[datCryo_id]))
 	{
@@ -171,7 +175,8 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 		std::string datCryo_id = DataCryoEMInfo::staticSqlIDName();
 		std::cout << "res[datCryo_id] = " + res[datCryo_id] << std::endl;
-		// _dataCryoEMInfo = DataCryoEMInfo::atomicModelByPrimaryId(std::stoi(res[datCryo_id]), db);	
+		std::pair<DataCryoEMInfo*, int> dataCryoPair = DataCryoEMInfo::dataCryoEMInfoByPrimaryId(std::stoi(res[datCryo_id]), db);
+		_dataCryoEMInfo = dataCryoPair.first;	
 	}
 	else
 	{
@@ -237,25 +242,27 @@ void PData::setFileName(std::string fileName)
 
 std::vector<Result> PData::showRetrievedValues(int pid, Database *db)
 {
-    PData* data = dataByPrimaryId(pid, db);
-    std::cout << "Retrieving values from Database" << std::endl;
-    std::cout << "Data_id = " << pid << std::endl;    
-    std::vector<Result> retrieved_res = db->results();
-    // std::cout << retrieved_res << std::endl;
-    for (auto& res : retrieved_res) 
-    {
-        std::cout << "Results from Data:" << std::endl;
-        for (auto& kv : res) 
-        {
-            if (Utility::isNull(kv.second)) 
-            {
-                std::string temp = std::string("Not yet assigned");
-                kv.second = temp;
-            }
-            std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
-        }
-    }
-    return retrieved_res;
+    // PData* data = dataByPrimaryId(pid, db);
+    // std::cout << "Retrieving values from Database" << std::endl;
+    // std::cout << "Data_id = " << pid << std::endl;    
+    // std::vector<Result> retrieved_res = db->results();
+    // // std::cout << retrieved_res << std::endl;
+    // for (auto& res : retrieved_res) 
+    // {
+    //     std::cout << "Results from Data:" << std::endl;
+    //     for (auto& kv : res) 
+    //     {
+    //         if (Utility::isNull(kv.second)) 
+    //         {
+    //             std::string temp = std::string("Not yet assigned");
+    //             kv.second = temp;
+    //         }
+    //         std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
+    //     }
+    // }
+    // return retrieved_res;
+
+
 }
 
 // std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db)

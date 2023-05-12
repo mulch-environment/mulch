@@ -43,3 +43,10 @@ void Crystal::updateDependenciesBefore(Database *db)
 	**/
 	_dataCrystallographicInfo->updateDatabase(db);
 }
+
+
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<Crystal*, int> Crystal::crystalByPrimaryId(int id, Database *db)
+{
+    return Cache<Crystal>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}

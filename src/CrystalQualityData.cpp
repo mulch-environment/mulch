@@ -26,20 +26,17 @@ std::string CrystalQualityData::updateQuery()
 std::string CrystalQualityData::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT crystalqualitydata_id FROM CrystalQualityData";
+	query = "SELECT * FROM CrystalQualityData";
 	query += ";";
 
 	return query;
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-CrystalQualityData* CrystalQualityData::crystQualDataByPrimaryId(int id, Database *db)
+std::pair<CrystalQualityData*, int> CrystalQualityData::crystQualDataByPrimaryId(int id, Database *db)
 {
-	CrystalQualityData *crystQualityData = new CrystalQualityData();
-	crystQualityData->retrieveExisting(id, db);
-	return crystQualityData;
+    return Cache<CrystalQualityData>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
-
 
  
 

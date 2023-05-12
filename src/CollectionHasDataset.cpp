@@ -72,5 +72,10 @@ void CollectionHasDataset::fillInFromResult(const Result &res)
 	_collection->getPidFromResults(res);
 }
 
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<CollectionHasDataset*, int> CollectionHasDataset::collectHasDatasetByPrimaryId(int id, Database *db)
+{
+    return Cache<CollectionHasDataset>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
 
 

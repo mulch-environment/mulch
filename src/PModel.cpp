@@ -119,11 +119,15 @@ void PModel::updateDependenciesBefore(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-PModel* PModel::modelByPrimaryId(int id, Database *db)
+std::pair<PModel*, int> PModel::modelByPrimaryId(int id, Database *db)
 {
-	PModel *model = new PModel();
-	model->retrieveExisting(id, db);
+	// PModel *model = new PModel();
+	// model->retrieveExisting(id, db);
+	// return model;
+	   return Cache<PModel>::cacheByPrimaryId(id, db); // Use the template function from the cache
+
 }
+
 
 void PModel::retrieveDependencies(Result &res, Database *db)
 {
@@ -135,8 +139,10 @@ void PModel::retrieveDependencies(Result &res, Database *db)
 	std::string str_id =  StructureTechniqueInfo::staticSqlIDName();
 	std::cout << "res[rep_id] = " + res[rep_id] << std::endl;
 	std::cout << "res[str_id] = " + res[str_id] << std::endl;
-	_representationType = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
-	_structureTechniqueInfo = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
+	std::pair<RepresentationType*, int> repPair = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
+	_representationType = repPair.first;
+	std::pair<StructureTechniqueInfo*, int> strTechPair = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
+	_structureTechniqueInfo = strTechPair.first;
 }
 
 void PModel::fillInFromResults(const Result &res) 
@@ -171,7 +177,7 @@ void PModel::fillInFromResults(const Result &res)
 
 std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
 {
-    PModel* model = modelByPrimaryId(pid, db);
+	std::cout << "--------------------" << std::endl;
     std::cout << "Retrieving values from Database" << std::endl;
     std::cout << "Model_id = " << pid << std::endl;    
     std::vector<Result> retrieved_res = db->results();
@@ -189,6 +195,7 @@ std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
             std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
         }
     }
+    std::cout << "--------------------" << std::endl;
     return retrieved_res;
 }
 
@@ -224,5 +231,7 @@ std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db
 	}
 	return models;
 }
+
+
 
 

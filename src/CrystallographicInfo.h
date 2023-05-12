@@ -12,8 +12,8 @@ namespace mulch
 	{
 	public:
 		CrystallographicInfo();
-		static CrystallographicInfo* crystallographicInfoByPrimaryId(int id, Database *db);
-		virtual std::string sqlIdName()
+		static std::pair<CrystallographicInfo*, int> crystallographicInfoByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -22,9 +22,9 @@ namespace mulch
 			return "crystallographic_info_id";
 		}
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 	};
 }
 

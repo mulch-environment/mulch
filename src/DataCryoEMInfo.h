@@ -12,7 +12,9 @@ namespace mulch
 	{
 	public:
 		DataCryoEMInfo();
-		virtual std::string sqlIdName()
+		static std::pair<DataCryoEMInfo*, int> dataCryoEMInfoByPrimaryId(int id, Database *db);
+
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		};
@@ -21,9 +23,9 @@ namespace mulch
 			return "data_cryoem_info_id";
 		};
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 	private:
 	};
 }

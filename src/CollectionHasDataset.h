@@ -23,7 +23,15 @@ namespace mulch
 	public:
 		std::vector<CollectionHasDataset*> chdVector;
 		CollectionHasDataset();
-		
+		virtual std::string sqlIdName() 
+		{
+			return staticSqlIDName(); 	
+		}	
+		static std::string staticSqlIDName()
+		{
+			return "collectionhasdataset_id";
+		}
+
 		/* Sets the _collection member variable of the 
 		current CollectionHasDataset object to the input 
 		collection onject */
@@ -44,19 +52,16 @@ namespace mulch
     	{
     		return _collection;
     	}
+    	static std::pair<CollectionHasDataset*, int> collectHasDatasetByPrimaryId(int id, Database *db);
 
 	protected:
 
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		void fillInFromResult(const Result &res);
 	private:
-		virtual std::string sqlIdName()
-		{
-			return "collectionhasdataset_id";
-		}	
 		std::vector<ModelDataPair*> mdpVector;
 		ModelDataPair *_modelDataPair = nullptr;
 		Collection *_collection = nullptr;

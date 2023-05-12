@@ -30,11 +30,20 @@ std::string BondBasedModelInfo::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-BondBasedModelInfo* BondBasedModelInfo::bondModelByPrimaryId(int id, Database *db)
+std::pair<BondBasedModelInfo*, int> BondBasedModelInfo::bondModelByPrimaryId(int id, Database *db)
 {
-	BondBasedModelInfo *bondBasedModelInfo = new BondBasedModelInfo();
-	bondBasedModelInfo->retrieveExisting(id, db);
-	return bondBasedModelInfo;
+    return Cache<BondBasedModelInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
+
+
+
+
+
+
+
+
+
+
+
 
 

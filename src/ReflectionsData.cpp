@@ -43,3 +43,32 @@ void ReflectionsData::updateDependenciesBefore(Database *db)
 	**/
 	_dataCrystallographicInfo->updateDatabase(db);
 }
+
+
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<ReflectionsData*, int> ReflectionsData::reflectDataByPrimaryId(int id, Database *db)
+{
+    return Cache<ReflectionsData>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

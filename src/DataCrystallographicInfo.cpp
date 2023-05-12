@@ -33,7 +33,7 @@ std::string DataCrystallographicInfo::updateQuery()
 std::string DataCrystallographicInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT data_crystallographic_info_id FROM DataCrystallographicInfo";
+	query = "SELECT * FROM DataCrystallographicInfo";
 	query += ";";
 
 	return query;
@@ -56,11 +56,9 @@ void DataCrystallographicInfo::setFileName(std::string fileName)
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------
-DataCrystallographicInfo* DataCrystallographicInfo::CrystInfolByPrimaryId(int id, Database *db)
+std::pair<DataCrystallographicInfo*, int> DataCrystallographicInfo::dataCrystallographicInfoByPrimaryId(int id, Database *db)
 {
-	DataCrystallographicInfo *crystData = new DataCrystallographicInfo();
-	crystData->retrieveExisting(id, db);
-	return crystData;
+    return Cache<DataCrystallographicInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
 
 void DataCrystallographicInfo::retrieveDependencies(Result &res, Database *db)
@@ -69,7 +67,9 @@ void DataCrystallographicInfo::retrieveDependencies(Result &res, Database *db)
 	delete _crystalQualityData;
 	std::string crysQual_id = CrystalQualityData::staticSqlIDName();
 	std::cout << "res[crysQual_id] = " + res[crysQual_id] << std::endl;
-	_crystalQualityData = CrystalQualityData::crystQualDataByPrimaryId(std::stoi(res[crysQual_id]), db);
+	std::pair<CrystalQualityData*, int> cryQualPair = CrystalQualityData::crystQualDataByPrimaryId(std::stoi(res[crysQual_id]), db);
+	_crystalQualityData = cryQualPair.first;
+
 }
 
 void DataCrystallographicInfo::fillInFromResults(const Result &res) 

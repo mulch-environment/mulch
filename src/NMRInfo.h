@@ -12,8 +12,8 @@ namespace mulch
 	{
 	public:
 		NMRInfo();
-		static NMRInfo* nmrByPrimaryId(int id, Database *db);
-		virtual std::string sqlIdName()
+		static std::pair<NMRInfo*, int> nmrByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -22,9 +22,9 @@ namespace mulch
 			return "nmr_info_id";
 		}
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 	};
 }
 

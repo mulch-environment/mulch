@@ -13,17 +13,21 @@ namespace mulch
 	{
 	public:
 		Crystal();
-	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
-		virtual void updateDependenciesBefore(Database *db);
-	private:
-		virtual std::string sqlIdName()
+		static std::pair<Crystal*, int> crystalByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName() 
+		{
+			return staticSqlIDName(); 	
+		}
+		static std::string staticSqlIDName()
 		{
 			return "crystal_id";
 		}
-
+	protected:
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
+		virtual void updateDependenciesBefore(Database *db);
+	private:
 		DataCrystallographicInfo* _dataCrystallographicInfo = nullptr;
 
 	};

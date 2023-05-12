@@ -14,9 +14,9 @@ namespace mulch
 	public:
 		AtomicModelInfo();
 		virtual void setFileName(std::string pdbName);
-		static AtomicModelInfo* atomicModelByPrimaryId(int id, Database *db);
+		static std::pair<AtomicModelInfo*, int> atomicModelByPrimaryId(int id, Database *db);
 		virtual void retrieveDependencies(Result &res, Database *db);
-		virtual std::string sqlIdName()
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -28,11 +28,10 @@ namespace mulch
 		{
 			 return _pdbCode;
 		};
-
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
 	private:

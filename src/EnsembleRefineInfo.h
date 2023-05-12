@@ -13,8 +13,8 @@ namespace mulch
 	public:
 		EnsembleRefineInfo();
 		virtual void setComments(std::string comments);
-		static EnsembleRefineInfo* ensembleByPrimaryId(int id, Database *db);
-		virtual std::string sqlIdName()
+		static std::pair<EnsembleRefineInfo*, int> ensembleByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -23,9 +23,9 @@ namespace mulch
 			return "ensemble_refine_id";
 		}
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 	private:
 		std::string _comments = "No comments yet";
 	};

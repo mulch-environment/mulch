@@ -28,3 +28,18 @@ std::string DataCryoEMInfo::selectPidQuery()
 
 	return query;
 }
+
+
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<DataCryoEMInfo*, int> DataCryoEMInfo::dataCryoEMInfoByPrimaryId(int id, Database *db)
+{
+    return Cache<DataCryoEMInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
+
+
+
+
+
+
+
+

@@ -12,8 +12,8 @@ namespace mulch
 	{
 	public:
 		BondBasedModelInfo();
-		static BondBasedModelInfo* bondModelByPrimaryId(int id, Database *db);
-		virtual std::string sqlIdName()
+		static std::pair<BondBasedModelInfo*, int> bondModelByPrimaryId(int id, Database *db);
+		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	
 		}
@@ -22,9 +22,9 @@ namespace mulch
 			return "bondbased_model_id";
 		}
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual std::string insertQuery() ;
+		virtual std::string updateQuery() ;
+		virtual std::string selectPidQuery() ;
 	};
 }
 

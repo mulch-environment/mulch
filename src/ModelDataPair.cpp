@@ -95,5 +95,11 @@ std::vector<PModel*> ModelDataPair::retrieveModelByType(RepresentationEnum rep, 
 	return models;
 }
 
+/// ------------------ RETRIEVING STUFF -----------------------
+std::pair<ModelDataPair*, int> ModelDataPair::modelDataPairByPrimaryId(int id, Database *db)
+{
+    return Cache<ModelDataPair>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
+
 
 
