@@ -1,3 +1,6 @@
 build
 *.db
 .DS_Store
+src/Cache_backup.h
+src/templArchive.h
+src/Coding_notes.txt
