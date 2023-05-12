@@ -81,19 +81,93 @@ it should be on the latest commit, so got and add that back
 -- !!!!!!templating!!!!!!
 
 
+----------
+26.04.2023
+----------
+
+-- The goal is to make template Archive that it will be able to recognise if an id already exists and return existing pointer form archive, if the id exists
+	-- The result of this implementaiton is that when I am running the test, if a 
+	call two models with the same id numbers, the returned models should be the same.  
+
+-- Additionally, to do: 
+	-- Move the functionality of modelByPrimaryId , datatByPrimaryId, etc to objectByPrimaryId(int, db) (as seen in my notes)
+	-- change modelByPrimaryId() as seen bellow
+
+-- What is the "safest" way of start building Arhcive, without messing the 
+wokring implementation too much?
 
 
 
+PModel* PModel::modelByPrimaryId(int id, Database *db)
+{
+	Object* obj = objectByPriamryId(int if, db)
+	PModel *ptr = static_cast<Pmodel*> (obj);
+
+	return ptr;
+}
+
+----------
+02.05.2023
+----------
+
+-- to some tables that they don't have dependencies, I should leave the 
+"INSERT default" query. 
+-- Make more tests. Understand the cache code and the use of the cache. 
+-- Move the functionality of modelByPrimaryId, datatByPrimaryId, etc to objectByPrimaryId(int, db) (as seen in my notes)
+-- Is that note still relevant??? "change modelByPrimaryId() as seen bellow:"
+PModel* PModel::modelByPrimaryId(int id, Database *db)
+{
+	Object* obj = objectByPriamryId(int if, db)
+	PModel *ptr = static_cast<Pmodel*> (obj);
+
+	return ptr;
+}
+-- Think about how to implement the Collection cascade 
+
+----------
+08.05.2023
+----------
+-- Need to have an implementation on objectByPrimarYId to every subclass, otherwise I get an erro
+	-- BUT WHY??????
+-- Do tha tofr know for everyhting so I can check if it works and discuss with Helen.
+-- IS THSI MAYBE HELPFUL: 
+
+PModel* PModel::modelByPrimaryId(int id, Database *db)
+{
+	Object* obj = objectByPriamryId(int id, db)
+	PModel *ptr = static_cast<Pmodel*> (obj);
+
+	return ptr;
+}
+
+----------
+09.05.2023
+----------
+-- Is the objectPair returned from Cache contain the right values? 
+-- check tables CryoEmDatainfo
+-- check tbale crystal
+-- check table crystallographicdatinfo
+-- fix the interface Data.h and Model.h
+-- remove Group.h and Grouphasdataset
+-- Where is the table Rafactros_info?????
+-- Do I have two rfactors info in src?
+-- need to deal with the  warnings
 
 
+----------
+10.05.2023
+----------
+-- start over: delete all uncessary stuff for the derived classes
+-- add  to virtual members in the derived classes
 
-
-
-
-
-
-
-
-
-
-
+----------
+11.05.2023
+----------
+-- When is override nessecary?
+-- COMMIT
+-- there is somehting weird with RfactorsInfo. Find were do you initialise this table from. maybe there is the issue
+-- COLLECTION and COLLECTIONHASDATASET
+-- probably I will find more issues when I start running with Pdata, so befire moving to COllection, 
+make sure tha both Pdata and PModel works correctly
+-- Then try with ModelDataPair and then move to Collection 
+--Maybe you will need to isnert some values manually to ModelDataPair and COllection etc 

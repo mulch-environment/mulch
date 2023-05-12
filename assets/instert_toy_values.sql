@@ -56,13 +56,63 @@ VALUES
 
 INSERT INTO CrystallographicInfo (crystallographic_info_id, serial_id, neutron_id, electron_id)
 VALUES
-	(1, 1, NULL),
-	(2, 2, NULL),
-	(3, NULL, NULL),
+	(1, 1, NULL, 1),
+	(2, 2, NULL, 2),
+	(3, NULL, NULL, NULL),
+	(4, NULL, NULL, 3),
+	(5, NULL, 1,4),
+	(6, NULL, 2, NULL),
+	(7, NULL, 3, 5),
+	(8, 3, NULL, 6);
+
+
+INSERT INTO AtomicModelInfo (atomic_model_id, tlsparameters_id, pdb_code, haspdb)
+VALUES
+	(1, 1, "abc", TRUE),
+	(2, 2, "dfg", TRUE),
+	(3, 3, NULL,  FALSE), 
+	(4, 4, "lmn", TRUE),
+	(5, 5, "opq", TRUE);
+
+
+
+INSERT INTO TLSParametersInfo (tlsparameters_id, comments)
+VALUES
+	(1, "some comment"),
+	(2, "some other comments"),
+	(3, NULL), 
+	(4, "another one"),
+	(5, NULL);
+
+
+INSERT INTO Data (data_id, data_nmr_info_id, data_crystallographic_info_id, data_cryoem_info_id, comments) 
+VALUES
+	(1, 1,    NULL, NULL,  "comment_1"),
+	(2, 2,    NULL, NULL,  "comment_2"),
+	(3, NULL, 1,    NULL,  "comment_3"),
+	(4, NULL, NULL, 1,     NULL),
+	(5, 3,    NULL, NULL,  "comment_4"),
+	(6, 4,    NULL, NULL,  "comment_5"),
+	(7, NULL, NULL, 2,     NULL);
+
+
+INSERT INTO datanmrinfo (data_nmr_info_id, comments, nmrqualitydata_id) 
+VALUES
+	(1, 1,    "comment_1"),
+	(2, 2,    "comment_2"),
+	(3, NULL, "comment_3"),
 	(4, NULL, NULL),
-	(5, NULL, 1),
-	(6, NULL, 2),
-	(7, NULL, 3),
-	(8, 3, NULL);
+	(5, 3,    "comment_4"),
+	(6, 4,    "comment_5"),
+	(7, NULL, NULL);
 
 
+INSERT INTO dataCrystallographicinfo (data_crystallographic_info_id, crystalqualitydata_id, reflections_no) 
+VALUES
+	(1, 1, 10000)
+;
+
+INSERT INTO crystalqualitydata (crystalqualitydata_id, SNR) 
+VALUES
+	(1, 8.0)
+;
