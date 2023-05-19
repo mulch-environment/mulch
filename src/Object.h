@@ -28,11 +28,6 @@ namespace mulch
 			_pid = current_id;
 		}
 
-	    virtual std::pair<Object*, int> objectByPrimaryId(int id, Database* db) 
-	    {
-	        throw std::runtime_error("objectByPrimaryId is not implemented");
-	    }		
-
 
 		/* alreadyInDatabase: _pid initial default value is set to -1. 
 		Rerurn only if the _pid is no longer -1 (>0)

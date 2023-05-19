@@ -36,6 +36,8 @@ void Object::selectExisting(Database *db)
 	{
 		_pid = _tableId;
 	}
+	std::string which_table = sqlIdName();
+	std::cout << which_table << std::endl;
 	std::string query = selectPidQuery(); 
 	std::cout << query << std::endl;
 	db->query(query);
