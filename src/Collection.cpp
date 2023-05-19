@@ -104,57 +104,66 @@ const ModelDataPair* Collection::getModelDataPairFromCollection(int index) const
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<Collection*, int> Collection::collectByPrimaryId(int id, Database *db)
+std::vector<int> Collection::retrieveCHDId(int id, Database *db)
 {
-    return Cache<Collection>::cacheByPrimaryId(id, db); // Use the template function from the cache
+	std::string query;
+	query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = ";
+	query += std::to_string(id);
+	query += ";";
+	Utility::protectsql(query);
+
+	std::cout << query << std::endl;
+    // Execute the query
+    db->query(query);
+
+	// Retrieve the query results
+    std::vector<Result> results = db->results();
+    // Initialize chd_id as an empty vector
+    std::vector<int> chd_id; 
+    std::string chd_id_str;
+
+    if (!results.empty())
+    {
+    	for (const auto& row : results)
+		{	
+			auto iter = row.find("collectionhasdataset_id");
+			if (iter != row.end()) 
+			{
+			    chd_id_str = iter->second;
+			}
+        	// Add the integer value to the chd_id vector
+        	chd_id.push_back(std::stoi(chd_id_str)); 
+    	}
+    }
+    // for (const auto& id : chd_id)
+    // {
+    // 	std::cout << id << std::endl;
+    // }
+    std::cout << "How many CollectionHasDataset inputs?" << std::endl;
+    std::cout << chd_id.size() << std::endl;
+    return chd_id;
 }
 
 
+std::vector<const Collection*> Collection::collectByPrimaryId(int id, Database *db)
+{
+	std::vector<int> chd_id = retrieveCHDId(id, db); 
 
-// std::vector<Collection*> Collection::retrieveCollection(Database *db)
-// {
-// 	std::vector<Result> results = db->results();
-// 	std::vector<Collection*> collects;
-// 	for (Result &res: results)
-// 	{
-// 		Collection *collect = new Collection();
-// 		collect->retrieveFromResult(res, db);
-// 		collects.push_back(collect);
-// 	}
-// 	return collects;
-// }
+	std::vector<CollectionHasDataset*> chds; // Vector to store all chdPair values
+    std::vector<const Collection*> collections; // Vector to store the retrieved collections
 
-// New stuff 30.03.2023 --------------------
-// void Collection::retrieveDependenciesBefore(Database* db, RepresentationEnum rep)
-// {
-//     mulch::Result res;
-//     // send that _mdp to the database
-//     std::cout<<"Starting retrieval"<<std::endl;
-//     res = retrieveMPD(db); 
-//     if (rep != RepresentationEnum::NoneRepresentation)
-//     {
-//         std::vector<PModel*> modelsByType;
-//         std::cout<< "Retrieving model of type " + std::to_string(static_cast<int>(rep)) <<std::endl;
-//         modelsByType = retrieveModelByType(rep, db);
-//     }
-//     else
-//     {
-//         // handle the case when `rep` is not provided
-//     }
-// }
+	for (const auto& chd_id_value : chd_id)	
+	{
+        // std::cout << chd_id_value << std::endl; // Print each chd_id value
+        CollectionHasDataset* chd = CollectionHasDataset::collectHasDatasetByPrimaryId(chd_id_value, db);
+        chds.push_back(chd); // Store the chdPair in the vector
+        const Collection* collection = chd->getCollection(); // Retrieve the collection
+        collections.push_back(collection); // Store the collection pointer
 
-// void Collection::fillInFromResult(const Result &res)
-// {
-// 	std::cout << typeid(res).name() << std::endl;
-// 	_mdp->getPidFromResults(res);
-// }
+	}
 
-// int Collection::numModelDataPairs() const 
-// {
-//     return _chds.size();
-// }
-
-
+    return collections; // Return the vector of collection pointers
+}
 
 
 
