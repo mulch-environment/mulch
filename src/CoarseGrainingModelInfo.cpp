@@ -49,7 +49,7 @@ void CoarseGrainingModelInfo::setComments(std::string comments)
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CoarseGrainingModelInfo*, int> CoarseGrainingModelInfo::cgModelByPrimaryId(int id, Database *db)
+CoarseGrainingModelInfo* CoarseGrainingModelInfo::cgModelByPrimaryId(int id, Database *db)
 {
     return Cache<CoarseGrainingModelInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

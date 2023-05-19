@@ -51,7 +51,7 @@ void RfactorsInfo::updateDependenciesBefore(Database *db)
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<RfactorsInfo*, int> RfactorsInfo::rfactorsInfoByPrimaryId(int id, Database *db)
+RfactorsInfo* RfactorsInfo::rfactorsInfoByPrimaryId(int id, Database *db)
 {
     return Cache<RfactorsInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

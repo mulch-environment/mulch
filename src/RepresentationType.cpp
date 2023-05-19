@@ -167,7 +167,7 @@ void RepresentationType::setFileName(std::string pdbName)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<RepresentationType*, int> RepresentationType::representationTypeByPrimaryId(int id, Database *db)
+RepresentationType* RepresentationType::representationTypeByPrimaryId(int id, Database *db)
 {
     return Cache<RepresentationType>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
@@ -186,8 +186,8 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 		delete _atomicModelInfo;
 
 		std::cout << "res[atomic_id] = " + res[atomic_id] << std::endl;
-		std::pair<AtomicModelInfo*, int> atomPair = AtomicModelInfo::atomicModelByPrimaryId(std::stoi(res[atomic_id]), db);
-		_atomicModelInfo = atomPair.first;
+		AtomicModelInfo* atom = AtomicModelInfo::atomicModelByPrimaryId(std::stoi(res[atomic_id]), db);
+		_atomicModelInfo = atom;
 	}
 	else if (!Utility::isNull(res[bond_id]))
 	{
@@ -195,8 +195,8 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 		delete _bondBasedModelInfo;
 
 		std::cout << "res[atomic_id] = " + res[bond_id] << std::endl;
-		std::pair<BondBasedModelInfo*, int> bondBasePair = BondBasedModelInfo::bondModelByPrimaryId(std::stoi(res[bond_id]), db);
-		_bondBasedModelInfo = bondBasePair.first;
+		BondBasedModelInfo* bondBase = BondBasedModelInfo::bondModelByPrimaryId(std::stoi(res[bond_id]), db);
+		_bondBasedModelInfo = bondBase;
 	}
 	else if (!Utility::isNull(res[cg_id]))
 	{
@@ -205,8 +205,8 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 		
 		
 		std::cout << "res[cg_id] = " + res[cg_id] << std::endl;
-		std::pair<CoarseGrainingModelInfo*, int> cgPair = CoarseGrainingModelInfo::cgModelByPrimaryId(std::stoi(res[cg_id]), db);
-		_coarseGrainingModelInfo = cgPair.first;
+		CoarseGrainingModelInfo* cg = CoarseGrainingModelInfo::cgModelByPrimaryId(std::stoi(res[cg_id]), db);
+		_coarseGrainingModelInfo = cg;
 
 	}
 	else if (!Utility::isNull(res[ensembl_id]))
@@ -215,8 +215,8 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 		delete _ensembleRefineInfo;
 
 		std::cout << "res[ensembl_id] = " + res[ensembl_id] << std::endl;
-		std::pair<EnsembleRefineInfo*, int> ensemblPair = EnsembleRefineInfo::ensembleByPrimaryId(std::stoi(res[ensembl_id]), db);
-		_ensembleRefineInfo = ensemblPair.first;
+		EnsembleRefineInfo* ensembl = EnsembleRefineInfo::ensembleByPrimaryId(std::stoi(res[ensembl_id]), db);
+		_ensembleRefineInfo = ensembl;
 		
 	}
 	else

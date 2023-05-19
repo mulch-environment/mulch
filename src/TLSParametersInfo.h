@@ -12,7 +12,7 @@ namespace mulch
 	{
 	public:
 		TLSParametersInfo();
-		static std::pair<TLSParametersInfo*, int> tlsByPrimaryId(int id, Database *db);
+		static TLSParametersInfo* tlsByPrimaryId(int id, Database *db);
 
 		virtual std::string sqlIdName() 
 		{

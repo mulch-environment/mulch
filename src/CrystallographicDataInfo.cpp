@@ -21,7 +21,7 @@ std::string CrystallographicDataInfo::updateQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CrystallographicDataInfo*, int> CrystallographicDataInfo::crystallographicDataInfoByPrimaryId(int id, Database *db)
+CrystallographicDataInfo* CrystallographicDataInfo::crystallographicDataInfoByPrimaryId(int id, Database *db)
 {
     return Cache<CrystallographicDataInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

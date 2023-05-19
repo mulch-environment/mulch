@@ -12,13 +12,13 @@ namespace mulch {
     template<typename T>
     class Cache {
     public:
-        static std::pair<T*, int> cacheByPrimaryId(int id, Database* db) 
+        static T* cacheByPrimaryId(int id, Database* db) 
         {
             // Check if the object with the given ID is already in the cache
             auto it = cache.find(id); // cache is an std::map object
             if (it != cache.end()) {
                 std::cout << "Returning cached " << typeid(T).name() << " object for ID " << id << std::endl;
-                return std::make_pair(it->second, id);
+                return it->second;
             }
 
             // If the object is not in the cache, create a new one
@@ -30,7 +30,7 @@ namespace mulch {
             // Add the new object to the cache
             cache[id] = newObject;
 
-            return std::make_pair(newObject, id);
+            return newObject;
         }
        	friend class Object;
     private:

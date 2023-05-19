@@ -61,7 +61,7 @@ void AtomicModelInfo::setFileName(std::string pdbName)
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<AtomicModelInfo*, int> AtomicModelInfo::atomicModelByPrimaryId(int id, Database *db)
+AtomicModelInfo* AtomicModelInfo::atomicModelByPrimaryId(int id, Database *db)
 {
     return Cache<AtomicModelInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
@@ -72,8 +72,8 @@ void AtomicModelInfo::retrieveDependencies(Result &res, Database *db)
 	delete _tlsParametersInfo;
 	std::string tls_id = TLSParametersInfo::staticSqlIDName();
 	std::cout << "res[tls_id] = " + res[tls_id] << std::endl;
-	std::pair<TLSParametersInfo*, int> tlsPair = TLSParametersInfo::tlsByPrimaryId(std::stoi(res[tls_id]), db);
-	_tlsParametersInfo = tlsPair.first;
+	TLSParametersInfo* tls = TLSParametersInfo::tlsByPrimaryId(std::stoi(res[tls_id]), db);
+	_tlsParametersInfo = tls;
 	
 }
 

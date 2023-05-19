@@ -48,7 +48,7 @@ std::string DataNMRInfo::selectPidQuery()
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<DataNMRInfo*, int> DataNMRInfo::dataNMRInfoByPrimaryId(int id, Database *db)
+DataNMRInfo* DataNMRInfo::dataNMRInfoByPrimaryId(int id, Database *db)
 {
     return Cache<DataNMRInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

@@ -33,7 +33,7 @@ std::string CrystalQualityData::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CrystalQualityData*, int> CrystalQualityData::crystQualDataByPrimaryId(int id, Database *db)
+CrystalQualityData* CrystalQualityData::crystQualDataByPrimaryId(int id, Database *db)
 {
     return Cache<CrystalQualityData>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

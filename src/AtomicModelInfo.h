@@ -14,7 +14,7 @@ namespace mulch
 	public:
 		AtomicModelInfo();
 		virtual void setFileName(std::string pdbName);
-		static std::pair<AtomicModelInfo*, int> atomicModelByPrimaryId(int id, Database *db);
+		static AtomicModelInfo* atomicModelByPrimaryId(int id, Database *db);
 		virtual void retrieveDependencies(Result &res, Database *db);
 		virtual std::string sqlIdName() 
 		{

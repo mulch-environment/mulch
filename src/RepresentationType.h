@@ -22,7 +22,7 @@ namespace mulch
 		virtual void setRepType(RepresentationEnum rep);
 		/* sends pdbName to AtomicInfo */
 		virtual void setFileName(std::string pdbName);
-		static std::pair<RepresentationType*, int> representationTypeByPrimaryId(int id, Database *db);
+		static RepresentationType* representationTypeByPrimaryId(int id, Database *db);
 		virtual void retrieveDependencies(Result &res, Database *db);
 		virtual std::string sqlIdName() 
 		{

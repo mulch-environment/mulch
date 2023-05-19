@@ -52,7 +52,7 @@ namespace mulch
     	{
     		return _collection;
     	}
-    	static std::pair<CollectionHasDataset*, int> collectHasDatasetByPrimaryId(int id, Database *db);
+    	static CollectionHasDataset* collectHasDatasetByPrimaryId(int id, Database *db);
 
 	protected:
 

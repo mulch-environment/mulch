@@ -13,7 +13,7 @@ namespace mulch
 	{
 	public:
 		RfactorsInfo();
-		static std::pair<RfactorsInfo*, int> rfactorsInfoByPrimaryId(int id, Database *db);
+		static RfactorsInfo* rfactorsInfoByPrimaryId(int id, Database *db);
 
 		virtual std::string sqlIdName()  
 		{

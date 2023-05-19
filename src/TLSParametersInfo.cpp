@@ -30,7 +30,7 @@ std::string TLSParametersInfo::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<TLSParametersInfo*, int> TLSParametersInfo::tlsByPrimaryId(int id, Database *db)
+TLSParametersInfo* TLSParametersInfo::tlsByPrimaryId(int id, Database *db)
 {
     return Cache<TLSParametersInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

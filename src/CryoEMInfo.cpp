@@ -23,8 +23,8 @@ std::string CryoEMInfo::updateQuery()
 std::string CryoEMInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT * FROM CryoEMInfo WHERE cryoem_info_id = ";
-	query += std::to_string(primaryId());
+
+	query = "SELECT * FROM CryoEMInfo ";
 	query += ";";
 	Utility::protectsql(query);
 
@@ -32,7 +32,7 @@ std::string CryoEMInfo::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CryoEMInfo*, int> CryoEMInfo::cryoByPrimaryId(int id, Database *db)
+CryoEMInfo* CryoEMInfo::cryoByPrimaryId(int id, Database *db)
 {
     return Cache<CryoEMInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

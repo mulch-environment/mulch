@@ -47,7 +47,7 @@ void EnsembleRefineInfo::setComments(std::string comments)
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<EnsembleRefineInfo*, int> EnsembleRefineInfo::ensembleByPrimaryId(int id, Database *db)
+EnsembleRefineInfo* EnsembleRefineInfo::ensembleByPrimaryId(int id, Database *db)
 {
     return Cache<EnsembleRefineInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

@@ -13,7 +13,7 @@ namespace mulch
 	public:
 		EnsembleRefineInfo();
 		virtual void setComments(std::string comments);
-		static std::pair<EnsembleRefineInfo*, int> ensembleByPrimaryId(int id, Database *db);
+		static EnsembleRefineInfo* ensembleByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	

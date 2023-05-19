@@ -12,7 +12,7 @@ namespace mulch
 	{
 	public:
 		NMRInfo();
-		static std::pair<NMRInfo*, int> nmrByPrimaryId(int id, Database *db);
+		static NMRInfo* nmrByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	

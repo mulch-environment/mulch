@@ -31,7 +31,7 @@ std::string DataCryoEMInfo::selectPidQuery()
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<DataCryoEMInfo*, int> DataCryoEMInfo::dataCryoEMInfoByPrimaryId(int id, Database *db)
+DataCryoEMInfo* DataCryoEMInfo::dataCryoEMInfoByPrimaryId(int id, Database *db)
 {
     return Cache<DataCryoEMInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

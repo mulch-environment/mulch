@@ -19,7 +19,7 @@ namespace mulch
 		PData();
 		static std::string selectQueryDataByInfo(DataEnum dat);
 		virtual void setDataInfo(DataEnum dat);
-		static std::pair<PData*, int>  dataByPrimaryId(int id, Database *db);
+		static PData* dataByPrimaryId(int id, Database *db);
 		static std::vector<Result> showRetrievedValues(int pid, Database *db);
 		virtual void setFileName(std::string fileData);
 		// std::pair<PData*, int> objectByPrimaryId(int id, Database* db)  

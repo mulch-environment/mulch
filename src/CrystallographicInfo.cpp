@@ -32,7 +32,7 @@ std::string CrystallographicInfo::selectPidQuery()
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CrystallographicInfo*, int> CrystallographicInfo::crystallographicInfoByPrimaryId(int id, Database *db)
+CrystallographicInfo* CrystallographicInfo::crystallographicInfoByPrimaryId(int id, Database *db)
 {
     return Cache<CrystallographicInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

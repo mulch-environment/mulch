@@ -60,7 +60,7 @@ DataInfo DataInfo::dataInfoFromResult(const Result &res)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<DataInfo*, int> DataInfo::dataInfoByPrimaryId(int id, Database *db)
+DataInfo* DataInfo::dataInfoByPrimaryId(int id, Database *db)
 {
     return Cache<DataInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

@@ -25,7 +25,7 @@ namespace mulch
 		virtual void setRepType(RepresentationEnum rep);
 		virtual void setFileName(std::string pdbName);
 		std::vector<PModel*> retrieveByType(RepresentationEnum rep, Database *db);
-		static std::pair<PModel*, int> modelByPrimaryId(int id, Database *db);
+		static PModel* modelByPrimaryId(int id, Database *db);
 		static std::vector<Result> showRetrievedValues(int pid, Database *db);
 		// std::pair<PModel*, int> objectByPrimaryId(int id, Database* db)  
 		// {
@@ -75,11 +75,6 @@ namespace mulch
 			return _creationDate;
 		};
 
-		std::pair<Object*, int> objectByPrimaryId(int id, Database* db)
-		{
-		    auto pair = Cache<PModel>::cacheByPrimaryId(id, db);
-		    return std::make_pair(static_cast<Object*>(pair.first), pair.second);
-		}
 	protected:
 		// static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual std::string insertQuery();

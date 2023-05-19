@@ -31,7 +31,7 @@ std::string NMRQualityData::selectPidQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<NMRQualityData*, int> NMRQualityData::nmrQualityDataByPrimaryId(int id, Database *db)
+NMRQualityData* NMRQualityData::nmrQualityDataByPrimaryId(int id, Database *db)
 {
     return Cache<NMRQualityData>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

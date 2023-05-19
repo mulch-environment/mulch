@@ -13,7 +13,7 @@ namespace mulch
 	{
 	public:
 		Crystal();
-		static std::pair<Crystal*, int> crystalByPrimaryId(int id, Database *db);
+		static Crystal* crystalByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	

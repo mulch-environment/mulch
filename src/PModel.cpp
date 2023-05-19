@@ -119,7 +119,7 @@ void PModel::updateDependenciesBefore(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<PModel*, int> PModel::modelByPrimaryId(int id, Database *db)
+PModel* PModel::modelByPrimaryId(int id, Database *db)
 {
 	// PModel *model = new PModel();
 	// model->retrieveExisting(id, db);
@@ -139,10 +139,10 @@ void PModel::retrieveDependencies(Result &res, Database *db)
 	std::string str_id =  StructureTechniqueInfo::staticSqlIDName();
 	std::cout << "res[rep_id] = " + res[rep_id] << std::endl;
 	std::cout << "res[str_id] = " + res[str_id] << std::endl;
-	std::pair<RepresentationType*, int> repPair = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
-	_representationType = repPair.first;
-	std::pair<StructureTechniqueInfo*, int> strTechPair = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
-	_structureTechniqueInfo = strTechPair.first;
+	RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
+	_representationType = repType;
+	StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
+	_structureTechniqueInfo = strTech;
 }
 
 void PModel::fillInFromResults(const Result &res) 

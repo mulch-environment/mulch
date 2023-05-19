@@ -14,7 +14,7 @@ namespace mulch
 	public:
 		DataCrystallographicInfo();
 		virtual void setFileName(std::string fileName);
-		static std::pair<DataCrystallographicInfo*, int> dataCrystallographicInfoByPrimaryId(int id, Database *db);
+		static DataCrystallographicInfo* dataCrystallographicInfoByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName();

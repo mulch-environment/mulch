@@ -133,7 +133,7 @@ void PData::updateDependenciesBefore(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<PData*, int> PData::dataByPrimaryId(int id, Database *db)
+PData* PData::dataByPrimaryId(int id, Database *db)
 {
 	// PData *data = new PData();
 	// data->retrieveExisting(id, db);
@@ -155,8 +155,8 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 		std::string datNmr_id = DataNMRInfo::staticSqlIDName();
 		std::cout << "res[datNmr_id] = " + res[datNmr_id] << std::endl;
-		std::pair<DataNMRInfo*, int> dataNMRPair = DataNMRInfo::dataNMRInfoByPrimaryId(std::stoi(res[datNmr_id]), db);
-		_dataNMRInfo = dataNMRPair.first;
+		DataNMRInfo* dataNMR = DataNMRInfo::dataNMRInfoByPrimaryId(std::stoi(res[datNmr_id]), db);
+		_dataNMRInfo = dataNMR;
 	}
 	else if (!Utility::isNull(res[datCryst_id]))
 	{
@@ -165,8 +165,8 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 		std::string datCryst_id = DataCrystallographicInfo::staticSqlIDName();
 		std::cout << "res[datCryst_id] = " + res[datCryst_id] << std::endl;
-		std::pair<DataCrystallographicInfo*, int > dataCrystPair = DataCrystallographicInfo::dataCrystallographicInfoByPrimaryId(std::stoi(res[datCryst_id]), db);	
-		_dataCrystallographicInfo = dataCrystPair.first;
+		DataCrystallographicInfo* dataCryst = DataCrystallographicInfo::dataCrystallographicInfoByPrimaryId(std::stoi(res[datCryst_id]), db);	
+		_dataCrystallographicInfo = dataCryst;
 	}
 	else if (!Utility::isNull(res[datCryo_id]))
 	{
@@ -175,8 +175,8 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 		std::string datCryo_id = DataCryoEMInfo::staticSqlIDName();
 		std::cout << "res[datCryo_id] = " + res[datCryo_id] << std::endl;
-		std::pair<DataCryoEMInfo*, int> dataCryoPair = DataCryoEMInfo::dataCryoEMInfoByPrimaryId(std::stoi(res[datCryo_id]), db);
-		_dataCryoEMInfo = dataCryoPair.first;	
+		DataCryoEMInfo* dataCryo = DataCryoEMInfo::dataCryoEMInfoByPrimaryId(std::stoi(res[datCryo_id]), db);
+		_dataCryoEMInfo = dataCryo;	
 	}
 	else
 	{

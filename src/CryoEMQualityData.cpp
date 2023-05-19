@@ -26,7 +26,7 @@ std::string CryoEMQualityData::updateQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CryoEMQualityData*, int> CryoEMQualityData::cryoEMQualityDataByPrimaryId(int id, Database *db)
+CryoEMQualityData* CryoEMQualityData::cryoEMQualityDataByPrimaryId(int id, Database *db)
 {
     return Cache<CryoEMQualityData>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

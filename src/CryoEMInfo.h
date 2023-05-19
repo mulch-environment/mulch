@@ -12,7 +12,7 @@ namespace mulch
 	{
 	public:
 		CryoEMInfo();
-		static std::pair<CryoEMInfo* ,int> cryoByPrimaryId(int id, Database *db);
+		static CryoEMInfo* cryoByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	

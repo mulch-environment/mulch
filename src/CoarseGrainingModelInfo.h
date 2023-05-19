@@ -13,7 +13,7 @@ namespace mulch
 	public:
 		CoarseGrainingModelInfo();
 		virtual void setComments(std::string comments);
-		static std::pair<CoarseGrainingModelInfo*, int> cgModelByPrimaryId(int id, Database *db);
+		static CoarseGrainingModelInfo* cgModelByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
 			return staticSqlIDName(); 	

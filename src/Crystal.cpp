@@ -20,7 +20,7 @@ std::string Crystal::insertQuery()
 std::string Crystal::updateQuery()
 {
 	std::string query;
-	query = "UPDATE Crystal SET comments = 'blah' WHERE crystal_ID = 4";
+	query = "UPDATE Crystal SET comments = '' WHERE crystal_ID = 4";
 	query += ";";
 	// query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
 	// query += ";";
@@ -46,7 +46,7 @@ void Crystal::updateDependenciesBefore(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<Crystal*, int> Crystal::crystalByPrimaryId(int id, Database *db)
+Crystal* Crystal::crystalByPrimaryId(int id, Database *db)
 {
     return Cache<Crystal>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

@@ -73,7 +73,7 @@ void CollectionHasDataset::fillInFromResult(const Result &res)
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<CollectionHasDataset*, int> CollectionHasDataset::collectHasDatasetByPrimaryId(int id, Database *db)
+CollectionHasDataset* CollectionHasDataset::collectHasDatasetByPrimaryId(int id, Database *db)
 {
     return Cache<CollectionHasDataset>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

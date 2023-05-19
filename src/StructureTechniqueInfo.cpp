@@ -85,7 +85,7 @@ void StructureTechniqueInfo::updateDependenciesBefore(Database *db)
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<StructureTechniqueInfo*, int> StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(int id, Database *db)
+StructureTechniqueInfo* StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(int id, Database *db)
 {
     return Cache<StructureTechniqueInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
@@ -108,8 +108,8 @@ void StructureTechniqueInfo::retrieveDependencies(Result &res, Database *db)
 	{
 		try 
 		{
-		        std::pair<CrystallographicInfo*, int> crystPair = CrystallographicInfo::crystallographicInfoByPrimaryId(std::stoi(res[crys_id]), db);
-		        _crystallographicInfo = crystPair.first;
+		        CrystallographicInfo* cryst = CrystallographicInfo::crystallographicInfoByPrimaryId(std::stoi(res[crys_id]), db);
+		        _crystallographicInfo = cryst;
 		} 
 		catch (const std::invalid_argument& e) 
 		{
@@ -121,8 +121,8 @@ void StructureTechniqueInfo::retrieveDependencies(Result &res, Database *db)
 	{
 		try 
 		{
-		        std::pair<NMRInfo* , int> nmrPair = NMRInfo::nmrByPrimaryId(std::stoi(res[nmr_id]), db);
-		        _nmrInfo = nmrPair.first;
+		        NMRInfo* nmr = NMRInfo::nmrByPrimaryId(std::stoi(res[nmr_id]), db);
+		        _nmrInfo = nmr;
 		} 
 		catch (const std::invalid_argument& e) 
 		{
@@ -134,8 +134,8 @@ void StructureTechniqueInfo::retrieveDependencies(Result &res, Database *db)
 	{
 		try 
 		{
-		        std::pair<CryoEMInfo* , int> cryoPair = CryoEMInfo::cryoByPrimaryId(std::stoi(res[cryo_id]), db); 
-		        _cryoEMInfo = cryoPair.first; 
+		        CryoEMInfo* cryo = CryoEMInfo::cryoByPrimaryId(std::stoi(res[cryo_id]), db); 
+		        _cryoEMInfo = cryo;
 		} 
 		catch (const std::invalid_argument& e) 
 		{

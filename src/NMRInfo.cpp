@@ -32,7 +32,7 @@ std::string NMRInfo::selectPidQuery()
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<NMRInfo*, int> NMRInfo::nmrByPrimaryId(int id, Database *db)
+NMRInfo* NMRInfo::nmrByPrimaryId(int id, Database *db)
 {
     return Cache<NMRInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
