@@ -23,7 +23,7 @@ namespace mulch
 		void setFile(std::string pdbName);
 		void setDataFile(std::string datafile);
 		void setDataType(DataEnum datatype);
-		static std::pair<ModelDataPair*, int> modelDataPairByPrimaryId(int id, Database *db);
+		static ModelDataPair* modelDataPairByPrimaryId(int id, Database *db);
 
 		virtual std::string sqlIdName() 
 		{
@@ -33,7 +33,7 @@ namespace mulch
 		{
 			return "modeldatapair_id";
 		}
-		
+
 		std::vector<PModel*> retrieveModelByType(RepresentationEnum rep, Database *db);
 
 		// setters for Model columns

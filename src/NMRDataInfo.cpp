@@ -21,7 +21,7 @@ std::string NMRDataInfo::updateQuery()
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::pair<NMRDataInfo*, int> NMRDataInfo::nmrDataInfoByPrimaryId(int id, Database *db)
+NMRDataInfo* NMRDataInfo::nmrDataInfoByPrimaryId(int id, Database *db)
 {
     return Cache<NMRDataInfo>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }

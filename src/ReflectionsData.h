@@ -13,7 +13,7 @@ namespace mulch
 	{
 	public:
 		ReflectionsData();
-		static std::pair<ReflectionsData*, int> reflectDataByPrimaryId(int id, Database *db);
+		static ReflectionsData* reflectDataByPrimaryId(int id, Database *db);
 
 		virtual std::string sqlIdName() 
 		{
