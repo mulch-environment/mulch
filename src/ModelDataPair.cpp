@@ -101,5 +101,19 @@ ModelDataPair* ModelDataPair::modelDataPairByPrimaryId(int id, Database *db)
     return Cache<ModelDataPair>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
 
+void ModelDataPair::retrieveDependencies(Result &res, Database *db)
+{
 
+	delete _model;
+	delete _data;
+
+	std::string model_id = PModel::staticSqlIDName();
+	std::string data_id =  PData::staticSqlIDName();
+	std::cout << "res[model_id] = " + res[model_id] << std::endl;
+	std::cout << "res[data_id] = " + res[data_id] << std::endl;
+	PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
+	_model = model;
+	PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
+	_data = data;
+}
 
