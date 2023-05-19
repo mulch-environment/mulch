@@ -108,40 +108,65 @@ BOOST_AUTO_TEST_SUITE(retrieve_suite)
 
 // }
 
-BOOST_AUTO_TEST_CASE(retrieve_PModel)
+BOOST_AUTO_TEST_CASE(retrieve_collect)
 {
 	mulch::Database db("mulch.db");
 	db.open();
 
-	int testModelPid_1 = 5;
-	int testModelPid_2 = 7;
-	std::pair<mulch::PModel*, int> modelPair_a = mulch::PModel::modelByPrimaryId(testModelPid_1, &db);
-	mulch::PModel* model_a = modelPair_a.first;
-	int id_a = modelPair_a.second;
-	std::vector<mulch::Result> retrievedRes_a = model_a->showRetrievedValues(id_a, &db);
+	int testCollectPid_1 = 5;
+	int testCollectPid_2 = 7;
+	std::vector<const mulch::Collection*>  collect_a = mulch::Collection::collectByPrimaryId(testCollectPid_1, &db);
+	std::vector<const mulch::Collection*>  collect_b = mulch::Collection::collectByPrimaryId(testCollectPid_2, &db);
 
-	std::pair<mulch::PModel*, int>  modelPair_b = mulch::PModel::modelByPrimaryId(testModelPid_2, &db);
-	mulch::PModel* model_b = modelPair_b.first;
-	int id_b = modelPair_b.second;
-	std::vector<mulch::Result> retrievedRes_b = model_b->showRetrievedValues(id_b, &db);
-
-
-	if (model_a == model_b)
+	if (collect_a == collect_b)
 	{
 		std::cout << "--------------------" << std::endl;
-		std::cout << "Models are the same:" << std::endl;
-		std::cout << id_a << "=" << id_b << std::endl;
+		std::cout << "Collections are the same" << std::endl;
 		std::cout << "--------------------" << std::endl;
 	}
 	else
 	{
 		std::cout << "--------------------" << std::endl;
-		std::cout << "Models are different" << std::endl;
-		std::cout << id_a << "!=" << id_b << std::endl;
+		std::cout << "Collections are different" << std::endl;
 		std::cout << "--------------------" << std::endl;
 	}
 
 };
+
+// BOOST_AUTO_TEST_CASE(retrieve_PModel)
+// {
+// 	mulch::Database db("mulch.db");
+// 	db.open();
+
+// 	int testModelPid_1 = 5;
+// 	int testModelPid_2 = 7;
+// 	std::pair<mulch::PModel*, int> modelPair_a = mulch::PModel::modelByPrimaryId(testModelPid_1, &db);
+// 	mulch::PModel* model_a = modelPair_a.first;
+// 	int id_a = modelPair_a.second;
+// 	// std::vector<mulch::Result> retrievedRes_a = model_a->showRetrievedValues(id_a, &db);
+
+// 	std::pair<mulch::PModel*, int>  modelPair_b = mulch::PModel::modelByPrimaryId(testModelPid_2, &db);
+// 	mulch::PModel* model_b = modelPair_b.first;
+// 	int id_b = modelPair_b.second;
+// 	// std::vector<mulch::Result> retrievedRes_b = model_b->showRetrievedValues(id_b, &db);
+
+
+// 	if (model_a == model_b)
+// 	{
+// 		std::cout << "--------------------" << std::endl;
+// 		std::cout << "Models are the same:" << std::endl;
+// 		std::cout << id_a << "=" << id_b << std::endl;
+// 		std::cout << "--------------------" << std::endl;
+// 	}
+// 	else
+// 	{
+// 		std::cout << "--------------------" << std::endl;
+// 		std::cout << "Models are different" << std::endl;
+// 		std::cout << id_a << "!=" << id_b << std::endl;
+// 		std::cout << "--------------------" << std::endl;
+// 	}
+
+// };
 
 // BOOST_AUTO_TEST_CASE(retrieve_PData)
 // {
@@ -180,17 +205,6 @@ BOOST_AUTO_TEST_CASE(retrieve_PModel)
 // 	}
 // };
 
-
-BOOST_AUTO_TEST_CASE(test_objectByPrimaryId)
-{
-	mulch::Database db("mulch.db");
-	db.open();
-
-	mulch::Object* obj = new mulch::PModel();
-	auto pair = obj->objectByPrimaryId(5, &db);
-	mulch::PModel* mdl = dynamic_cast<mulch::PModel*>(pair.first);
-
-}
 
 
 // BOOST_AUTO_TEST_SUITE_END()
