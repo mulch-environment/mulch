@@ -115,8 +115,8 @@ BOOST_AUTO_TEST_CASE(retrieve_collect)
 
 	int testCollectPid_1 = 5;
 	int testCollectPid_2 = 7;
-	std::vector<const mulch::Collection*>  collect_a = mulch::Collection::collectByPrimaryId(testCollectPid_1, &db);
-	std::vector<const mulch::Collection*>  collect_b = mulch::Collection::collectByPrimaryId(testCollectPid_2, &db);
+	mulch::Collection*  collect_a = mulch::Collection::collectByPrimaryId(testCollectPid_1, &db);
+	mulch::Collection*  collect_b = mulch::Collection::collectByPrimaryId(testCollectPid_2, &db);
 
 	if (collect_a == collect_b)
 	{
@@ -130,6 +130,20 @@ BOOST_AUTO_TEST_CASE(retrieve_collect)
 		std::cout << "Collections are different" << std::endl;
 		std::cout << "--------------------" << std::endl;
 	}
+
+};
+
+BOOST_AUTO_TEST_CASE(retrieve_cascade)
+{
+	mulch::Database db("mulch.db");
+	db.open();
+
+	int testCollectPid_1 = 5;
+	int testCollectPid_2 = 1;
+
+	mulch::Collection *collect;
+	collect->getDatasetCascade(5, &db);
+
 
 };
 
