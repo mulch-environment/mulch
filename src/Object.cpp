@@ -114,7 +114,7 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
     std::vector<Result> results = db->results();
     if (results.size() == 0)
     {
-        throw std::runtime_error("While retrieveExisting: no existing value in the table");
+        throw std::runtime_error("While retrieveExisting: The id you are trying to call is not registered in the table.");
     }
     else
     {
@@ -128,13 +128,16 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
 
     // Combine the results into a single mulch::Result object
     mulch::Result combinedResult;
-    for (const auto& res : results) {
-        for (const auto& kvp : res) {
+    for (const auto& res : results) 
+    {
+        for (const auto& kvp : res) 
+        {
             combinedResult[kvp.first] = kvp.second;
         }
     }
     retrieveDependencies(results[0] , db);
-
+    std::string nameId = sqlIdName();
+    std::cout << nameId <<std::endl;
     return combinedResult;
 }
 

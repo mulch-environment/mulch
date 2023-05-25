@@ -56,9 +56,9 @@ DataNMRInfo* DataNMRInfo::dataNMRInfoByPrimaryId(int id, Database *db)
 void DataNMRInfo::retrieveDependencies(Result &res, Database *db)
 {
 
-	// delete _nmrQualityData;
-	// std::string nmrQual_id = NMRQualityData::staticSqlIDName();
-	// std::cout << "res[nmrQual_id] = " + res[nmrQual_id] << std::endl;
+	delete _nmrQualityData;
+	std::string nmrQual_id = NMRQualityData::staticSqlIDName();
+	std::cout << "res[nmrQual_id] = " + res[nmrQual_id] << std::endl;
 	// _nmrQualityData = NMRQualityData::NMRQualDataByPrimaryId(std::stoi(res[nmrQual_id]), db);
 }
 

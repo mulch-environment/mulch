@@ -249,11 +249,13 @@ void RepresentationType::fillInFromResults(const Result &res)
 	
 	if (!Utility::isNull(res.at(cg_id)))
 	{
+		_coarseGrainingModelInfo = new CoarseGrainingModelInfo;
 		_coarseGrainingModelInfo->getPidFromResults(res);
 	}
 
 	if (!Utility::isNull(res.at(ensembl_id)))
 	{
+		_ensembleRefineInfo = new EnsembleRefineInfo;
 		_ensembleRefineInfo->getPidFromResults(res);
 	}
 }

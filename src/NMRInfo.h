@@ -12,6 +12,7 @@ namespace mulch
 	{
 	public:
 		NMRInfo();
+		virtual void setComments(std::string comments);
 		static NMRInfo* nmrByPrimaryId(int id, Database *db);
 		virtual std::string sqlIdName() 
 		{
@@ -25,6 +26,8 @@ namespace mulch
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
 		virtual std::string selectPidQuery() ;
+	private: 
+		std::string _comments = "No comments yet";
 	};
 }
 

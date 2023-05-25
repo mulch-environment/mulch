@@ -129,21 +129,54 @@ PModel* PModel::modelByPrimaryId(int id, Database *db)
 }
 
 
+// void PModel::retrieveDependencies(Result &res, Database *db)
+// {
+
+// 	delete _representationType;
+// 	delete _structureTechniqueInfo;
+
+// 	std::string rep_id = RepresentationType::staticSqlIDName();
+// 	std::string str_id =  StructureTechniqueInfo::staticSqlIDName();
+// 	std::cout << "res[rep_id] = " << res[rep_id] << std::endl;
+// 	std::cout << "res[str_id] = " << res[str_id] << std::endl;
+// 	RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
+// 	_representationType = repType;
+// 	StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
+// 	_structureTechniqueInfo = strTech;
+// }
+
 void PModel::retrieveDependencies(Result &res, Database *db)
 {
+    delete _representationType;
+    delete _structureTechniqueInfo;
 
-	delete _representationType;
-	delete _structureTechniqueInfo;
+    std::string rep_id = RepresentationType::staticSqlIDName();
+    std::string str_id = StructureTechniqueInfo::staticSqlIDName();
 
-	std::string rep_id = RepresentationType::staticSqlIDName();
-	std::string str_id =  StructureTechniqueInfo::staticSqlIDName();
-	std::cout << "res[rep_id] = " + res[rep_id] << std::endl;
-	std::cout << "res[str_id] = " + res[str_id] << std::endl;
-	RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(std::stoi(res[rep_id]), db);
-	_representationType = repType;
-	StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[str_id]), db);
-	_structureTechniqueInfo = strTech;
+    std::cout << "res[rep_id] = " << res[rep_id] << std::endl;
+    std::cout << "res[str_id] = " << res[str_id] << std::endl;
+
+    try {
+        int repId = std::stoi(res[rep_id]);
+        RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(repId, db);
+        _representationType = repType;
+    } catch (const std::invalid_argument& e) {
+        // Handle the case when the conversion fails
+        std::cerr << "Error converting res[rep_id] to integer: " << e.what() << std::endl;
+        // Perform appropriate error handling, such as setting _representationType to a default value or throwing an exception.
+    }
+
+    try {
+        int strId = std::stoi(res[str_id]);
+        StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(strId, db);
+        _structureTechniqueInfo = strTech;
+    } catch (const std::invalid_argument& e) {
+        // Handle the case when the conversion fails
+        std::cerr << "Error converting res[str_id] to integer: " << e.what() << std::endl;
+        // Perform appropriate error handling, such as setting _structureTechniqueInfo to a default value or throwing an exception.
+    }
 }
+
 
 void PModel::fillInFromResults(const Result &res) 
 {
@@ -198,9 +231,6 @@ std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
     std::cout << "--------------------" << std::endl;
     return retrieved_res;
 }
-
-
-
 
 void PModel::setRepType(RepresentationEnum rep)
 {	
