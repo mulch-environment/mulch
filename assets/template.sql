@@ -214,9 +214,9 @@ CREATE TABLE "CollectionHasDataset"(
   collectionhasdataset_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   modeldatapair_id INTEGER NOT NULL,
   collection_id INTEGER NOT NULL,
-  CONSTRAINT "Dataset_GroupHadDataset"
+  CONSTRAINT "Dataset_CollectionHadDataset"
     FOREIGN KEY ("modeldatapair_id") REFERENCES "ModelDataPair" (modeldatapair_id),
-  CONSTRAINT "Group_GroupHadDataset"
-    FOREIGN KEY (group_id) REFERENCES "Group" (group_id)
+  CONSTRAINT "Collection_CollectionHadDataset"
+    FOREIGN KEY (collection_id) REFERENCES "Collection" (Collection_id)
 );
 
