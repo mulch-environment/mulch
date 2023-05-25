@@ -1,3 +1,8 @@
+CREATE TABLE database_version (
+    version_number INTEGER
+);
+
+
 CREATE TABLE IF NOT EXISTS "Model"(
   model_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   representation_type_id INTEGER NOT NULL,
