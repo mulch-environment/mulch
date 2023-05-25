@@ -124,15 +124,15 @@ VALUES
 	(7, NULL, NULL, 2,     NULL);
 
 
-INSERT INTO datanmrinfo (data_nmr_info_id, comments, nmrqualitydata_id) 
-VALUES
-	(1, 1,    "comment_1"),
-	(2, 2,    "comment_2"),
-	(3, NULL, "comment_3"),
-	(4, NULL, NULL),
-	(5, 3,    "comment_4"),
-	(6, 4,    "comment_5"),
-	(7, NULL, NULL);
+-- INSERT INTO datanmrinfo (data_nmr_info_id, comments, nmrqualitydata_id) 
+-- VALUES
+-- 	(1, 1,    "comment_1"),
+-- 	(2, 2,    "comment_2"),
+-- 	(3, NULL, "comment_3"),
+-- 	(4, NULL, NULL),
+-- 	(5, 3,    "comment_4"),
+-- 	(6, 4,    "comment_5"),
+-- 	(7, NULL, NULL);
 
 
 INSERT INTO dataCrystallographicinfo (data_crystallographic_info_id, crystalqualitydata_id, reflections_no) 
