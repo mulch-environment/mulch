@@ -35,8 +35,10 @@ std::string CoarseGrainingModelInfo::updateQuery()
 std::string CoarseGrainingModelInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT * FROM CoarseGrainingModelInfo";
-	query += ";";
+	query = "SELECT * FROM CoarseGrainingModelInfo WHERE coarsegraining_model_id =";
+	query += "(";
+	query += std::to_string(primaryId());
+	query += ");";
 	Utility::protectsql(query);
 	return query;
 }
