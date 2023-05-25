@@ -43,7 +43,8 @@ namespace mulch
 			return "collection_id";
 		}
  		
- 		static std::vector<const Collection*> collectByPrimaryId(int id, Database *db);
+ 		static Collection* collectByPrimaryId(int id, Database *db);
+ 		void getDatasetCascade(int id, Database *db);
 		const ModelDataPair* getModelDataPairFromCollection(int index) const;
 		virtual void updateDependenciesAfter(Database *db);
 	protected:

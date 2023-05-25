@@ -60,6 +60,7 @@ namespace mulch
 		virtual std::string updateQuery() ;
 		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
+		virtual void retrieveDependencies(Result &res, Database *db);
 		void fillInFromResult(const Result &res);
 	private:
 		std::vector<ModelDataPair*> mdpVector;

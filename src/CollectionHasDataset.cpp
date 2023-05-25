@@ -78,4 +78,34 @@ CollectionHasDataset* CollectionHasDataset::collectHasDatasetByPrimaryId(int id,
     return Cache<CollectionHasDataset>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
 
+void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
+{
+	std::string mdp_id = ModelDataPair::staticSqlIDName();
+	std::string collect_id = Collection::staticSqlIDName();
+
+
+	if (!Utility::isNull(res[mdp_id]))
+	{
+		std::cout << "Retrieving from CollectionHasDataset->ModelDataPair \n" << std::endl;
+		delete _modelDataPair;
+
+		std::cout << "res[mdp_id] = " + res[mdp_id] << std::endl;
+		 ModelDataPair* mdp = ModelDataPair::modelDataPairByPrimaryId(std::stoi(res[mdp_id]), db);
+		_modelDataPair = mdp;
+	}
+	else if (!Utility::isNull(res[collect_id]))
+	{
+		std::cout << "Retrieving from PData->DataCrystallographicInfo \n" << std::endl;
+		delete _collection;
+
+		std::string collect_id = Collection::staticSqlIDName();
+		std::cout << "res[collect_id] = " + res[collect_id] << std::endl;
+		Collection* collect = Collection::collectByPrimaryId(std::stoi(res[collect_id]), db);	
+		_collection = collect;
+	}
+}
+
+
+
+
 

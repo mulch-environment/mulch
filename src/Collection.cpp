@@ -145,29 +145,27 @@ std::vector<int> Collection::retrieveCHDId(int id, Database *db)
 }
 
 
-std::vector<const Collection*> Collection::collectByPrimaryId(int id, Database *db)
+Collection* Collection::collectByPrimaryId(int id, Database *db)
 {
-	std::vector<int> chd_id = retrieveCHDId(id, db); 
-
-	std::vector<CollectionHasDataset*> chds; // Vector to store all chdPair values
-    std::vector<const Collection*> collections; // Vector to store the retrieved collections
-
-	for (const auto& chd_id_value : chd_id)	
-	{
-        // std::cout << chd_id_value << std::endl; // Print each chd_id value
-        CollectionHasDataset* chd = CollectionHasDataset::collectHasDatasetByPrimaryId(chd_id_value, db);
-        chds.push_back(chd); // Store the chdPair in the vector
-        const Collection* collection = chd->getCollection(); // Retrieve the collection
-        collections.push_back(collection); // Store the collection pointer
-
-	}
-
-    return collections; // Return the vector of collection pointers
+	return Cache<Collection>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
 
 
+void Collection::getDatasetCascade(int id, Database *db)
+{	
+	std::vector<int> chd_id = retrieveCHDId(id, db); 
+	std::vector<CollectionHasDataset*> chds; // Vector to store all chdPair values
+	for (const auto& chd_id_value : chd_id)
+	{
+		std::cout << "From Collection::getDatasetCascade, the chd_id is ";
+		std::cout << chd_id_value  << std::endl;
+
+        CollectionHasDataset* chd = CollectionHasDataset::collectHasDatasetByPrimaryId(chd_id_value, db);
+        chds.push_back(chd); // Store the chdPair in the vector
+	}
 
 
+}
 
 
 
