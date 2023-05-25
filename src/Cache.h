@@ -26,10 +26,8 @@ namespace mulch {
 
             // Retrieve data for the given ID and populate the newModel object
             newObject->retrieveExisting(id, db);
-
             // Add the new object to the cache
             cache[id] = newObject;
-
             return newObject;
         }
        	friend class Object;
