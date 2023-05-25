@@ -207,13 +207,13 @@ CREATE TABLE "DataCryoEMInfo"(
       REFERENCES "CryoemQualityData" (cryoemqualitydata_id)
 );
 
-CREATE TABLE "Group"
-  (group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fixed BLOB);
+CREATE TABLE "Collection"
+  (collection_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fixed BLOB);
 
-CREATE TABLE "GroupHasDataset"(
-  grouphasdataset_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+CREATE TABLE "CollectionHasDataset"(
+  collectionhasdataset_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   modeldatapair_id INTEGER NOT NULL,
-  group_id INTEGER NOT NULL,
+  collection_id INTEGER NOT NULL,
   CONSTRAINT "Dataset_GroupHadDataset"
     FOREIGN KEY ("modeldatapair_id") REFERENCES "ModelDataPair" (modeldatapair_id),
   CONSTRAINT "Group_GroupHadDataset"
