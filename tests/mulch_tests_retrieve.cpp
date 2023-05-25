@@ -16,6 +16,9 @@
 #include <src/CollectionHasDataset.h>
 #include <src/EnumTables.h>
 
+// Define the current database version
+const int CURRENT_VERSION = 1;
+
 BOOST_AUTO_TEST_SUITE(retrieve_suite)
 
 // BOOST_AUTO_TEST_CASE(retrieve_structureTechniqueInfo_exported_from_database)
