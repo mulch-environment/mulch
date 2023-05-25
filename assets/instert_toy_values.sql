@@ -29,6 +29,34 @@ VALUES
 	(6, 6, 6, NULL,   FALSE, "blah6"),
 	(7, 7, 7, NULL,   FALSE, "blah7");
 
+INSERT INTO Collection (collection_id)
+VALUES
+	(1),
+	(2),
+	(3),
+	(4),
+	(5),
+	(6),
+	(7),
+	(8),
+	(9),
+	(10);
+
+INSERT INTO CollectionHasDataset (collectionHasDataset_id, collection_id, modeldatapair_id)
+VALUES
+	(1, 1, 1),
+	(2, 2, 2),
+	(3, 3, 3),
+	(4, 4, 4),
+	(5, 5, 5),
+	(6, 3, 6),
+	(7, 4, 7),
+	(8, 5, 8),
+	(9, 6, 10),
+	(10, 7, 9);
+
+
+
 INSERT INTO ModelDataPair (modeldatapair_id, data_id, model_id)
 VALUES
 	(1, 1, 1),
@@ -115,4 +143,24 @@ VALUES
 INSERT INTO crystalqualitydata (crystalqualitydata_id, SNR) 
 VALUES
 	(1, 8.0)
+;
+
+INSERT INTO CryoEMInfo (cryoem_info_id) 
+VALUES
+	(1)
+;
+
+INSERT INTO CryoEMInfo (cryoem_info_id) 
+VALUES
+	(2)
+;
+
+INSERT INTO CryoEMInfo (cryoem_info_id) 
+VALUES
+	(3)
+;
+
+INSERT INTO CoarseGrainingModelInfo (coarsegraining_model_id) 
+VALUES
+	(1)
 ;
