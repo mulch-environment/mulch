@@ -70,16 +70,16 @@ VALUES
 	(9, 6, 7),
 	(10, 7, NULL);
 
-INSERT INTO StructureTechniqueInfo (structure_technique_id, nmr_info_id, cryoem_info_id)
+INSERT INTO StructureTechniqueInfo (structure_technique_id, crystallographic_info_id, nmr_info_id, cryoem_info_id)
 VALUES
-	(1, 1, NULL),
-	(2, 2, NULL),
-	(3, NULL, NULL),
-	(4, NULL, NULL),
-	(5, NULL, 1),
-	(6, NULL, 2),
-	(7, NULL, 3),
-	(8, 3, NULL);
+	(1, NULL, 1, NULL),
+	(2, NULL, 2, NULL),
+	(3, 1,  NULL, NULL),
+	(4, 2,  NULL, NULL),
+	(5, NULL, NULL, 1),
+	(6, NULL, NULL, 2),
+	(7, NULL, NULL, 3),
+	(8, NULL, 3, NULL);
 
 
 INSERT INTO CrystallographicInfo (crystallographic_info_id, serial_id, neutron_id, electron_id)
