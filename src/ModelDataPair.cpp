@@ -109,11 +109,36 @@ void ModelDataPair::retrieveDependencies(Result &res, Database *db)
 
 	std::string model_id = PModel::staticSqlIDName();
 	std::string data_id =  PData::staticSqlIDName();
-	std::cout << "res[model_id] = " + res[model_id] << std::endl;
-	std::cout << "res[data_id] = " + res[data_id] << std::endl;
-	PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
-	_model = model;
-	PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
-	_data = data;
+
+	std::cout << "res[model_id] = " << res[model_id] << std::endl;
+    std::cout << "res[data_id] = " << res[data_id] << std::endl;
+
+	bool allNull = Utility::isNull(res[model_id]) && Utility::isNull(res[data_id]);
+
+    if (allNull)
+    {
+        throw std::runtime_error("In ModelDataPair: Unregistered values aftet this point.");
+    }
+
+    try {
+        // std::cout << "res[model_id] = " + res[model_id] << std::endl;
+		PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
+		_model = model;
+    } catch (const std::invalid_argument& e) {
+        // Handle the case when the conversion fails
+        std::cerr << "Error converting res[model_id] to integer: " << e.what() << std::endl;
+        // Perform appropriate error handling, such as setting _representationType to a default value or throwing an exception.
+    }
+
+    try {
+        // std::cout << "res[data_id] = " + res[data_id] << std::endl;
+		PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
+		_data = data;
+    } catch (const std::invalid_argument& e) {
+        // Handle the case when the conversion fails
+        std::cerr << "Error converting res[data_id] to integer: " << e.what() << std::endl;
+        // Perform appropriate error handling, such as setting _representationType to a default value or throwing an exception.
+    }
+
 }
 
