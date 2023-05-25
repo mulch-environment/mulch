@@ -164,3 +164,66 @@ INSERT INTO CoarseGrainingModelInfo (coarsegraining_model_id)
 VALUES
 	(1)
 ;
+
+INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
+VALUES 
+	(3,3)
+;
+
+INSERT INTO NMRInfo (nmr_info_id) 
+VALUES 
+	(3)
+;
+
+INSERT INTO EnsembleRefineInfo (ensemble_refine_id) 
+VALUES 
+	(1)
+;
+
+INSERT INTO EnsembleRefineInfo (ensemble_refine_id) 
+VALUES 
+	(2)
+;
+
+INSERT INTO RepresentationType (representation_type_id, atomic_model_id, 
+        bondbased_model_id, coarsegraining_model_id, ensemble_refine_id)
+VALUES 
+        (8, NULL,    NULL,    2, NULL)
+        ;
+
+INSERT INTO Model (model_id, representation_type_id, structure_technique_id, pdb_code, haspdb, comments)
+VALUES 
+	(8, 8, 8, 'ABC123', 1, 'Example comment');
+
+ INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
+ VALUES 
+ 	(4,2);
+
+INSERT INTO StructureTechniqueInfo  (nmr_info_id) 
+VALUES
+	(1);
+
+INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
+VALUES 
+	(4,2);
+
+INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
+VALUES 
+	(1,1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
