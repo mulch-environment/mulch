@@ -20,7 +20,7 @@ namespace mulch
 		virtual void setFileName(std::string fileData) = 0; 
 		virtual const std::string &getComments() const = 0; // getter function
 		virtual const std::string &getFileName() const = 0;
-		static std::pair<PData*, int> modelByPrimaryId(int id, Database *db);
+		static PData* modelByPrimaryId(int id, Database *db);
 
 	protected:
 		std::string _fileData = "No data file yet";

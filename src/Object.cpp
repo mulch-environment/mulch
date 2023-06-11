@@ -151,7 +151,9 @@ std::string Object::queryLastId()
 void Object::persist()
 {
 	Database *db = new Database("mulch.db");
-	db->open();
+	int version;
+	version = db->getVersion(); // Set the version number in the Database object
+	db->open(version);
 	updateDatabase(db);
 	db->close();
 }

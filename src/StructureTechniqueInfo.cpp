@@ -6,7 +6,7 @@
 #include "CrystallographicInfo.h"
 #include "NMRInfo.h"
 #include "CryoEMInfo.h"
-#include "Collection.h"
+#include "PCollection.h"
 using namespace mulch;
 
 StructureTechniqueInfo::StructureTechniqueInfo()

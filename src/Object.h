@@ -133,6 +133,7 @@ namespace mulch
 		Last ID that was use in the query. 
 		**/
 		std::string queryLastId();
+		int _version; // Version number
 		int _tableId;
 		int _pid = -1; // default is -1 because it's not inserted in the database
 
