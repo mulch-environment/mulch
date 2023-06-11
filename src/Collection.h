@@ -1,63 +1,28 @@
-/* Collection: class represents a collection of models and data, and can have multiple 
-ModelDataPair objects associated with it. Conversely, a ModelDataPair object can be 
-associated with multiple Collection objects.*/
-
 #ifndef __mulch__Collection_h__
 #define __mulch__Collection_h__
 
-#include "Object.h"
-#include "Database.h"
-// #include "EnumTables.h"
+#include <string>
+#include "CollectionHasDataset.h"
 
 namespace mulch
 {
-	class PModel;
-	class PData;
-	class ModelDataPair;
-	class CollectionHasDataset;
-	class Collection: public Object
+	class PCollection;
+	class Database; 
+	class Collection
 	{
-	public:
-		/* Constructor to initialize member variables */
-		Collection();
-
-		/* Add a model to the collection with the given representation type and PDB file name */
-		void addModel(RepresentationEnum rep, std::string pdbName);
-
-		/* Add data to the collection with the given data type and data file name */
-		void addData(DataEnum datatype, std::string datafile);
-
+	public: 
+	    virtual ~Collection(){};
+	    virtual Collection* getCollectionInterface() = 0 ;
+	    /* Add a model to the collection with the given representation type and PDB file name */
+	    virtual void addModel(RepresentationEnum rep, std::string pdbName) = 0;
+	    /* Add data to the collection with the given data type and data file name */
+	    virtual void addData(DataEnum datatype, std::string datafile) = 0;
 		/* Add a model-data pair to the collection with the given representation type, PDB file name,
-    	data type, and data file name, data type, and data file name */
-		void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
-		
-		/* Set the collection has dataset relationship with a given model-data pair object */
-		void sentToCHD(ModelDataPair *MDpair);
-
-		virtual std::string sqlIdName() 
-		{
-			return staticSqlIDName(); 	
-		}
-		static std::string staticSqlIDName()
-		{
-			return "collection_id";
-		}
- 		
- 		static Collection* collectByPrimaryId(int id, Database *db);
- 		void getDatasetCascade(int id, Database *db);
-		const ModelDataPair* getModelDataPairFromCollection(int index) const;
-		virtual void updateDependenciesAfter(Database *db);
-	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
-		static std::vector<int> retrieveCHDId(int id, Database *db);
-	private:
-		bool _fixed = true; 
-		std::vector<CollectionHasDataset*> _chds;
-		// ModelDataPair *_mdp = nullptr;
-
+		data type, and data file name, data type, and data file name */
+	    virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile) = 0;
+	    virtual const ModelDataPair* getModelDataPairFromCollection(int index) const = 0;
+	    static PCollection* collectionByPrimaryId(int id, Database* db);
 	};
-}
+} // namespace mulch
 
 #endif
