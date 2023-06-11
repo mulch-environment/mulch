@@ -124,17 +124,6 @@ VALUES
 	(7, NULL, NULL, 2,     NULL);
 
 
--- INSERT INTO datanmrinfo (data_nmr_info_id, comments, nmrqualitydata_id) 
--- VALUES
--- 	(1, 1,    "comment_1"),
--- 	(2, 2,    "comment_2"),
--- 	(3, NULL, "comment_3"),
--- 	(4, NULL, NULL),
--- 	(5, 3,    "comment_4"),
--- 	(6, 4,    "comment_5"),
--- 	(7, NULL, NULL);
-
-
 INSERT INTO dataCrystallographicinfo (data_crystallographic_info_id, crystalqualitydata_id, reflections_no) 
 VALUES
 	(1, 1, 10000)
@@ -163,6 +152,11 @@ VALUES
 INSERT INTO CoarseGrainingModelInfo (coarsegraining_model_id) 
 VALUES
 	(1)
+;
+
+INSERT INTO CoarseGrainingModelInfo (coarsegraining_model_id) 
+VALUES
+	(2)
 ;
 
 INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
@@ -203,18 +197,15 @@ INSERT INTO StructureTechniqueInfo  (nmr_info_id)
 VALUES
 	(1);
 
-INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
-VALUES 
-	(4,2);
 
 INSERT INTO DataNMRInfo (data_nmr_info_id, nmrqualitydata_id) 
 VALUES 
 	(1,1);
 
 
-
-
-
+INSERT INTO DataCryoEMInfo (data_cryoem_info_id, cryoemqualitydata_id)
+VALUES
+  (1, 1);
 
 
 
