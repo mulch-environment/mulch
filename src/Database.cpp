@@ -29,8 +29,9 @@ Database::Database(std::string filepath)
 	_filepath = filepath;
 }
 
-void Database::open()
+void Database::open(int version)
 {
+	_version = version;
 	openConnection();
 	int total_num_tables = countTables();
 	tablesFromTemplate(total_num_tables);
@@ -46,6 +47,13 @@ std::string Database::defaultTemplateFile()
 	std::cout << std::string(MULCH_DATA_DIRECTORY) << std::endl;
 	return std::string(MULCH_DATA_DIRECTORY)+"/template.sql";
 }
+
+std::string Database::defaultInsertTemplateFile()
+{
+	std::cout << std::string(MULCH_DATA_DIRECTORY) << std::endl;
+	return std::string(MULCH_DATA_DIRECTORY)+"/insert_toy_values.sql";
+}
+
 
 void Database::openConnection()
 {
@@ -79,13 +87,78 @@ void Database::tablesFromTemplate(int num_tables)
 		std::string defaultTemplate = defaultTemplateFile();
 		printf("Database is empty \n");
 		printf("Read and execute SQL commands from folder: %s\n", defaultTemplate.c_str());
+		executeSQL(defaultTemplate);
 
-		std::string sql_commands = Utility::getFileContents(defaultTemplate);	
-		query(sql_commands);
+		if (isTablesEmpty())
+	    {
+	    	std::cout << "Tables are empty" << std::endl;
+	    	std::string defaultInsertTemplate = defaultInsertTemplateFile();
+	    	printf("Read and execute insert SQL commands from folder: %s\n", defaultInsertTemplate.c_str());
+	    	executeSQL(defaultInsertTemplate);
+	    }
+	    
 	} 
-	else {
-		printf("Database has %d number of tables. \n", num_tables);
+	else 
+	{
+        std::cout << "Database has " << num_tables << " number of tables." << std::endl;
 	}
+
+	// Update VersionHistory table
+	updateVersionHistory(_version);
+}
+
+bool Database::isTablesEmpty()
+{
+    std::vector<std::string> tableNames = {
+        "AtomicModelInfo",
+        "CrystallographicInfo",
+        "NMRQualityData",
+        "BondBasedModelInfo",
+        "Data",
+        "ReflectionsData",
+        "CoarseGrainingModelInfo",
+        "DataCryoEMInfo",
+        "RepresentationType",
+        "Collection",
+        "DataCrystallographicInfo",
+        "RfactorsInfo",
+        "CollectionHasDataset",
+        "DataNMRInfo",
+        "StructureTechniqueInfo",
+        "CryoEMInfo",
+        "EnsembleRefineInfo",
+        "TLSParametersInfo",
+        "CryoEMQualityData",
+        "Model",
+        "Crystal",
+        "ModelDataPair",
+        "CrystalQualityData",
+        "NMRInfo"
+    };
+
+    for (const std::string& tableName : tableNames)
+    {
+        std::string countQuery = "SELECT COUNT(*) FROM " + tableName + ";";
+        query(countQuery);
+
+        if (!_results.empty() && _results[0]["COUNT(*)"] != "0")
+        {
+            // Table is not empty
+            return false;
+        }
+    }
+
+    // All tables are empty
+    return true;
+}
+
+
+void Database::executeSQL(std::string nameFile)
+{
+    // std::string filename = "assets/insert_toy_values.sql"; // Assuming the insert SQL file is named "insert.sql"
+    std::string sqlCommands = Utility::getFileContents(nameFile);
+   	std::cout<<sqlCommands<<std::endl;
+    query(sqlCommands);
 }
 
 
@@ -122,7 +195,10 @@ void Database::closeConnection()
 	}
 }
 
-
+void Database::updateVersionHistory(const int version) {
+    std::string sql = "INSERT INTO VersionHistory (VersionNumber) VALUES ('" + std::to_string(version) + "');";
+    query(sql);
+}
 
 
 
