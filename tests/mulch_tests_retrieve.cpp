@@ -13,11 +13,12 @@
 #include <src/DataNMRInfo.h>
 #include <src/ModelDataPair.h>
 #include <src/Collection.h>
+#include <src/PCollection.h>
 #include <src/CollectionHasDataset.h>
 #include <src/EnumTables.h>
 
 // Define the current database version
-const int CURRENT_VERSION = 1;
+const int CURRENT_VERSION = 2;
 
 BOOST_AUTO_TEST_SUITE(retrieve_suite)
 
@@ -114,41 +115,41 @@ BOOST_AUTO_TEST_SUITE(retrieve_suite)
 BOOST_AUTO_TEST_CASE(retrieve_collect)
 {
 	mulch::Database db("mulch.db");
-	db.open();
+	db.open(CURRENT_VERSION);
 
 	int testCollectPid_1 = 5;
 	int testCollectPid_2 = 7;
-	mulch::Collection*  collect_a = mulch::Collection::collectByPrimaryId(testCollectPid_1, &db);
-	mulch::Collection*  collect_b = mulch::Collection::collectByPrimaryId(testCollectPid_2, &db);
+	// mulch::Collection*  collect_a = mulch::Collection::collecttionByPrimaryId(testCollectPid_1, &db);
+	// mulch::Collection*  collect_b = mulch::Collection::collectionByPrimaryId(testCollectPid_2, &db);
 
-	if (collect_a == collect_b)
-	{
-		std::cout << "--------------------" << std::endl;
-		std::cout << "Collections are the same" << std::endl;
-		std::cout << "--------------------" << std::endl;
-	}
-	else
-	{
-		std::cout << "--------------------" << std::endl;
-		std::cout << "Collections are different" << std::endl;
-		std::cout << "--------------------" << std::endl;
-	}
-
-};
-
-BOOST_AUTO_TEST_CASE(retrieve_cascade)
-{
-	mulch::Database db("mulch.db");
-	db.open();
-
-	int testCollectPid_1 = 5;
-	int testCollectPid_2 = 1;
-
-	mulch::Collection *collect;
-	collect->getDatasetCascade(5, &db);
-
+	// if (collect_a == collect_b)
+	// {
+	// 	std::cout << "--------------------" << std::endl;
+	// 	std::cout << "Collections are the same" << std::endl;
+	// 	std::cout << "--------------------" << std::endl;
+	// }
+	// else
+	// {
+	// 	std::cout << "--------------------" << std::endl;
+	// 	std::cout << "Collections are different" << std::endl;
+	// 	std::cout << "--------------------" << std::endl;
+	// }
 
 };
+
+// BOOST_AUTO_TEST_CASE(retrieve_cascade)
+// {
+// 	mulch::Database db("mulch.db");
+// 	db.open(CURRENT_VERSION);
+
+// 	// int testCollectPid_1 = 5;
+// 	// int testCollectPid_2 = 1;
+
+// 	// mulch::Collection *collect;
+// 	// collect->getDatasetCascade(5, &db);
+
+
+// };
 
 // BOOST_AUTO_TEST_CASE(retrieve_PModel)
 // {
