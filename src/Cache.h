@@ -24,7 +24,7 @@ namespace mulch {
             // If the object is not in the cache, create a new one
             T* newObject = new T();
 
-            // Retrieve data for the given ID and populate the newModel object
+            // Retrieve data for the given ID and populate the newObject object
             newObject->retrieveExisting(id, db);
             // Add the new object to the cache
             cache[id] = newObject;
