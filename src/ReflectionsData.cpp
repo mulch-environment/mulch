@@ -20,7 +20,7 @@ std::string ReflectionsData::insertQuery()
 std::string ReflectionsData::updateQuery()
 {
 	std::string query;
-	query = "UPDATE ReflectionsData SET comments = 'blah' WHERE ReflectionsData_ID = 4";
+	query = "UPDATE ReflectionsData SET comments = 'temp_comment' WHERE ReflectionsData_ID = 4";
 	query += ";";
 	// query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
 	// query += ";";

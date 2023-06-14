@@ -35,7 +35,7 @@ std::string DataInfo::insertQuery()
 
 std::string DataInfo::updateQuery()
 {
-	query = "UPDATE Data SET comments = 'blahblah' WHERE Data_ID = 5";
+	query = "UPDATE Data SET comments = temp_comment WHERE Data_ID = 5";
 	query += std::to_string(primaryId());
 	query += ";";
 	return "";
