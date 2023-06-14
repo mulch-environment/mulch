@@ -1,7 +1,7 @@
 // PCollection.cpp
 #include <iostream>
-#include "Collection.h"
 #include "PCollection.h"
+#include "Collection.h"
 #include "CollectionHasDataset.h"
 #include "ModelDataPair.h"
 #include "PData.h"
@@ -46,15 +46,53 @@ std::string PCollection::selectPidQuery()
 	return query;
 }
 
+void PCollection::addModel(RepresentationEnum rep, std::string pdbName)
+{
+    ModelDataPair *mdp = new ModelDataPair();
+    mdp->setRep(rep);
+    mdp->setFile(pdbName);
+    sentToCHD(mdp);
+}
+
+void PCollection::addData(DataEnum datatype, std::string datafile)
+{
+    ModelDataPair *mdp = new ModelDataPair();
+    mdp->setDataType(datatype);
+    mdp->setDataFile(datafile);
+    sentToCHD(mdp);
+}
+
+void PCollection::addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile)
+{
+    std::cout<<"Adding data to ModelDataPair"<<std::endl;
+    ModelDataPair *mdp = new ModelDataPair();
+    mdp->setRep(rep);
+    mdp->setFile(pdbName);
+    mdp->setDataType(datatype);
+    mdp->setDataFile(datafile);
+    sentToCHD(mdp);
+    // mdp->persist();
+}
+
+const ModelDataPair* PCollection::getModelDataPairFromCollection(int index) const
+{
+    if (index < 0 || index >= _chds.size())
+    {
+        return nullptr;
+    }
+    CollectionHasDataset* chd = _chds[index];
+    return chd->getModelDataPair();
+}
+
 
 void PCollection::sentToCHD(ModelDataPair *MDpair)
-{
-	std::cout<<"Adding data to CollectionHasDataset"<<std::endl;	
-	CollectionHasDataset *chd = new CollectionHasDataset();
-	chd->setCollection(getCollectionInterface());
-	chd->setModelDataPair(MDpair);
-	_chds.push_back(chd);
-}
+ {
+ 	std::cout<<"Adding data to CollectionHasDataset"<<std::endl;	
+ 	CollectionHasDataset *chd = new CollectionHasDataset();
+ 	chd->setCollection(this);
+ 	chd->setModelDataPair(MDpair);
+ 	_chds.push_back(chd);
+ }
 
 void PCollection::updateDependenciesAfter(Database *db) 
 {
@@ -63,6 +101,8 @@ void PCollection::updateDependenciesAfter(Database *db)
 		chd->updateDatabase(db);
 	}
 }
+
+
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
@@ -123,6 +163,11 @@ void PCollection::getDatasetCascade(int id, Database *db)
 
 }
 
+
+PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
+{
+    return Cache<PCollection>::cacheByPrimaryId(id, db); // Use the template function from the cache
+}
 
 
 

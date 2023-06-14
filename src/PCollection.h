@@ -5,15 +5,14 @@ associated with multiple Collection objects.*/
 #ifndef __mulch__PCollection_h__
 #define __mulch__PCollection_h__
 
+#include "Collection.h"
 #include "Object.h"
 #include "Database.h"
-#include "Collection.h"
 // #include "EnumTables.h"
 
 namespace mulch
 {
-	class PModel;
-	class PData;
+	class Collection;  // Forward declaration
 	class ModelDataPair;
 	class CollectionHasDataset;
 	class PCollection: public Collection, public Object
@@ -24,7 +23,7 @@ namespace mulch
 		/* Set the collection has dataset relationship with a given model-data pair object */
 		void sentToCHD(ModelDataPair *MDpair);
 
-		virtual std::string sqlIdName() 
+		virtual std::string sqlIdName() override
 		{
 			return staticSqlIDName(); 	
 		}
@@ -34,15 +33,20 @@ namespace mulch
 		}
  		
  		void getDatasetCascade(int id, Database *db);
-		virtual void updateDependenciesAfter(Database *db);
-		virtual Collection* getCollectionInterface()
-		{
-        	return this;
+		virtual void updateDependenciesAfter(Database *db) override;
+    	virtual const std::vector<CollectionHasDataset*>& getCHDsVector() const
+    	{
+        	return _chds;
     	}
+    	static PCollection* pCollectionByPrimaryId(int id, Database *db);
 	protected:
-		virtual std::string insertQuery();
-		virtual std::string updateQuery();
-		virtual std::string selectPidQuery();
+		virtual void addModel(RepresentationEnum rep, std::string pdbName);
+		virtual void addData(DataEnum datatype, std::string datafile);
+		virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
+		virtual const ModelDataPair* getModelDataPairFromCollection(int index) const;
+		virtual std::string insertQuery() override;
+		virtual std::string updateQuery() override;
+		virtual std::string selectPidQuery() override;
 		static std::vector<int> retrieveCHDId(int id, Database *db);
 	private:
 		bool _fixed = true; 
@@ -50,6 +54,6 @@ namespace mulch
 		// ModelDataPair *_mdp = nullptr;
 
 	};
-} // namespace mulch
+}; // namespace mulch
 
 #endif

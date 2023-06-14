@@ -2,6 +2,7 @@
 #include "CollectionHasDataset.h"
 #include "ModelDataPair.h"
 #include "Collection.h"
+#include "PCollection.h"
 using namespace mulch;
 
 CollectionHasDataset::CollectionHasDataset()
@@ -52,10 +53,10 @@ void CollectionHasDataset::updateDependenciesBefore(Database *db)
 }
 
 
-void CollectionHasDataset::setCollection(Collection* collection)
+void CollectionHasDataset::setCollection(PCollection* pCollection)
 {
 	std::cout<<"In CollectionHasDataset::setCollection"<<std::endl;
-	_collection = collection;
+	_collection = pCollection;
 
 }
 
@@ -81,7 +82,7 @@ CollectionHasDataset* CollectionHasDataset::collectHasDatasetByPrimaryId(int id,
 void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
 {
 	std::string mdp_id = ModelDataPair::staticSqlIDName();
-	std::string collect_id = Collection::staticSqlIDName();
+	std::string collect_id = PCollection::staticSqlIDName();
 
 
 	if (!Utility::isNull(res[mdp_id]))
@@ -95,13 +96,13 @@ void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
 	}
 	else if (!Utility::isNull(res[collect_id]))
 	{
-		std::cout << "Retrieving from PData->DataCrystallographicInfo \n" << std::endl;
+        std::cout << "Retrieving from CollectionHasDataset->PCollection" << std::endl;
 		delete _collection;
 
-		std::string collect_id = Collection::staticSqlIDName();
+		std::string collect_id = PCollection::staticSqlIDName();
 		std::cout << "res[collect_id] = " + res[collect_id] << std::endl;
-		Collection* collect = Collection::collectByPrimaryId(std::stoi(res[collect_id]), db);	
-		_collection = collect;
+		PCollection* pCollect = PCollection::pCollectionByPrimaryId(std::stoi(res[collect_id]), db);	
+		_collection = pCollect;
 	}
 }
 

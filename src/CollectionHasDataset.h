@@ -13,11 +13,14 @@ CollectionHasDataset.
 
 #include "Object.h"
 #include "Database.h"
+#include "Collection.h"
+#include "PCollection.h"
 
 namespace mulch
 {
 	class ModelDataPair;
 	class Collection;
+	class PCollection;
 	class CollectionHasDataset : public Object
 	{
 	public:
@@ -35,7 +38,7 @@ namespace mulch
 		/* Sets the _collection member variable of the 
 		current CollectionHasDataset object to the input 
 		collection onject */
-		void setCollection(Collection *_collection);
+		void setCollection(PCollection* pCollection);
 		
 		/* Adds the input _mdp objets to the mdpVector 
 		variable of the current CollectionHasDataset object */
@@ -48,7 +51,7 @@ namespace mulch
     	}
 
     	/* Get Collection form CollectionHasDataset */
-    	virtual const Collection* getCollection() const 
+    	virtual const PCollection* getPcollection() const 
     	{
     		return _collection;
     	}
@@ -65,9 +68,9 @@ namespace mulch
 	private:
 		std::vector<ModelDataPair*> mdpVector;
 		ModelDataPair *_modelDataPair = nullptr;
-		Collection *_collection = nullptr;
+		PCollection *_collection = nullptr;
 
 	};
-}
+};
 
 #endif
