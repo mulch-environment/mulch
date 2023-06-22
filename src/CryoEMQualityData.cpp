@@ -12,18 +12,27 @@ std::string CryoEMQualityData::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO CryoEMQualityData DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string CryoEMQualityData::updateQuery()
 {
 	std::string query;
-	query = "UPDATE CryoEMQualityData SET SNR = 2 WHERE cryoemqualitydata_ID = 4";
-	query += ";";
-	// query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
-	// query += ";";
+	query = "";
+	Utility::protectsql(query);
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string CryoEMQualityData::updateQueryTest(Database *db)
+{
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 /// ------------------ RETRIEVING STUFF -----------------------
 CryoEMQualityData* CryoEMQualityData::cryoEMQualityDataByPrimaryId(int id, Database *db)

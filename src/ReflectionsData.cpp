@@ -14,25 +14,34 @@ std::string ReflectionsData::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO ReflectionsData DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string ReflectionsData::updateQuery()
 {
 	std::string query;
-	query = "UPDATE ReflectionsData SET comments = 'temp_comment' WHERE ReflectionsData_ID = 4";
-	query += ";";
-	// query += "UPDATE AtomicModelInfo SET tlsparameters_id = 2 WHERE atomic_model_id = 2";
-	// query += ";";
+	query = "";
+	Utility::protectsql(query);
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string ReflectionsData::updateQueryTest(Database *db)
+{
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string ReflectionsData::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT reflectionsdata_id FROM ReflectionsData";
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
 }
 

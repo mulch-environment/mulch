@@ -16,6 +16,7 @@ namespace mulch
 	class ModelDataPair;
 	class CollectionHasDataset;
 	class PCollection: public Collection, public Object
+
 	{
 	public:
 		/* Constructor to initialize member variables */
@@ -39,13 +40,22 @@ namespace mulch
         	return _chds;
     	}
     	static PCollection* pCollectionByPrimaryId(int id, Database *db);
-	protected:
-		virtual void addModel(RepresentationEnum rep, std::string pdbName);
+    	// void addModelDataPairWrapper(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile)
+	    // {
+	    //     addModelDataPair(rep, pdbName, datatype, datafile);
+	    // }
+	    const ModelDataPair* getModelDataPairWrapper(int index) const
+	    {
+	        return getModelDataPairFromCollection(index);
+	    }
+	    virtual void addModel(RepresentationEnum rep, std::string pdbName);
 		virtual void addData(DataEnum datatype, std::string datafile);
 		virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
+	protected:
 		virtual const ModelDataPair* getModelDataPairFromCollection(int index) const;
 		virtual std::string insertQuery() override;
 		virtual std::string updateQuery() override;
+		virtual std::string updateQueryTest(Database *db);
 		virtual std::string selectPidQuery() override;
 		static std::vector<int> retrieveCHDId(int id, Database *db);
 	private:

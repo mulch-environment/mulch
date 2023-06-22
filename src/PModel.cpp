@@ -26,7 +26,7 @@ std::string PModel::insertQuery()
 	query += std::to_string(_structureTechniqueInfo->primaryId());
 	query += ");";
 	std::cout<<query<<std::endl;
-	Utility::protectsql(query);
+	// Utility::protectsql(query);
 	return query;
 }
 
@@ -34,26 +34,45 @@ std::string PModel::insertQuery()
 std::string PModel::updateQuery()
 {
 	std::string query;
-	query = "UPDATE Model SET pdb_code = ";
-	query += "'";
+	query = "UPDATE Model SET pdb_code = '";
 	query += _pdbName;
-	query += "'";
-	query +=  ", haspdb = ";
-	query += "'";
+	query +=  "', haspdb = '";
 	query += _hasPdb;
-	query += "'";
-	query += ", comments = ";
-	query += "'";
+	query += "' , comments = '";
 	query += _comments;
-	query += "'";
-	query += " WHERE model_ID = ";
-	query += "(";	
+	query += "' WHERE model_ID = (";
 	query += std::to_string(primaryId());
 	query += ");";
 	std::cout<<"Update query in PModel: "<<std::endl;
 	std::cout<<query<<std::endl;
-	return query;
+	// Utility::protectParameter(_pdbName);
+	// Utility::protectParameter(_hasPdb);
+	// Utility::protectParameter(_comments);
+    // Utility::protectsql(query);
+    return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string PModel::updateQueryTest(Database *db)
+{
+
+    std::string query = "UPDATE Model SET pdb_code = ? WHERE model_ID = (?)";
+    std::string pdbName = _pdbName;
+    std::string hasPdb = _hasPdb;
+    std::string comments = _comments;
+    int modelId = primaryId();
+    std::vector<std::string> parameters;
+    parameters.push_back(pdbName);
+    parameters.push_back(hasPdb);
+    parameters.push_back(comments);
+    parameters.push_back(std::to_string(modelId));
+
+
+    executeUpdateQuery(db, query, parameters);
+}
+
+// ------------------------------------------------------------------------------------------
 
 
 std::string PModel::selectPidQuery()
@@ -62,7 +81,7 @@ std::string PModel::selectPidQuery()
 	query = "SELECT * FROM Model WHERE model_ID = ";
 	query += std::to_string(primaryId());
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
 }
 

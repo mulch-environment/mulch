@@ -12,13 +12,28 @@ std::string CrystallographicInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO CrystallographicInfo DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string CrystallographicInfo::updateQuery()
 {
-	return "";
+	std::string query;
+	query = "";
+	Utility::protectsql(query);
+	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string CrystallographicInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string CrystallographicInfo::selectPidQuery()
 {

@@ -15,22 +15,43 @@ std::string AtomicModelInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO AtomicModelInfo DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string AtomicModelInfo::updateQuery()
 {
 	std::string query;
-	query =	"UPDATE AtomicModelInfo SET pdb_code = ";
-	query += "'";
+
+	query =	"UPDATE AtomicModelInfo SET pdb_code = '";
 	query += AtomicModelInfo::getPDBCode();
-	query += "'";
-	query += " WHERE atomic_model_id = ";
-	query += "(";
+	query += "' WHERE atomic_model_id = (";
 	query += std::to_string(primaryId());
-	query += ");";				
+	query += ");";
+	
+	std::string kk = AtomicModelInfo::getPDBCode();
+	// Utility::protectsql(query);				
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string AtomicModelInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "UPDATE AtomicModelInfo SET pdb_code = ? WHERE atomic_model_id = ?;";
+    std::string pdbCode = AtomicModelInfo::getPDBCode();
+    int atomicModelId = primaryId();
+    std::vector<std::string> parameters;
+    parameters.push_back(pdbCode);
+    parameters.push_back(std::to_string(atomicModelId));
+
+
+    executeUpdateQuery(db, query, parameters);
+}
+
+// ------------------------------------------------------------------------------------------
+
 
 std::string AtomicModelInfo::selectPidQuery()
 {

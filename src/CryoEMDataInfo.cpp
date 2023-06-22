@@ -12,13 +12,28 @@ std::string CryoEMDataInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO CryoEMDataInfo DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string CryoEMDataInfo::updateQuery()
 {
-	return "";
+	std::string query;
+	query = "";
+	Utility::protectsql(query);
+	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string CryoEMDataInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 /// ------------------ RETRIEVING STUFF -----------------------
 CryoEMDataInfo* CryoEMDataInfo::cryoEMDataInfoByPrimaryId(int id, Database *db)

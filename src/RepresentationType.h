@@ -35,10 +35,12 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
+		virtual std::string updateQueryTest(Database *db) ;
 		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
 		std::string updateRepType(std::string repTypeIdName, int repTypeIdValue);
+		std::string updateRepTypeTest(Database *db, std::string repTypeIdName, int repTypeIdValue);
 
 	private:
 		RepresentationEnum _type = NoneRepresentation;
@@ -46,7 +48,7 @@ namespace mulch
 		BondBasedModelInfo* _bondBasedModelInfo = nullptr;
 		CoarseGrainingModelInfo* _coarseGrainingModelInfo = nullptr;
 		EnsembleRefineInfo* _ensembleRefineInfo = nullptr;
-		std::string _comments = "No comments yet";
+		std::string _comments = "";
 
 		
 	};

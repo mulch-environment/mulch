@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <sqlite3.h>
 
 namespace mulch
 {
@@ -36,6 +37,10 @@ public:
 		{
 			return _results;
 		}
+		sqlite3* getSQLiteHandle() const 
+		{
+        	return _db;
+    	}
 private:
 		sqlite3 *_db = nullptr;
 		void openConnection();

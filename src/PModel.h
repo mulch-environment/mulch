@@ -79,6 +79,7 @@ namespace mulch
 		// static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
+		virtual std::string updateQueryTest(Database *db) ;
 		// virtual std::string updateCommentsQuery();
 		// virtual std::string updatePdbCodeQuery();
 		virtual std::string selectPidQuery();
@@ -88,9 +89,9 @@ namespace mulch
 	private:
 		RepresentationType *_representationType = nullptr;
 		StructureTechniqueInfo *_structureTechniqueInfo = nullptr;
-		std::string _comments =  "No comments yet";
-		std::string _pdbName =  "No pdb yet";
-		std::string _hasPdb = "false";
+		std::string _comments =  "";
+		std::string _pdbName =  "";
+		std::string _hasPdb = "";
 		Date _creationDate;
 
 	};

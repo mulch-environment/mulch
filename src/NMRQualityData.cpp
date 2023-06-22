@@ -12,13 +12,28 @@ std::string NMRQualityData::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO NMRQualityData DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string NMRQualityData::updateQuery()
 {
-	return " ";
+	std::string query;
+	query = "";
+	Utility::protectsql(query);
+	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string NMRQualityData::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string NMRQualityData::selectPidQuery()
 {

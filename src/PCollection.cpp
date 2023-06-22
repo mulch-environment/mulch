@@ -23,17 +23,28 @@ std::string PCollection::insertQuery()
 	query += "(";
 	query += Utility::boolToString(_fixed);
 	query += ");";
+	Utility::protectsql(query);
 	return query;	
 }
 
 std::string PCollection::updateQuery()
 {
 	std::string query;
-	// fixed = true or false vlaue, collectiontion_id = sql_id
-	query = " ";
-
+	query = "";
+	Utility::protectsql(query);
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string PCollection::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    // executeUpdateQuery(db, query);
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string PCollection::selectPidQuery()
 {
@@ -42,7 +53,6 @@ std::string PCollection::selectPidQuery()
 	query += std::to_string(primaryId());
 	query += ";";
 	Utility::protectsql(query);
-
 	return query;
 }
 
@@ -64,7 +74,7 @@ void PCollection::addData(DataEnum datatype, std::string datafile)
 
 void PCollection::addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile)
 {
-    std::cout<<"Adding data to ModelDataPair"<<std::endl;
+	Utility::debugLogTest("Adding data to ModelDataPair");
     ModelDataPair *mdp = new ModelDataPair();
     mdp->setRep(rep);
     mdp->setFile(pdbName);
@@ -87,7 +97,7 @@ const ModelDataPair* PCollection::getModelDataPairFromCollection(int index) cons
 
 void PCollection::sentToCHD(ModelDataPair *MDpair)
  {
- 	std::cout<<"Adding data to CollectionHasDataset"<<std::endl;	
+ 	Utility::debugLogTest("Adding data to CollectionHasDataset");
  	CollectionHasDataset *chd = new CollectionHasDataset();
  	chd->setCollection(this);
  	chd->setModelDataPair(MDpair);
@@ -141,7 +151,7 @@ std::vector<int> PCollection::retrieveCHDId(int id, Database *db)
     // {
     // 	std::cout << id << std::endl;
     // }
-    std::cout << "How many CollectionHasDataset inputs?" << std::endl;
+    Utility::debugLogTest("How many CollectionHasDataset inputs?");
     std::cout << chd_id.size() << std::endl;
     return chd_id;
 }

@@ -22,7 +22,7 @@ std::string DataInfo::insertQuery()
 	query += ",";
 	query += std::to_string(_structureTechniqueInfo->primaryId());
 	query += ");";
-
+	Utility::protectsql(query);
 	return query;
 }
 
@@ -30,16 +30,28 @@ std::string DataInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO Data DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string DataInfo::updateQuery()
 {
-	query = "UPDATE Data SET comments = temp_comment WHERE Data_ID = 5";
-	query += std::to_string(primaryId());
-	query += ";";
-	return "";
+	std::string query;
+	query = "";
+	Utility::protectsql(query);
+	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string DataInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 void DataInfo::updateDependencies(Database *db)
 {

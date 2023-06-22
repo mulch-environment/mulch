@@ -15,27 +15,47 @@ std::string DataCrystallographicInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO DataCrystallographicInfo DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string DataCrystallographicInfo::updateQuery()
 {
 	std::string query;
-	query =	"UPDATE DataCrystallographicInfo SET file_name = ";
-	query += "'";
-	query += DataCrystallographicInfo::getFileName();
-	query += "'";
-	query += " WHERE data_crystallographic_info_id = ";		
+	std::string fileName = DataCrystallographicInfo::getFileName();
+	Utility::protectParameter(fileName);
+	query =	"UPDATE DataCrystallographicInfo SET file_name = '";
+	query += fileName;
+	query += "' WHERE data_crystallographic_info_id = ";		
 	query += std::to_string(DataCrystallographicInfo::primaryId());
+	
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string DataCrystallographicInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "UPDATE DataCrystallographicInfo SET file_name = ? WHERE data_crystallographic_info_id = ?";
+    std::string fileName = DataCrystallographicInfo::getFileName();
+    int dataCryId = primaryId();
+    std::vector<std::string> parameters;
+    parameters.push_back(fileName);
+    parameters.push_back(std::to_string(dataCryId));
+
+
+    executeUpdateQuery(db, query, parameters);
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string DataCrystallographicInfo::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT * FROM DataCrystallographicInfo";
 	query += ";";
-
+	Utility::protectsql(query);
 	return query;
 }
 

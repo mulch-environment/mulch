@@ -12,23 +12,39 @@ std::string NMRInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO NMRInfo DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string NMRInfo::updateQuery()
 {
 	std::string query;
-	query =	"UPDATE NMRInfo SET comments = ";
-	query += "'";
+	query =	"UPDATE NMRInfo SET comments = '";
 	query += _comments;
-	query += "'";
-	query += "WHERE nmr_info_id = ";
-	query += "(";
+	query += "' WHERE nmr_info_id = (";
 	query += std::to_string(primaryId());
 	query += ");";
 	Utility::protectsql(query);	
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string NMRInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "UPDATE NMRInfo SET comments = ? WHERE nmr_info_id = (?);";
+    std::string comments = _comments;
+    int nmrInfoId = primaryId();
+    std::vector<std::string> parameters;
+    parameters.push_back(comments);
+    parameters.push_back(std::to_string(nmrInfoId));
+
+
+    executeUpdateQuery(db, query, parameters);
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string NMRInfo::selectPidQuery()
 {

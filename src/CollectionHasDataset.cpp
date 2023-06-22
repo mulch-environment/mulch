@@ -1,9 +1,15 @@
 // CollectionHasDataset.cpp
+#include "DebugLog.h"
 #include "CollectionHasDataset.h"
 #include "ModelDataPair.h"
 #include "Collection.h"
 #include "PCollection.h"
+
+
 using namespace mulch;
+
+bool enableDebug = true; // Set this flag to true to enable debug printing
+DebugLog debugLog(enableDebug);
 
 CollectionHasDataset::CollectionHasDataset()
 {
@@ -23,7 +29,8 @@ std::string CollectionHasDataset::insertQuery()
 	query += ",";
 	query += std::to_string(_collection->primaryId());
 	query += ");";
-
+	std::cout << query <<std::endl;
+	// Utility::protectsql(query);
 	return query;
 }
 
@@ -31,9 +38,23 @@ std::string CollectionHasDataset::insertQuery()
 std::string CollectionHasDataset::updateQuery()
 {
 	std::string query;
-	query = " ";
+	query = "";
+	Utility::protectsql(query);
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string CollectionHasDataset::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+    return query;
+}
+
+// ------------------------------------------------------------------------------------------
+
 
 std::string CollectionHasDataset::selectPidQuery()
 {
@@ -55,14 +76,16 @@ void CollectionHasDataset::updateDependenciesBefore(Database *db)
 
 void CollectionHasDataset::setCollection(PCollection* pCollection)
 {
-	std::cout<<"In CollectionHasDataset::setCollection"<<std::endl;
+	// debugLog << "In CollectionHasDataset::setCollection";
 	_collection = pCollection;
 
 }
 
 void CollectionHasDataset::setModelDataPair(ModelDataPair* _MDpair)
 {
+	// debugLog << "In CollectionHasDataset::setModelDataPair" << std::endl;
 	_modelDataPair = _MDpair;
+
 }
 
 
@@ -87,7 +110,7 @@ void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
 
 	if (!Utility::isNull(res[mdp_id]))
 	{
-		std::cout << "Retrieving from CollectionHasDataset->ModelDataPair \n" << std::endl;
+		// debugLog << "Retrieving from CollectionHasDataset->ModelDataPair" << std::endl;
 		delete _modelDataPair;
 
 		std::cout << "res[mdp_id] = " + res[mdp_id] << std::endl;
@@ -96,7 +119,7 @@ void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
 	}
 	else if (!Utility::isNull(res[collect_id]))
 	{
-        std::cout << "Retrieving from CollectionHasDataset->PCollection" << std::endl;
+		// debugLog << "Retrieving from CollectionHasDataset->PCollection" << std::endl;
 		delete _collection;
 
 		std::string collect_id = PCollection::staticSqlIDName();

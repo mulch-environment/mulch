@@ -1,15 +1,18 @@
 // Object.cpp
 #include <iostream>
+#include <sqlite3.h>
 #include "Object.h"
 #include "Database.h"
 #include "Utility.h"
+
 using namespace mulch;
 
 
 void Object::initialInsert(Database *db)
 {
-	std::cout << "Starting updating Database" << std::endl; //debug
-	// first insert query that updates columns that have a no null constrain 
+	Utility::debugLogTest("Run insertQuery for ");
+	Utility::debugLogTest(sqlIdName());
+
 	std::string constrain_query = insertQuery();	
 	db->query(constrain_query);	
 	std::cout << constrain_query << std::endl; //debug
@@ -17,8 +20,9 @@ void Object::initialInsert(Database *db)
 
 void Object::updateExisting(Database *db)
 {
-	std::cout << "Which table are you currently updating the dependecies?" << std::endl;
-	std::cout << sqlIdName() << std::endl;	
+	Utility::debugLogTest("Run updateQuery for ");
+	Utility::debugLogTest(sqlIdName());
+
 	if (primaryId() < 0)
 	{
 		throw std::runtime_error("negative pid");
@@ -28,6 +32,62 @@ void Object::updateExisting(Database *db)
 	std::cout << query << std::endl;
 	db->query(query);
 }
+
+// void Object::executeUpdateQuery(Database *db, const std::string& query, const std::vector<std::string>& parameters) 
+// {
+//     sqlite3_stmt* statement;
+//     if (sqlite3_prepare_v2(db->getSQLiteHandle(), query.c_str(), -1, &statement, nullptr) == SQLITE_OK)
+//     {
+//         // Bind the parameters if provided
+//         for (size_t i = 0; i < parameters.size(); ++i)
+//         {
+//             sqlite3_bind_text(statement, i + 1, parameters[i].c_str(), -1, SQLITE_STATIC);
+//         }
+
+//         // Execute the statement
+//         sqlite3_step(statement);
+
+//         // Finalize the statement
+//         sqlite3_finalize(statement);
+//     }
+// }
+
+void Object::executeUpdateQuery(Database* db, const std::string& query, const std::vector<std::string>& parameters)
+{
+	if (query.empty())
+    {
+        // No query to execute, return early
+        return;
+    }
+    sqlite3_stmt* statement = nullptr;
+
+    if (sqlite3_prepare_v2(db->getSQLiteHandle(), query.c_str(), -1, &statement, nullptr) == SQLITE_OK)
+    {
+        int index = 1;
+        for (const std::string& parameter : parameters)
+        {
+            sqlite3_bind_text(statement, index, parameter.c_str(), -1, SQLITE_STATIC);
+            index++;
+        }
+
+        int result = sqlite3_step(statement);
+        if (result != SQLITE_DONE)
+        {
+            const char* errorMessage = sqlite3_errmsg(db->getSQLiteHandle());
+            // Handle the error, e.g., throw an exception or log the error message
+            throw std::runtime_error("Failed to execute update query: " + std::string(errorMessage));
+        }
+
+        sqlite3_finalize(statement);
+    }
+    else
+    {
+        const char* errorMessage = sqlite3_errmsg(db->getSQLiteHandle());
+        // Handle the error, e.g., throw an exception or log the error message
+        throw std::runtime_error("Failed to prepare update query: " + std::string(errorMessage));
+    }
+}
+
 
 
 void Object::selectExisting(Database *db)
@@ -52,7 +112,8 @@ void Object::updatePid(Database *db)
 
 	std::string pid = res[0]["pid"];
 	_pid = atoi(pid.c_str());	
-	std::cout << _pid << std::endl;
+	Utility::debugLogTest("After running the insert query, the updated Pid is:");
+	Utility::debugLogTest(_pid);
 }
 
 
@@ -70,12 +131,13 @@ void Object::getPidFromResults(const Result &res)
 
 void Object::updateDatabase(Database *db)
 {
-	std::cout << "Beginning updating Database... \n" << std::endl;
+	std::cout << "Beginning updating table... \n" << std::endl;
 	std::string querySetForeignOn = Utility::SetForeignKeysOn();
 	db->query(querySetForeignOn);
+	Utility::debugLogTest("Which table are you currently updating the dependecies?");
+	Utility::debugLogTest(sqlIdName());
 
 	updateDependenciesBefore(db); 
-	std::cout << "Finish updating dependecies.\n" << std::endl;
 	// if the object doesn't exist in the database yet,
 	if (!alreadyInDatabase())
 	{
@@ -90,9 +152,10 @@ void Object::updateDatabase(Database *db)
 		// send that query to the database
 	}
 
-	std::cout << "Which table are you currently updating the dependecies?" << std::endl;
+	updateDependenciesAfter(db);
+	std::cout << "Finish updating dependecies for table: \n";	
 	std::cout << sqlIdName() << std::endl;	
-	updateDependenciesAfter(db);	
+
 }
 
 // mulch::Result Object::retrieveExisting(int pid, Database *db)
@@ -119,7 +182,7 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
     else
     {
     // Call fillInFromResults on each element of the vector
-	    std::cout << "Number of results: " << results.size() << std::endl;
+    	Utility::debugLogTest("Number of results: ");
 	    for (const auto& res : results) 
 	    {
 	        fillInFromResults(res);
@@ -167,7 +230,6 @@ void Object::retrieveFromResult(const mulch::Result &res, Database *db)
 	{
 	    const std::string& key = it->first;
 	    const std::string& value = it->second;
-	    std::cout << "Key: " << key << ", Value: " << value << std::endl;
 	}
 
     int pid = std::stoi(res.at(nameId));

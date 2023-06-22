@@ -92,6 +92,7 @@ namespace mulch
 		get the value of the primary ID of the referring Object table.
 		**/
 		void persist();
+		void executeUpdateQuery(Database *db, const std::string& query, const std::vector<std::string>& parameters);
 
 
 
@@ -108,6 +109,7 @@ namespace mulch
 		**/
 		virtual std::string insertQuery() { return ""; };
 		virtual std::string updateQuery() { return ""; };
+		virtual std::string updateQueryTest(Database *db) { return ""; };
 		virtual std::string selectPidQuery() { return ""; };
 		/* updateDependenciesBefore:
 		update tables dependencies when inserting data to table in the Database, 

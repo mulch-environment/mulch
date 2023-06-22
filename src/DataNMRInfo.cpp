@@ -16,7 +16,7 @@ std::string DataNMRInfo::insertQuery()
 	query += "(";
 	query += std::to_string(_nmrQualityData ->primaryId());
 	query += ");";
-
+	Utility::protectsql(query);
 	return query;
 }
 
@@ -28,8 +28,20 @@ std::string DataNMRInfo::updateQuery()
 	query += "WHERE data_nmr_info_id = ";
 	query += std::to_string(primaryId());;
 	query += ";";
+	Utility::protectsql(query);
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string DataNMRInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 void DataNMRInfo::updateDependenciesBefore(Database *db)
 {

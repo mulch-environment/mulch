@@ -32,6 +32,25 @@ std::string CoarseGrainingModelInfo::updateQuery()
 	return query;
 }
 
+// ------------------------------------------------------------------------------------------
+
+std::string CoarseGrainingModelInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "UPDATE CoarseGrainingModelInfo SET comments = ? WHERE coarsegraining_model_id = ?";
+    std::string comments = _comments;
+    int CGid = primaryId();
+    std::vector<std::string> parameters;
+    parameters.push_back(comments);
+    parameters.push_back(std::to_string(CGid));
+
+
+    executeUpdateQuery(db, query, parameters);
+}
+
+// ------------------------------------------------------------------------------------------
+
+
 std::string CoarseGrainingModelInfo::selectPidQuery()
 {
 	std::string query;

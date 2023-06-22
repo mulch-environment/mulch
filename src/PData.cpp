@@ -48,20 +48,7 @@ std::string PData::updateQuery()
 	query += std::to_string(primaryId());
 	query += ";";
 
-	// query = "UPDATE Data SET comments = ";
-	// query += "(";
-	// query += std::to_string(primaryId());
-	// query += ");";
-	// query += "UPDATE Data SET data_nmr_info_id = ";
-	// query += "(";
-	// query += std::to_string(_dataNMRInfo->primaryId());
-	// query += ")";
-	// query += " WHERE data_ID = ";
-	// query += "(";
-	// query += std::to_string(primaryId());
-	// query += ");";
-	std::cout<<"Update query in PModel: "<<std::endl;
-	std::cout<<query<<std::endl;
+	std::cout<<"Update query in PData: "<<std::endl;
 	return query;
 }
 

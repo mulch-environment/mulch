@@ -24,8 +24,8 @@ namespace mulch
 		virtual const std::string &getHasPdb() const = 0;
 		static PModel* modelByPrimaryId(int id, Database *db);
 	protected:
-		std::string _comments =  "No comments yet";
-		std::string _pdbName =  "No pdb yet";
+		std::string _comments =  "";
+		std::string _pdbName =  "";
 		std::string _hasPdb = "false";
 	};
 }

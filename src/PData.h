@@ -62,8 +62,8 @@ namespace mulch
 		DataNMRInfo *_dataNMRInfo = nullptr;
 		DataCrystallographicInfo *_dataCrystallographicInfo = nullptr;
 		DataCryoEMInfo *_dataCryoEMInfo = nullptr;
-		std::string _fileData = "No data file yet";
-		std::string _comments = "No comments yet";
+		std::string _fileData = " ";
+		std::string _comments = " ";
 	};
 }
 

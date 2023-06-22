@@ -44,7 +44,7 @@ std::string StructureTechniqueInfo::updateStrInfo(std::string crystInfoIdName, s
 	query += " WHERE structure_technique_id = ";
 	query += std::to_string(primaryId());
 	query += ";";
-	Utility::protectsql(query);
+	// Utility::protectsql(query);
 	return query;
 }
 
@@ -59,15 +59,48 @@ std::string StructureTechniqueInfo::updateQuery()
 	int cryoInfoIdValue = _cryoEMInfo->primaryId();
 	query = updateStrInfo(crystInfoIdName, nmrInfoIdName, cryoInfoIdName, crystInfoIdValue, nmrInfoIdValue, cryoInfoIdValue);
 	std::cout << query << std::endl;
+	// Utility::protectsql(query);
 	return query;
 
-
-	// query = "UPDATE StructureTechniqueInfo SET cryoem_info_ID = 1 WHERE structure_technique_ID = 3";
-	// query += ";";
-	// query = "UPDATE RepresentationType SET atomic_model_ID= 1 WHERE representation_type_ID = 4";
-	// query += ";";
-	// return query;
 }
+
+std::string StructureTechniqueInfo::updateStrInfoTest(Database* db, std::string crystInfoIdName, std::string nmrInfoIdName, std::string cryoInfoIdName, int crystInfoIdValue, int nmrInfoIdValue, int cryoInfoId)
+{
+    std::string query = "UPDATE StructureTechniqueInfo SET ";
+    query += "(" + crystInfoIdName + "," + nmrInfoIdName + "," + cryoInfoIdName + ")";
+    query += " = (?, ?, ?)";
+    query += " WHERE structure_technique_id = ?;";
+
+    std::vector<std::string> parameters;
+    parameters.push_back(std::to_string(crystInfoIdValue));
+    parameters.push_back(std::to_string(nmrInfoIdValue));
+    parameters.push_back(std::to_string(cryoInfoId));
+    parameters.push_back(std::to_string(primaryId()));
+
+    executeUpdateQuery(db, query, parameters);
+    // Utility::protectsql(query);
+    return query;
+}
+
+std::string StructureTechniqueInfo::updateQueryTest(Database* db)
+{
+    std::string query;
+    std::string crystInfoIdName = "crystallographic_info_id";
+    int crystInfoIdValue = _crystallographicInfo->primaryId();
+    std::string nmrInfoIdName = "nmr_info_id";
+    int nmrInfoIdValue = _nmrInfo->primaryId();
+    std::string cryoInfoIdName = "cryoem_info_id";
+    int cryoInfoIdValue = _cryoEMInfo->primaryId();
+
+    query = updateStrInfoTest(db, crystInfoIdName, nmrInfoIdName, cryoInfoIdName, crystInfoIdValue, nmrInfoIdValue, cryoInfoIdValue);
+    std::cout << query << std::endl;
+    Utility::protectsql(query);
+    return query;
+}
+
+
+
+
 
 std::string StructureTechniqueInfo::selectPidQuery()
 {

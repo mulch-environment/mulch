@@ -21,21 +21,58 @@ std::string Utility::SetForeignKeysOn()
 	std::string query;
 	query = "PRAGMA FOREIGN_KEYS = ON";
 	query += ";";
+	Utility::protectsql(query);
 	return query;
 
 }
 
-void Utility::protectsql(std::string &query)
+
+void Utility::protectsql(std::string& query) 
 {
-	for (size_t i = 0; i < query.length(); i++)
-	{
-		if (query[i] == '\'')
-		{
-			query.replace(i, 1, "''");
-            i++;
-		}
-	}
+  size_t pos = 0;
+  while ((pos = query.find('\'', pos)) != std::string::npos) 
+  {
+      // Escape the apostrophe by doubling it
+      query.insert(pos, 1, '\'');
+      pos += 2;
+  }
+
+  pos = 0;
+  while ((pos = query.find(',', pos)) != std::string::npos) 
+  {
+      // Replace comma with a space
+      query.replace(pos, 1, " ");
+      pos += 1;
+  }
 }
+
+
+void Utility::protectParameter(std::string& parameter)
+{
+    std::string protectedParameter;
+    for (size_t i = 0; i < parameter.length(); i++)
+    {
+        if (parameter[i] == '\'')
+        {
+            // Replace single apostrophe with two consecutive apostrophes
+            protectedParameter += "''";
+        }
+        else
+        {
+            // Copy other characters as-is
+            protectedParameter += parameter[i];
+        }
+    }
+
+    std::cout<< "BEFORE: ";
+    std::cout<< parameter <<std::endl;
+    std::cout<< "AFTER: ";
+    std::cout<< protectedParameter <<std::endl;    
+    // Update the original parameter string with the protected version
+        // Update the original parameter string with the protected version
+    parameter = protectedParameter;
+}
+
 
 bool Utility::isNull(const std::string &str_input)
 {
@@ -69,6 +106,7 @@ void Utility::zeroToNull(int var)
       var = NULL;
     }
 }
+
 
 
 

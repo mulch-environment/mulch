@@ -1,5 +1,5 @@
 boost_unit_test = dependency('boost', modules:['unit_test_framework'])
-files = [ 'mulch_tests_retrieve.cpp']
+files = [ 'mulch_tests_insert.cpp']
 
 mulch_tests = executable('mulch_tests',
 	files, 

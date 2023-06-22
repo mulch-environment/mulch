@@ -16,6 +16,7 @@ std::string RfactorsInfo::insertQuery()
 	query += "(";
 	query += std::to_string(_modelDataPair ->primaryId());
 	query += ");";
+	Utility::protectsql(query);
 	return query;
 }
 
@@ -27,8 +28,29 @@ std::string RfactorsInfo::updateQuery()
 	query += "WHERE rfactors_id = ";
 	query += std::to_string(primaryId());;
 	query += ";";
+	Utility::protectsql(query);
 	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string RfactorsInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "UPDATE RfactorsInfo SET rfactors_id = ? WHERE rfactors_id = ?;";
+    int mdpID = _modelDataPair->primaryId();
+    int rFactorId = primaryId();
+
+    std::vector<std::string> parameters;
+    parameters.push_back(std::to_string(mdpID));
+    parameters.push_back(std::to_string(rFactorId));
+
+
+    executeUpdateQuery(db, query, parameters);
+}
+
+// ------------------------------------------------------------------------------------------
+
 
 std::string RfactorsInfo::selectPidQuery()
 {
@@ -37,8 +59,6 @@ std::string RfactorsInfo::selectPidQuery()
 	query += std::to_string(primaryId());
 	query += ";";
 	Utility::protectsql(query);
-	return query;
-
 	return query;
 }
 

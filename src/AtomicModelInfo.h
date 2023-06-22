@@ -5,6 +5,7 @@
 #define __mulch__AtomicModelInfo_h__
 
 #include "Object.h"
+#include <sqlite3.h>
 
 namespace mulch
 {
@@ -31,13 +32,14 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
+		virtual std::string updateQueryTest(Database *db);
 		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
 	private:
 		std::string _pdbCode;
 		TLSParametersInfo* _tlsParametersInfo = nullptr;
-		std::string _comments = "No comments yet";
+		std::string _comments = "";
 
 	};
 }

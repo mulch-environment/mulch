@@ -12,13 +12,28 @@ std::string CryoEMInfo::insertQuery()
 {
 	std::string query;
 	query = "INSERT INTO CryoEMInfo DEFAULT VALUES;";
+	Utility::protectsql(query);
 	return query;
 }
 
 std::string CryoEMInfo::updateQuery()
 {
-	return "";
+	std::string query;
+	query = "";
+	Utility::protectsql(query);
+	return query;
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string CryoEMInfo::updateQueryTest(Database *db)
+{
+
+    std::string query = "";
+    executeUpdateQuery(db, query, std::vector<std::string>());
+}
+
+// ------------------------------------------------------------------------------------------
 
 std::string CryoEMInfo::selectPidQuery()
 {
@@ -27,7 +42,6 @@ std::string CryoEMInfo::selectPidQuery()
 	query = "SELECT * FROM CryoEMInfo ";
 	query += ";";
 	Utility::protectsql(query);
-
 	return query;
 }
 

@@ -51,6 +51,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdValue = _atomicModelInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
 		std::cout << query << std::endl;
+		Utility::protectsql(query);
 		return query;
 	}
 	else if (_type == BondBased)
@@ -59,6 +60,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdValue = _bondBasedModelInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
 		std::cout << query << std::endl;
+		Utility::protectsql(query);
 		return query;
 	}
 	else if (_type == CG)
@@ -67,6 +69,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdValue = _coarseGrainingModelInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
 		std::cout << query << std::endl;
+		Utility::protectsql(query);
 		return query;
 		
 	}
@@ -76,6 +79,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdValue = _ensembleRefineInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
 		std::cout << query << std::endl;
+		Utility::protectsql(query);
 		return query;
 	}
 	else
@@ -84,6 +88,65 @@ std::string RepresentationType::updateQuery()
 	}
 
 }
+
+// ------------------------------------------------------------------------------------------
+
+std::string RepresentationType::updateRepTypeTest(Database *db, std::string repTypeIdName, int repTypeIdValue)
+{
+    std::string query = "UPDATE RepresentationType SET ";
+    query += repTypeIdName;
+    query += " = ?";
+    query += " WHERE representation_type_id = ?;";
+
+    std::vector<std::string> parameters;
+    parameters.push_back(std::to_string(repTypeIdValue));
+    parameters.push_back(std::to_string(primaryId()));
+
+    executeUpdateQuery(db, query, parameters);
+    return query;
+}
+
+std::string RepresentationType::updateQueryTest(Database *db)
+{
+    std::string query;
+    std::string repTypeIdName;
+    int repTypeIdValue;
+
+    if (_type == Atomic)
+    {
+        repTypeIdName = "atomic_model_id";
+        repTypeIdValue = _atomicModelInfo->primaryId();
+        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
+    }
+    else if (_type == BondBased)
+    {
+        repTypeIdName = "bondbased_model_id";
+        repTypeIdValue = _bondBasedModelInfo->primaryId();
+        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
+    }
+    else if (_type == CG)
+    {
+        repTypeIdName = "coarsegraining_model_id";
+        repTypeIdValue = _coarseGrainingModelInfo->primaryId();
+        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
+    }
+    else if (_type == Ensemble)
+    {
+        repTypeIdName = "ensemble_refine_id";
+        repTypeIdValue = _ensembleRefineInfo->primaryId();
+        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
+    }
+    else
+    {
+        throw std::runtime_error("Can't update RepresentationType: no representation type");
+    }
+
+    std::cout << query << std::endl;
+    Utility::protectsql(query);
+    return query;
+}
+
+// ------------------------------------------------------------------------------------------
 
 
 
@@ -105,22 +168,22 @@ void RepresentationType::updateDependenciesBefore(Database *db)
 	**/
 	if (_atomicModelInfo != nullptr)
 	{
-		std::cout << "Updating dependencies for RepresentationType->AtomicModelInfo \n" << std::endl;
+		Utility::debugLogTest("Updating dependencies for RepresentationType->AtomicModelInfo");
 		_atomicModelInfo->updateDatabase(db);
 	}
 	else if (_bondBasedModelInfo != nullptr)
 	{
-		std::cout << "Updating dependencies for RepresentationType->BondBasedModelInfo \n" << std::endl;
+		Utility::debugLogTest("Updating dependencies for RepresentationType->BondBasedModelInfo");
 		_bondBasedModelInfo->updateDatabase(db);
 	}
 	else if (_coarseGrainingModelInfo != nullptr)
 	{
-		std::cout << "Updating dependencies for RepresentationType->CoarseGrainingModelInfo \n" << std::endl;
+		Utility::debugLogTest("Updating dependencies for RepresentationType->CoarseGrainingModelInfo");
 		_coarseGrainingModelInfo->updateDatabase(db);
 	}
 	else if (_ensembleRefineInfo != nullptr)
 	{
-		std::cout << "Updating dependencies for RepresentationType->EnsembleRefineInfo \n" << std::endl;
+		Utility::debugLogTest("Updating dependencies for RepresentationType->EnsembleRefineInfo");
 		_ensembleRefineInfo->updateDatabase(db);
 	}
 	else
@@ -136,22 +199,22 @@ void RepresentationType::setRepType(RepresentationEnum rep)
 	std::cout<<_type<<std::endl;
 	if (_type == Atomic)
 	{
-		std::cout<<"New instance for Atomistic model type"<<std::endl;
+		Utility::debugLogTest("New instance for Atomistic model type");
 		_atomicModelInfo = new AtomicModelInfo();
 	}
 	else if (_type == BondBased)
 	{
-		std::cout<<"New instance for Bond-based model type"<<std::endl;
+		Utility::debugLogTest("New instance for Bond-based model type");
 		_bondBasedModelInfo = new BondBasedModelInfo();
 	}
 	else if (_type == CG)
 	{
-		std::cout<<"New instance for CG model type"<<std::endl;
+		Utility::debugLogTest("New instance for CG model type");
 		_coarseGrainingModelInfo = new CoarseGrainingModelInfo();
 	}
 	else if (_type == Ensemble)
 	{
-		std::cout<<"New instance for Ensemble model type"<<std::endl;
+		Utility::debugLogTest("New instance for Ensemble model type");
 		_ensembleRefineInfo = new EnsembleRefineInfo();
 	}
 
@@ -182,7 +245,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 
 	if (!Utility::isNull(res[atomic_id]))
 	{
-		std::cout << "Retrieving from RepresentationType->AtomicModelInfo \n" << std::endl;
+		Utility::debugLogTest("Retrieving from RepresentationType->AtomicModelInfo");
 		delete _atomicModelInfo;
 
 		std::cout << "res[atomic_id] = " + res[atomic_id] << std::endl;
@@ -191,7 +254,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	}
 	else if (!Utility::isNull(res[bond_id]))
 	{
-		std::cout << "Retrieving from RepresentationType->BondBasedModelInfo \n" << std::endl;
+		Utility::debugLogTest("Retrieving from RepresentationType->BondBasedModelInfo");
 		delete _bondBasedModelInfo;
 
 		std::cout << "res[atomic_id] = " + res[bond_id] << std::endl;
@@ -200,7 +263,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	}
 	else if (!Utility::isNull(res[cg_id]))
 	{
-		std::cout << "Retrieving from RepresentationType->CoarseGrainingModelInfo \n" << std::endl;
+		Utility::debugLogTest("Retrieving from RepresentationType->CoarseGrainingModelInfo");
 		delete _coarseGrainingModelInfo;
 		
 		
@@ -211,7 +274,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	}
 	else if (!Utility::isNull(res[ensembl_id]))
 	{
-		std::cout << "Retrieving from RepresentationType->EnsembleRefineInfo \n" << std::endl;
+		Utility::debugLogTest("Retrieving from RepresentationType->EnsembleRefineInfo");
 		delete _ensembleRefineInfo;
 
 		std::cout << "res[ensembl_id] = " + res[ensembl_id] << std::endl;
