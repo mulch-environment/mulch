@@ -1,5 +1,6 @@
 project('mulch', 'cpp', 'c')
 
+
 headers = [
     'src/Collection.h',
     'src/Model.h',
@@ -27,6 +28,7 @@ files = [
     'src/NMRInfo.h',
     'src/CryoEMInfo.h',
     'src/CollectionHasDataset.h',
+    'src/PModelDataPair.h',
     'src/ModelDataPair.h',
     'src/PData.h',
     'src/DataNMRInfo.h',
@@ -56,7 +58,7 @@ files = [
     'src/NMRInfo.cpp',
     'src/CryoEMInfo.cpp',
     'src/CollectionHasDataset.cpp',
-    'src/ModelDataPair.cpp',
+    'src/PModelDataPair.cpp',
     'src/PData.cpp',
     'src/DataNMRInfo.cpp',
     'src/DataCrystallographicInfo.cpp',
@@ -68,8 +70,10 @@ files = [
     'src/CrystalQualityData.cpp',
     'src/Crystal.cpp',
     'src/CryoEMQualityData.cpp',
-    'src/ReflectionsData.cpp'
-]
+    'src/ReflectionsData.cpp', 
+    'src/DebugLog.h',
+    'src/DebugLog.cpp'
+    ]
 
 subdir('assets')
 
@@ -81,4 +85,7 @@ mulch_lib = static_library('mulch',
     install: true
 )
 
+
 subdir('tests')
+
+
