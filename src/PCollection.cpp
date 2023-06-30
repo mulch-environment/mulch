@@ -4,16 +4,19 @@
 #include "Collection.h"
 #include "CollectionHasDataset.h"
 #include "ModelDataPair.h"
+#include "PModelDataPair.h"
 #include "PData.h"
 #include "PModel.h"
 #include "EnumTables.h"
 #include "Utility.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 PCollection::PCollection()
 {
 
 }
+
 
 
 std::string PCollection::insertQuery()
@@ -24,6 +27,7 @@ std::string PCollection::insertQuery()
 	query += Utility::boolToString(_fixed);
 	query += ");";
 	Utility::protectsql(query);
+	debugLog << query;
 	return query;	
 }
 
@@ -35,16 +39,6 @@ std::string PCollection::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string PCollection::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    // executeUpdateQuery(db, query);
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string PCollection::selectPidQuery()
 {
@@ -58,7 +52,7 @@ std::string PCollection::selectPidQuery()
 
 void PCollection::addModel(RepresentationEnum rep, std::string pdbName)
 {
-    ModelDataPair *mdp = new ModelDataPair();
+    PModelDataPair *mdp = new PModelDataPair();
     mdp->setRep(rep);
     mdp->setFile(pdbName);
     sentToCHD(mdp);
@@ -66,7 +60,7 @@ void PCollection::addModel(RepresentationEnum rep, std::string pdbName)
 
 void PCollection::addData(DataEnum datatype, std::string datafile)
 {
-    ModelDataPair *mdp = new ModelDataPair();
+    PModelDataPair *mdp = new PModelDataPair();
     mdp->setDataType(datatype);
     mdp->setDataFile(datafile);
     sentToCHD(mdp);
@@ -74,17 +68,17 @@ void PCollection::addData(DataEnum datatype, std::string datafile)
 
 void PCollection::addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile)
 {
-	Utility::debugLogTest("Adding data to ModelDataPair");
-    ModelDataPair *mdp = new ModelDataPair();
+	debugLog << "Adding data to ModelDataPair";
+    PModelDataPair *mdp = new PModelDataPair();
     mdp->setRep(rep);
     mdp->setFile(pdbName);
     mdp->setDataType(datatype);
     mdp->setDataFile(datafile);
     sentToCHD(mdp);
-    // mdp->persist();
+    mdp->persist();
 }
 
-const ModelDataPair* PCollection::getModelDataPairFromCollection(int index) const
+const PModelDataPair* PCollection::getModelDataPairFromCollection(int index) const
 {
     if (index < 0 || index >= _chds.size())
     {
@@ -95,9 +89,9 @@ const ModelDataPair* PCollection::getModelDataPairFromCollection(int index) cons
 }
 
 
-void PCollection::sentToCHD(ModelDataPair *MDpair)
+void PCollection::sentToCHD(PModelDataPair *MDpair)
  {
- 	Utility::debugLogTest("Adding data to CollectionHasDataset");
+// 	debugLog << "Adding data to CollectionHasDataset";
  	CollectionHasDataset *chd = new CollectionHasDataset();
  	chd->setCollection(this);
  	chd->setModelDataPair(MDpair);
@@ -124,7 +118,6 @@ std::vector<int> PCollection::retrieveCHDId(int id, Database *db)
 	query += ";";
 	Utility::protectsql(query);
 
-	std::cout << query << std::endl;
     // Execute the query
     db->query(query);
 
@@ -147,11 +140,6 @@ std::vector<int> PCollection::retrieveCHDId(int id, Database *db)
         	chd_id.push_back(std::stoi(chd_id_str)); 
     	}
     }
-    // for (const auto& id : chd_id)
-    // {
-    // 	std::cout << id << std::endl;
-    // }
-    Utility::debugLogTest("How many CollectionHasDataset inputs?");
     std::cout << chd_id.size() << std::endl;
     return chd_id;
 }
@@ -163,8 +151,8 @@ void PCollection::getDatasetCascade(int id, Database *db)
 	std::vector<CollectionHasDataset*> chds; // Vector to store all chdPair values
 	for (const auto& chd_id_value : chd_id)
 	{
-		std::cout << "From Collection::getDatasetCascade, the chd_id is ";
-		std::cout << chd_id_value  << std::endl;
+		debugLog << "From Collection::getDatasetCascade, the chd_id is ";
+		debugLog << chd_id_value;
 
         CollectionHasDataset* chd = CollectionHasDataset::collectHasDatasetByPrimaryId(chd_id_value, db);
         chds.push_back(chd); // Store the chdPair in the vector
@@ -178,7 +166,6 @@ PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
 {
     return Cache<PCollection>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
-
 
 
 
