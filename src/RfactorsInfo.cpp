@@ -1,12 +1,13 @@
 // RfactrosInfo.cpp
 
 #include "RfactorsInfo.h"
-#include "ModelDataPair.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 RfactorsInfo::RfactorsInfo()
 {
-	_modelDataPair = new ModelDataPair();
+	_modelDataPair = new PModelDataPair();
 }
 
 std::string RfactorsInfo::insertQuery()
@@ -32,24 +33,6 @@ std::string RfactorsInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string RfactorsInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "UPDATE RfactorsInfo SET rfactors_id = ? WHERE rfactors_id = ?;";
-    int mdpID = _modelDataPair->primaryId();
-    int rFactorId = primaryId();
-
-    std::vector<std::string> parameters;
-    parameters.push_back(std::to_string(mdpID));
-    parameters.push_back(std::to_string(rFactorId));
-
-
-    executeUpdateQuery(db, query, parameters);
-}
-
-// ------------------------------------------------------------------------------------------
 
 
 std::string RfactorsInfo::selectPidQuery()

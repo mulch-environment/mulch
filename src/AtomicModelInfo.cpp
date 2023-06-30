@@ -1,9 +1,10 @@
-// StructureTechniqueInfo.cpp
-#include <iostream>
 #include "AtomicModelInfo.h"
 #include "TLSParametersInfo.h"
 #include "MulchExceptions.h"
+#include "DebugLog.h"
+
 using namespace mulch;
+
 
 AtomicModelInfo::AtomicModelInfo()
 {
@@ -34,23 +35,6 @@ std::string AtomicModelInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string AtomicModelInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "UPDATE AtomicModelInfo SET pdb_code = ? WHERE atomic_model_id = ?;";
-    std::string pdbCode = AtomicModelInfo::getPDBCode();
-    int atomicModelId = primaryId();
-    std::vector<std::string> parameters;
-    parameters.push_back(pdbCode);
-    parameters.push_back(std::to_string(atomicModelId));
-
-
-    executeUpdateQuery(db, query, parameters);
-}
-
-// ------------------------------------------------------------------------------------------
 
 
 std::string AtomicModelInfo::selectPidQuery()
@@ -78,7 +62,6 @@ void AtomicModelInfo::setFileName(std::string pdbName)
 {
 	MulchExceptions::FileNameIsNone(_pdbCode);
 	_pdbCode = pdbName;
-	std::cout<< _pdbCode<<std::endl;
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------
@@ -92,7 +75,7 @@ void AtomicModelInfo::retrieveDependencies(Result &res, Database *db)
 
 	delete _tlsParametersInfo;
 	std::string tls_id = TLSParametersInfo::staticSqlIDName();
-	std::cout << "res[tls_id] = " + res[tls_id] << std::endl;
+	debugLog << "res[tls_id] = " + res[tls_id];
 	TLSParametersInfo* tls = TLSParametersInfo::tlsByPrimaryId(std::stoi(res[tls_id]), db);
 	_tlsParametersInfo = tls;
 	
@@ -100,7 +83,6 @@ void AtomicModelInfo::retrieveDependencies(Result &res, Database *db)
 
 void AtomicModelInfo::fillInFromResults(const Result &res) 
 {
-    // std::cout << typeid(res).name() << std::endl;
     _comments = res.at("comments");
     _tlsParametersInfo->getPidFromResults(res);
 }

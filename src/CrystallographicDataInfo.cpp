@@ -1,6 +1,7 @@
 // RepresentationType.cpp
 
 #include "CrystallographicDataInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 CrystallographicDataInfo::CrystallographicDataInfo()
@@ -24,16 +25,7 @@ std::string CrystallographicDataInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
 
-std::string CrystallographicDataInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 /// ------------------ RETRIEVING STUFF -----------------------
 CrystallographicDataInfo* CrystallographicDataInfo::crystallographicDataInfoByPrimaryId(int id, Database *db)

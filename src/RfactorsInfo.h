@@ -5,10 +5,12 @@
 #define __mulch__RfactorsInfo_h__
 
 #include "Object.h"
+#include "ModelDataPair.h"
+#include "PModelDataPair.h"
 
 namespace mulch
 {
-	class ModelDataPair;
+	class PModelDataPair;
 	class RfactorsInfo: public Object
 	{
 	public:
@@ -26,11 +28,10 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
-		virtual std::string updateQueryTest(Database *db);
 		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 	private:
-		ModelDataPair* _modelDataPair = nullptr;
+		PModelDataPair* _modelDataPair = nullptr;
 
 	};
 }

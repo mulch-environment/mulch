@@ -2,6 +2,7 @@
 
 #include "ReflectionsData.h"
 #include "DataCrystallographicInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 ReflectionsData::ReflectionsData()
@@ -26,15 +27,6 @@ std::string ReflectionsData::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string ReflectionsData::updateQueryTest(Database *db)
-{
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string ReflectionsData::selectPidQuery()
 {

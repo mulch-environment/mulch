@@ -1,6 +1,7 @@
 // TLSParametersInfo.cpp
 
 #include "TLSParametersInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 TLSParametersInfo::TLSParametersInfo()
@@ -23,17 +24,6 @@ std::string TLSParametersInfo::updateQuery()
 	Utility::protectsql(query);
 	return query;
 }
-
-// ------------------------------------------------------------------------------------------
-
-std::string TLSParametersInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string TLSParametersInfo::selectPidQuery()
 {

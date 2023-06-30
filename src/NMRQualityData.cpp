@@ -1,6 +1,7 @@
 // NMRQualityData.cpp
 
 #include "NMRQualityData.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 NMRQualityData::NMRQualityData()
@@ -23,17 +24,6 @@ std::string NMRQualityData::updateQuery()
 	Utility::protectsql(query);
 	return query;
 }
-
-// ------------------------------------------------------------------------------------------
-
-std::string NMRQualityData::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string NMRQualityData::selectPidQuery()
 {

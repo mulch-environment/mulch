@@ -4,7 +4,9 @@
 #include "CrystalQualityData.h"
 #include "Utility.h"
 #include "MulchExceptions.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 DataCrystallographicInfo::DataCrystallographicInfo()
 {
@@ -32,23 +34,6 @@ std::string DataCrystallographicInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string DataCrystallographicInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "UPDATE DataCrystallographicInfo SET file_name = ? WHERE data_crystallographic_info_id = ?";
-    std::string fileName = DataCrystallographicInfo::getFileName();
-    int dataCryId = primaryId();
-    std::vector<std::string> parameters;
-    parameters.push_back(fileName);
-    parameters.push_back(std::to_string(dataCryId));
-
-
-    executeUpdateQuery(db, query, parameters);
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string DataCrystallographicInfo::selectPidQuery()
 {
@@ -72,7 +57,7 @@ void DataCrystallographicInfo::setFileName(std::string fileName)
 {	
 	MulchExceptions::FileNameIsNone(_fileData);
 	_fileData = fileName;
-	std::cout<< _fileData <<std::endl;
+	debugLog << _fileData;
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------

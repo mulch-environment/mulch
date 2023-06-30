@@ -1,6 +1,7 @@
 // StructureTechniqueInfo.cpp
 
 #include "CryoEMQualityData.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 CryoEMQualityData::CryoEMQualityData()
@@ -24,15 +25,6 @@ std::string CryoEMQualityData::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string CryoEMQualityData::updateQueryTest(Database *db)
-{
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 /// ------------------ RETRIEVING STUFF -----------------------
 CryoEMQualityData* CryoEMQualityData::cryoEMQualityDataByPrimaryId(int id, Database *db)

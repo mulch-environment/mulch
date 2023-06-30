@@ -1,6 +1,7 @@
 // RepresentationType.cpp
 
 #include "DataCryoEMInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 DataCryoEMInfo::DataCryoEMInfo()
@@ -24,16 +25,7 @@ std::string DataCryoEMInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
 
-std::string DataCryoEMInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string DataCryoEMInfo::selectPidQuery()
 {

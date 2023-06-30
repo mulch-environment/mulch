@@ -1,7 +1,9 @@
 // RepresentationType.cpp
 
 #include "BondBasedModelInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 BondBasedModelInfo::BondBasedModelInfo()
 {
@@ -25,16 +27,6 @@ std::string BondBasedModelInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string BondBasedModelInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string BondBasedModelInfo::selectPidQuery()
 {

@@ -24,7 +24,6 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
-		virtual std::string updateQueryTest(Database *db) ;
 		virtual std::string selectPidQuery() ;
 	};
 }

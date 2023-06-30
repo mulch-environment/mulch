@@ -30,10 +30,8 @@ namespace mulch
 	protected:
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
-		virtual std::string updateQueryTest(Database* db);
 		virtual std::string selectPidQuery() ;
 		std::string updateStrInfo(std::string crystInfoIdName, std::string nmrInfoIdName, std::string cryoInfoIdName,  int crystInfoIdValue, int nmrInfoIdValue, int cryoInfoId);
-		std::string updateStrInfoTest(Database* db, std::string crystInfoIdName, std::string nmrInfoIdName, std::string cryoInfoIdName, int crystInfoIdValue, int nmrInfoIdValue, int cryoInfoId);
 
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);

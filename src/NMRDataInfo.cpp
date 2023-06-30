@@ -1,6 +1,7 @@
 // RepresentationType.cpp
 
 #include "NMRDataInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 NMRDataInfo::NMRDataInfo()
@@ -24,16 +25,6 @@ std::string NMRDataInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string NMRDataInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 /// ------------------ RETRIEVING STUFF -----------------------
 NMRDataInfo* NMRDataInfo::nmrDataInfoByPrimaryId(int id, Database *db)

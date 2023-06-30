@@ -1,7 +1,9 @@
 // StructureTechniqueInfo.cpp
 
 #include "CrystallographicInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 CrystallographicInfo::CrystallographicInfo()
 {
@@ -24,16 +26,7 @@ std::string CrystallographicInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
 
-std::string CrystallographicInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string CrystallographicInfo::selectPidQuery()
 {

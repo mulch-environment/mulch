@@ -1,7 +1,9 @@
 // CrystalQualityData.cpp
 
 #include "CrystalQualityData.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 CrystalQualityData::CrystalQualityData()
 {
@@ -24,16 +26,6 @@ std::string CrystalQualityData::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string CrystalQualityData::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string CrystalQualityData::selectPidQuery()
 {

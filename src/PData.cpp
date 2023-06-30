@@ -7,6 +7,7 @@
 #include "DataCrystallographicInfo.h"
 #include "DataCryoEMInfo.h"
 #include "Utility.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 PData::PData()
@@ -48,7 +49,7 @@ std::string PData::updateQuery()
 	query += std::to_string(primaryId());
 	query += ";";
 
-	std::cout<<"Update query in PData: "<<std::endl;
+	debugLog << "Update query in PData: ";
 	return query;
 }
 
@@ -83,7 +84,7 @@ std::string PData::selectQueryDataByInfo(DataEnum dat)
 		break;
 
 		default:
-		std::cout << "default\n";
+		std::cout << "default\n" << std::endl;
 		break;	
 	}
 
@@ -99,17 +100,17 @@ void PData::updateDependenciesBefore(Database *db)
 {
 	if (_dataNMRInfo != nullptr)
 	{
-		std::cout << "Updating Data->DataNMRInfo \n" << std::endl;
+		debugLog << "Updating Data->DataNMRInfo \n";
 		_dataNMRInfo->updateDatabase(db);
 	}
 	else if (_dataCrystallographicInfo != nullptr)
 	{
-		std::cout << "Updating Data->DataCrystallographicDataInfo \n" << std::endl;
+		debugLog << "Updating Data->DataCrystallographicDataInfo \n";
 		_dataCrystallographicInfo->updateDatabase(db);
 	}
 	else if (_dataCryoEMInfo != nullptr)
 	{
-		std::cout << "Updating Data->DataCryoEMInfo \n" << std::endl;
+		debugLog << "Updating Data->DataCryoEMInfo \n";
 		_dataCryoEMInfo->updateDatabase(db);
 	}
 	else
@@ -137,31 +138,31 @@ void PData::retrieveDependencies(Result &res, Database *db)
 
 	if (!Utility::isNull(res[datNmr_id]))
 	{
-		std::cout << "Retrieving from PData->DataNMRInfo \n" << std::endl;
+		debugLog << "Retrieving from PData->DataNMRInfo \n";
 		delete _dataNMRInfo;
 
 		std::string datNmr_id = DataNMRInfo::staticSqlIDName();
-		std::cout << "res[datNmr_id] = " + res[datNmr_id] << std::endl;
+		debugLog << "res[datNmr_id] = " + res[datNmr_id];
 		DataNMRInfo* dataNMR = DataNMRInfo::dataNMRInfoByPrimaryId(std::stoi(res[datNmr_id]), db);
 		_dataNMRInfo = dataNMR;
 	}
 	else if (!Utility::isNull(res[datCryst_id]))
 	{
-		std::cout << "Retrieving from PData->DataCrystallographicInfo \n" << std::endl;
+		debugLog << "Retrieving from PData->DataCrystallographicInfo \n";
 		delete _dataCrystallographicInfo;
 
 		std::string datCryst_id = DataCrystallographicInfo::staticSqlIDName();
-		std::cout << "res[datCryst_id] = " + res[datCryst_id] << std::endl;
+		debugLog << "res[datCryst_id] = " + res[datCryst_id];
 		DataCrystallographicInfo* dataCryst = DataCrystallographicInfo::dataCrystallographicInfoByPrimaryId(std::stoi(res[datCryst_id]), db);	
 		_dataCrystallographicInfo = dataCryst;
 	}
 	else if (!Utility::isNull(res[datCryo_id]))
 	{
-		std::cout << "Retrieving from PData->DataCryoEMInfo \n" << std::endl;
+		debugLog << "Retrieving from PData->DataCryoEMInfo \n";
 		delete _dataCryoEMInfo;
 
 		std::string datCryo_id = DataCryoEMInfo::staticSqlIDName();
-		std::cout << "res[datCryo_id] = " + res[datCryo_id] << std::endl;
+		debugLog << "res[datCryo_id] = " + res[datCryo_id];
 		DataCryoEMInfo* dataCryo = DataCryoEMInfo::dataCryoEMInfoByPrimaryId(std::stoi(res[datCryo_id]), db);
 		_dataCryoEMInfo = dataCryo;	
 	}
@@ -203,7 +204,7 @@ void PData::setDataInfo(DataEnum dat)
 {	
 	MulchExceptions::DataTypeIsNone(_datInfo);
 	_datInfo = dat;
-	std::cout<< _datInfo <<std::endl;
+	debugLog << _datInfo;
 	if (_datInfo == NMR) 
 	{
 		_dataNMRInfo = new DataNMRInfo();
@@ -252,19 +253,3 @@ std::vector<Result> PData::showRetrievedValues(int pid, Database *db)
 
 }
 
-// std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db)
-// {
-// 	std::vector<PModel*> models;
-// 	std::string query;
-// 	query = selectQueryModelsByType(rep);
-// 	std::cout << query << std::endl;
-// 	std::vector<Result> results = db->results();
-
-// 	for (Result &res: results)
-// 	{
-// 		PModel *model = new PModel();
-// 		model->retrieveFromResult(res, db);
-// 		models.push_back(model);
-// 	}
-// 	return models;
-// }

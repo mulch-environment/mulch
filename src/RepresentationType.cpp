@@ -1,5 +1,4 @@
 // RepresentationType.cpp
-#include <iostream>
 #include "MulchExceptions.h"
 #include "RepresentationType.h"
 #include "AtomicModelInfo.h"
@@ -7,6 +6,9 @@
 #include "CoarseGrainingModelInfo.h"
 #include "EnsembleRefineInfo.h"
 #include "Utility.h"
+#include "DebugLog.h"
+
+
 using namespace mulch;
 
 RepresentationType::RepresentationType()
@@ -50,7 +52,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdName = "atomic_model_id";
 		repTypeIdValue = _atomicModelInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
-		std::cout << query << std::endl;
+		debugLog << query;
 		Utility::protectsql(query);
 		return query;
 	}
@@ -59,7 +61,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdName = "bondbased_model_id";
 		repTypeIdValue = _bondBasedModelInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
-		std::cout << query << std::endl;
+		debugLog << query;
 		Utility::protectsql(query);
 		return query;
 	}
@@ -68,7 +70,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdName = "coarsegraining_model_id";
 		repTypeIdValue = _coarseGrainingModelInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
-		std::cout << query << std::endl;
+		debugLog << query;
 		Utility::protectsql(query);
 		return query;
 		
@@ -78,7 +80,7 @@ std::string RepresentationType::updateQuery()
 		repTypeIdName = "ensemble_refine_id";
 		repTypeIdValue = _ensembleRefineInfo->primaryId();
 		query = updateRepType(repTypeIdName, repTypeIdValue);
-		std::cout << query << std::endl;
+		debugLog << query;
 		Utility::protectsql(query);
 		return query;
 	}
@@ -88,66 +90,6 @@ std::string RepresentationType::updateQuery()
 	}
 
 }
-
-// ------------------------------------------------------------------------------------------
-
-std::string RepresentationType::updateRepTypeTest(Database *db, std::string repTypeIdName, int repTypeIdValue)
-{
-    std::string query = "UPDATE RepresentationType SET ";
-    query += repTypeIdName;
-    query += " = ?";
-    query += " WHERE representation_type_id = ?;";
-
-    std::vector<std::string> parameters;
-    parameters.push_back(std::to_string(repTypeIdValue));
-    parameters.push_back(std::to_string(primaryId()));
-
-    executeUpdateQuery(db, query, parameters);
-    return query;
-}
-
-std::string RepresentationType::updateQueryTest(Database *db)
-{
-    std::string query;
-    std::string repTypeIdName;
-    int repTypeIdValue;
-
-    if (_type == Atomic)
-    {
-        repTypeIdName = "atomic_model_id";
-        repTypeIdValue = _atomicModelInfo->primaryId();
-        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
-    }
-    else if (_type == BondBased)
-    {
-        repTypeIdName = "bondbased_model_id";
-        repTypeIdValue = _bondBasedModelInfo->primaryId();
-        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
-    }
-    else if (_type == CG)
-    {
-        repTypeIdName = "coarsegraining_model_id";
-        repTypeIdValue = _coarseGrainingModelInfo->primaryId();
-        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
-    }
-    else if (_type == Ensemble)
-    {
-        repTypeIdName = "ensemble_refine_id";
-        repTypeIdValue = _ensembleRefineInfo->primaryId();
-        query = updateRepTypeTest(db, repTypeIdName, repTypeIdValue);
-    }
-    else
-    {
-        throw std::runtime_error("Can't update RepresentationType: no representation type");
-    }
-
-    std::cout << query << std::endl;
-    Utility::protectsql(query);
-    return query;
-}
-
-// ------------------------------------------------------------------------------------------
-
 
 
 std::string RepresentationType::selectPidQuery()
@@ -168,22 +110,22 @@ void RepresentationType::updateDependenciesBefore(Database *db)
 	**/
 	if (_atomicModelInfo != nullptr)
 	{
-		Utility::debugLogTest("Updating dependencies for RepresentationType->AtomicModelInfo");
+		// Utility::debugLogTest("Updating dependencies for RepresentationType->AtomicModelInfo");
 		_atomicModelInfo->updateDatabase(db);
 	}
 	else if (_bondBasedModelInfo != nullptr)
 	{
-		Utility::debugLogTest("Updating dependencies for RepresentationType->BondBasedModelInfo");
+		// Utility::debugLogTest("Updating dependencies for RepresentationType->BondBasedModelInfo");
 		_bondBasedModelInfo->updateDatabase(db);
 	}
 	else if (_coarseGrainingModelInfo != nullptr)
 	{
-		Utility::debugLogTest("Updating dependencies for RepresentationType->CoarseGrainingModelInfo");
+		// Utility::debugLogTest("Updating dependencies for RepresentationType->CoarseGrainingModelInfo");
 		_coarseGrainingModelInfo->updateDatabase(db);
 	}
 	else if (_ensembleRefineInfo != nullptr)
 	{
-		Utility::debugLogTest("Updating dependencies for RepresentationType->EnsembleRefineInfo");
+		// Utility::debugLogTest("Updating dependencies for RepresentationType->EnsembleRefineInfo");
 		_ensembleRefineInfo->updateDatabase(db);
 	}
 	else
@@ -196,25 +138,25 @@ void RepresentationType::setRepType(RepresentationEnum rep)
 {
 	MulchExceptions::RepTypeIsNone(_type);
 	_type = rep;
-	std::cout<<_type<<std::endl;
+	// debugLog<<_type;
 	if (_type == Atomic)
 	{
-		Utility::debugLogTest("New instance for Atomistic model type");
+		// Utility::debugLogTest("New instance for Atomistic model type");
 		_atomicModelInfo = new AtomicModelInfo();
 	}
 	else if (_type == BondBased)
 	{
-		Utility::debugLogTest("New instance for Bond-based model type");
+		// Utility::debugLogTest("New instance for Bond-based model type");
 		_bondBasedModelInfo = new BondBasedModelInfo();
 	}
 	else if (_type == CG)
 	{
-		Utility::debugLogTest("New instance for CG model type");
+		// Utility::debugLogTest("New instance for CG model type");
 		_coarseGrainingModelInfo = new CoarseGrainingModelInfo();
 	}
 	else if (_type == Ensemble)
 	{
-		Utility::debugLogTest("New instance for Ensemble model type");
+		// Utility::debugLogTest("New instance for Ensemble model type");
 		_ensembleRefineInfo = new EnsembleRefineInfo();
 	}
 
@@ -245,46 +187,45 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 
 	if (!Utility::isNull(res[atomic_id]))
 	{
-		Utility::debugLogTest("Retrieving from RepresentationType->AtomicModelInfo");
+		// Utility::debugLogTest("Retrieving from RepresentationType->AtomicModelInfo");
 		delete _atomicModelInfo;
 
-		std::cout << "res[atomic_id] = " + res[atomic_id] << std::endl;
+		// debugLog << "res[atomic_id] = " + res[atomic_id];
 		AtomicModelInfo* atom = AtomicModelInfo::atomicModelByPrimaryId(std::stoi(res[atomic_id]), db);
 		_atomicModelInfo = atom;
 	}
 	else if (!Utility::isNull(res[bond_id]))
 	{
-		Utility::debugLogTest("Retrieving from RepresentationType->BondBasedModelInfo");
+		// Utility::debugLogTest("Retrieving from RepresentationType->BondBasedModelInfo");
 		delete _bondBasedModelInfo;
 
-		std::cout << "res[atomic_id] = " + res[bond_id] << std::endl;
+		// debugLog << "res[atomic_id] = " + res[bond_id];
 		BondBasedModelInfo* bondBase = BondBasedModelInfo::bondModelByPrimaryId(std::stoi(res[bond_id]), db);
 		_bondBasedModelInfo = bondBase;
 	}
 	else if (!Utility::isNull(res[cg_id]))
 	{
-		Utility::debugLogTest("Retrieving from RepresentationType->CoarseGrainingModelInfo");
+		// Utility::debugLogTest("Retrieving from RepresentationType->CoarseGrainingModelInfo");
 		delete _coarseGrainingModelInfo;
 		
 		
-		std::cout << "res[cg_id] = " + res[cg_id] << std::endl;
+		// debugLog << "res[cg_id] = " + res[cg_id];
 		CoarseGrainingModelInfo* cg = CoarseGrainingModelInfo::cgModelByPrimaryId(std::stoi(res[cg_id]), db);
 		_coarseGrainingModelInfo = cg;
 
 	}
 	else if (!Utility::isNull(res[ensembl_id]))
 	{
-		Utility::debugLogTest("Retrieving from RepresentationType->EnsembleRefineInfo");
+		// Utility::debugLogTest("Retrieving from RepresentationType->EnsembleRefineInfo");
 		delete _ensembleRefineInfo;
 
-		std::cout << "res[ensembl_id] = " + res[ensembl_id] << std::endl;
+		// debugLog << "res[ensembl_id] = " + res[ensembl_id];
 		EnsembleRefineInfo* ensembl = EnsembleRefineInfo::ensembleByPrimaryId(std::stoi(res[ensembl_id]), db);
 		_ensembleRefineInfo = ensembl;
 		
 	}
 	else
 	{
-		std::cout << res << std::endl;
 		throw std::runtime_error("Can't retrieving dependencies for RepresentationType: no representation type");
 	}
 

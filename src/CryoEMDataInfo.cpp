@@ -1,7 +1,9 @@
 // RepresentationType.cpp
 
 #include "CryoEMDataInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 CryoEMDataInfo::CryoEMDataInfo()
 {
@@ -24,16 +26,6 @@ std::string CryoEMDataInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string CryoEMDataInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 /// ------------------ RETRIEVING STUFF -----------------------
 CryoEMDataInfo* CryoEMDataInfo::cryoEMDataInfoByPrimaryId(int id, Database *db)

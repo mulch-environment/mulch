@@ -2,6 +2,7 @@
 
 #include "DataNMRInfo.h"
 #include "NMRQualityData.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 DataNMRInfo::DataNMRInfo()
@@ -32,16 +33,7 @@ std::string DataNMRInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string DataNMRInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------
 
 void DataNMRInfo::updateDependenciesBefore(Database *db)
 {
@@ -70,7 +62,7 @@ void DataNMRInfo::retrieveDependencies(Result &res, Database *db)
 
 	delete _nmrQualityData;
 	std::string nmrQual_id = NMRQualityData::staticSqlIDName();
-	std::cout << "res[nmrQual_id] = " + res[nmrQual_id] << std::endl;
+	// std::cout << "res[nmrQual_id] = " + res[nmrQual_id] << std::endl;
 	// _nmrQualityData = NMRQualityData::NMRQualDataByPrimaryId(std::stoi(res[nmrQual_id]), db);
 }
 

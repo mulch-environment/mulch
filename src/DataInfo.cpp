@@ -1,10 +1,12 @@
 // RepresentationType.cpp
 
-#include "Data.h"'
+#include "Data.h"
+#include "DebugLog.h"
 // #include "NMRDataInfo.h"
 // #include "CrystallographicDataInfo.h"
 // #include "CryoEMDataInfo.h"
 using namespace mulch;
+
 
 DataInfo::DataInfo()
 {
@@ -42,16 +44,6 @@ std::string DataInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string DataInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 void DataInfo::updateDependencies(Database *db)
 {

@@ -2,7 +2,9 @@
 
 #include "EnsembleRefineInfo.h"
 #include "MulchExceptions.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 EnsembleRefineInfo::EnsembleRefineInfo()
 {
@@ -32,23 +34,6 @@ std::string EnsembleRefineInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string EnsembleRefineInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "UPDATE EnsembleRefineInfo SET comments = ? WHERE ensemble_refine_id = (?);";
-    std::string comments = _comments;
-    int ensembId = primaryId();
-    std::vector<std::string> parameters;
-    parameters.push_back(comments);
-    parameters.push_back(std::to_string(ensembId));
-
-
-    executeUpdateQuery(db, query, parameters);
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string EnsembleRefineInfo::selectPidQuery()
 {
@@ -63,7 +48,7 @@ void EnsembleRefineInfo::setComments(std::string comments)
 {
 	MulchExceptions::FileNameIsNone(_comments);
 	_comments = comments;
-	std::cout<< _comments<<std::endl;
+	debugLog << _comments;
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------

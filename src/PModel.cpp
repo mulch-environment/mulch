@@ -9,7 +9,6 @@
 #include "Utility.h"
 using namespace mulch;
 
-
 PModel::PModel()
 {
 	_representationType = new RepresentationType();
@@ -25,7 +24,6 @@ std::string PModel::insertQuery()
 	query += ",";
 	query += std::to_string(_structureTechniqueInfo->primaryId());
 	query += ");";
-	std::cout<<query<<std::endl;
 	// Utility::protectsql(query);
 	return query;
 }
@@ -43,8 +41,8 @@ std::string PModel::updateQuery()
 	query += "' WHERE model_ID = (";
 	query += std::to_string(primaryId());
 	query += ");";
-	std::cout<<"Update query in PModel: "<<std::endl;
-	std::cout<<query<<std::endl;
+	debugLog << "Update query in PModel: ";
+	debugLog << query;
 	// Utility::protectParameter(_pdbName);
 	// Utility::protectParameter(_hasPdb);
 	// Utility::protectParameter(_comments);
@@ -52,27 +50,6 @@ std::string PModel::updateQuery()
     return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string PModel::updateQueryTest(Database *db)
-{
-
-    std::string query = "UPDATE Model SET pdb_code = ? WHERE model_ID = (?)";
-    std::string pdbName = _pdbName;
-    std::string hasPdb = _hasPdb;
-    std::string comments = _comments;
-    int modelId = primaryId();
-    std::vector<std::string> parameters;
-    parameters.push_back(pdbName);
-    parameters.push_back(hasPdb);
-    parameters.push_back(comments);
-    parameters.push_back(std::to_string(modelId));
-
-
-    executeUpdateQuery(db, query, parameters);
-}
-
-// ------------------------------------------------------------------------------------------
 
 
 std::string PModel::selectPidQuery()
@@ -172,8 +149,8 @@ void PModel::retrieveDependencies(Result &res, Database *db)
     std::string rep_id = RepresentationType::staticSqlIDName();
     std::string str_id = StructureTechniqueInfo::staticSqlIDName();
 
-    std::cout << "res[rep_id] = " << res[rep_id] << std::endl;
-    std::cout << "res[str_id] = " << res[str_id] << std::endl;
+    // std::cout << "res[rep_id] = " << res[rep_id] << std::endl;
+    // std::cout << "res[str_id] = " << res[str_id] << std::endl;
 
     try {
         int repId = std::stoi(res[rep_id]);
@@ -229,11 +206,11 @@ void PModel::fillInFromResults(const Result &res)
 
 std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
 {
-	std::cout << "--------------------" << std::endl;
-    std::cout << "Retrieving values from Database" << std::endl;
-    std::cout << "Model_id = " << pid << std::endl;    
+	std::cout << "--------------------"<< std::endl;
+    std::cout << "Retrieving values from Database"<< std::endl;
+    std::cout << "Model_id = "<< std::endl;
+    std::cout << pid << std::endl;    
     std::vector<Result> retrieved_res = db->results();
-    // std::cout << retrieved_res << std::endl;
     for (auto& res : retrieved_res) 
     {
         std::cout << "Results from Model:" << std::endl;
@@ -247,7 +224,7 @@ std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
             std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
         }
     }
-    std::cout << "--------------------" << std::endl;
+    std::cout << "--------------------"<< std::endl;
     return retrieved_res;
 }
 
@@ -269,7 +246,7 @@ std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db
 	std::vector<PModel*> models;
 	std::string query;
 	query = selectQueryModelsByType(rep);
-	std::cout << query << std::endl;
+	debugLog << query;
 	std::vector<Result> results = db->results();
 
 	for (Result &res: results)

@@ -19,6 +19,7 @@ CollectionHasDataset.
 namespace mulch
 {
 	class ModelDataPair;
+	class PModelDataPair;
 	class Collection;
 	class PCollection;
 	class CollectionHasDataset : public Object
@@ -42,10 +43,10 @@ namespace mulch
 		
 		/* Adds the input _mdp objets to the mdpVector 
 		variable of the current CollectionHasDataset object */
-		void setModelDataPair(ModelDataPair* _MDpair);
+		void setModelDataPair(PModelDataPair* _MDpair);
 
 		/* Get ModelDataPair form CollectionHasDataset */
-		virtual const ModelDataPair* getModelDataPair() const 
+		virtual const PModelDataPair* getModelDataPair() const 
 		{
         	return _modelDataPair;
     	}
@@ -61,7 +62,6 @@ namespace mulch
 
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
-		virtual std::string updateQueryTest(Database *db);
 
 		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
@@ -69,7 +69,7 @@ namespace mulch
 		void fillInFromResult(const Result &res);
 	private:
 		std::vector<ModelDataPair*> mdpVector;
-		ModelDataPair *_modelDataPair = nullptr;
+		PModelDataPair *_modelDataPair = nullptr;
 		PCollection *_collection = nullptr;
 
 	};

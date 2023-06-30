@@ -2,19 +2,18 @@
 // ModelDataPair.cpp
 
 #include <iostream>
-#include "ModelDataPair.h"
+#include "PModelDataPair.h"
 #include "RepresentationType.h"
 #include "PData.h"
 #include "PModel.h"
 
 using namespace mulch;
 
-ModelDataPair::ModelDataPair()
+PModelDataPair::PModelDataPair()
 {
 	_model = nullptr;
 	_data = nullptr;
 }
-
 
 
 void PModelDataPair::setRep(RepresentationEnum rep)
@@ -37,7 +36,7 @@ void PModelDataPair::setFile(std::string pdbName)
 }
 
 
-void ModelDataPair::setDataType(DataEnum datatype)
+void PModelDataPair::setDataType(DataEnum datatype)
 {
 	if (_data == nullptr)
 	{
@@ -46,7 +45,7 @@ void ModelDataPair::setDataType(DataEnum datatype)
 	_data->setDataInfo(datatype);
 }
 
-void ModelDataPair::setDataFile(std::string datafile)
+void PModelDataPair::setDataFile(std::string datafile)
 {
 	if (_data == nullptr)
 	{
@@ -56,7 +55,7 @@ void ModelDataPair::setDataFile(std::string datafile)
 }
 
 
-std::string ModelDataPair::insertQuery()
+std::string PModelDataPair::insertQuery()
 {    
     std::string query;
 
@@ -94,7 +93,7 @@ std::string ModelDataPair::insertQuery()
 }
 
 
-std::string ModelDataPair::updateQuery()
+std::string PModelDataPair::updateQuery()
 {
 	std::string query;
 	query = " ";
@@ -103,7 +102,7 @@ std::string ModelDataPair::updateQuery()
 }
 
 
-std::string ModelDataPair::selectPidQuery()
+std::string PModelDataPair::selectPidQuery()
 {
 	std::string query;
 	query = "SELECT * FROM ModelDataPair WHERE modeldatapair_id = ";
@@ -113,7 +112,7 @@ std::string ModelDataPair::selectPidQuery()
 	return query;
 }
 
-void ModelDataPair::updateDependenciesBefore(Database *db)
+void PModelDataPair::updateDependenciesBefore(Database *db)
 {
 	// send that representationType to the database
 	if (_model != nullptr)
@@ -127,22 +126,22 @@ void ModelDataPair::updateDependenciesBefore(Database *db)
 
 }
 
-std::vector<PModel*> ModelDataPair::retrieveModelByType(RepresentationEnum rep, Database *db)
+std::vector<PModel*> PModelDataPair::retrieveModelByType(RepresentationEnum rep, Database *db)
 {
 	std::vector<PModel*> models;
-	Utility::debugLogTest("In ModelDataPair::retrieveModelByType: All ok, continue");
+	// debugLog << "In ModelDataPair::retrieveModelByType: All ok, continue";
 
 	models = _model->retrieveByType(rep, db);
 	return models;
 }
 
 /// ------------------ RETRIEVING STUFF -----------------------
-ModelDataPair* ModelDataPair::modelDataPairByPrimaryId(int id, Database *db)
+PModelDataPair* PModelDataPair::modelDataPairByPrimaryId(int id, Database *db)
 {
-    return Cache<ModelDataPair>::cacheByPrimaryId(id, db); // Use the template function from the cache
+    return Cache<PModelDataPair>::cacheByPrimaryId(id, db); // Use the template function from the cache
 }
 
-void ModelDataPair::retrieveDependencies(Result &res, Database *db)
+void PModelDataPair::retrieveDependencies(Result &res, Database *db)
 {
 
 	delete _model;
@@ -150,9 +149,6 @@ void ModelDataPair::retrieveDependencies(Result &res, Database *db)
 
 	std::string model_id = PModel::staticSqlIDName();
 	std::string data_id =  PData::staticSqlIDName();
-
-	std::cout << "res[model_id] = " << res[model_id] << std::endl;
-    std::cout << "res[data_id] = " << res[data_id] << std::endl;
 
 	bool allNull = Utility::isNull(res[model_id]) && Utility::isNull(res[data_id]);
 

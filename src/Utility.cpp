@@ -36,18 +36,10 @@ void Utility::protectsql(std::string& query)
       query.insert(pos, 1, '\'');
       pos += 2;
   }
-
-  pos = 0;
-  while ((pos = query.find(',', pos)) != std::string::npos) 
-  {
-      // Replace comma with a space
-      query.replace(pos, 1, " ");
-      pos += 1;
-  }
 }
 
 
-void Utility::protectParameter(std::string& parameter)
+std::string Utility::protectParameter(std::string& parameter)
 {
     std::string protectedParameter;
     for (size_t i = 0; i < parameter.length(); i++)
@@ -62,15 +54,12 @@ void Utility::protectParameter(std::string& parameter)
             // Copy other characters as-is
             protectedParameter += parameter[i];
         }
-    }
-
-    std::cout<< "BEFORE: ";
-    std::cout<< parameter <<std::endl;
-    std::cout<< "AFTER: ";
-    std::cout<< protectedParameter <<std::endl;    
+    } 
     // Update the original parameter string with the protected version
         // Update the original parameter string with the protected version
     parameter = protectedParameter;
+
+    return parameter;
 }
 
 
@@ -106,8 +95,6 @@ void Utility::zeroToNull(int var)
       var = NULL;
     }
 }
-
-
 
 
 

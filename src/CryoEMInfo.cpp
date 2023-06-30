@@ -1,7 +1,9 @@
 // StructureTechniqueInfo.cpp
 
 #include "CryoEMInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 CryoEMInfo::CryoEMInfo()
 {
@@ -24,16 +26,6 @@ std::string CryoEMInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string CryoEMInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string CryoEMInfo::selectPidQuery()
 {

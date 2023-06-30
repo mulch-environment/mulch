@@ -1,6 +1,7 @@
 #include <iostream>
 #include "NMRInfo.h"
 #include "MulchExceptions.h"
+#include "DebugLog.h"
 using namespace mulch;
 
 NMRInfo::NMRInfo()
@@ -28,23 +29,6 @@ std::string NMRInfo::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string NMRInfo::updateQueryTest(Database *db)
-{
-
-    std::string query = "UPDATE NMRInfo SET comments = ? WHERE nmr_info_id = (?);";
-    std::string comments = _comments;
-    int nmrInfoId = primaryId();
-    std::vector<std::string> parameters;
-    parameters.push_back(comments);
-    parameters.push_back(std::to_string(nmrInfoId));
-
-
-    executeUpdateQuery(db, query, parameters);
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string NMRInfo::selectPidQuery()
 {
@@ -61,7 +45,7 @@ void NMRInfo::setComments(std::string comments)
 {
 	MulchExceptions::FileNameIsNone(_comments);
 	_comments = comments;
-	std::cout<< _comments<<std::endl;
+	debugLog << _comments;
 };
 
 /// ------------------ RETRIEVING STUFF -----------------------

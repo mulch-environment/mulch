@@ -2,7 +2,9 @@
 
 #include "Crystal.h"
 #include "DataCrystallographicInfo.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 Crystal::Crystal()
 {
@@ -26,16 +28,6 @@ std::string Crystal::updateQuery()
 	return query;
 }
 
-// ------------------------------------------------------------------------------------------
-
-std::string Crystal::updateQueryTest(Database *db)
-{
-
-    std::string query = "";
-    executeUpdateQuery(db, query, std::vector<std::string>());
-}
-
-// ------------------------------------------------------------------------------------------
 
 std::string Crystal::selectPidQuery()
 {

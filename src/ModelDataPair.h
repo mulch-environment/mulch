@@ -4,100 +4,32 @@
 #ifndef __mulch__ModelDataPair_h__
 #define __mulch__ModelDataPair_h__
 #include <iostream>
-#include "Object.h"
-#include "Model.h"
-#include "Database.h"
+#include <vector>
 #include "EnumTables.h"
-#include "PModel.h"
 
 namespace mulch
 {
-	class PModel;
-	class PData;
-	class ModelDataPair : public Object
+	class PModelDataPair;
+	class Database;
+	class ModelDataPair
 	{
 	public:
-		ModelDataPair();
-		std::vector<ModelDataPair*> mdpVector;
-		void setRep(RepresentationEnum rep);
-		void setFile(std::string pdbName);
-		void setDataFile(std::string datafile);
-		void setDataType(DataEnum datatype);
-		static ModelDataPair* modelDataPairByPrimaryId(int id, Database *db);
-
-		virtual std::string sqlIdName() 
-		{
-			return staticSqlIDName(); 	
-		}
-		static std::string staticSqlIDName()
-		{
-			return "modeldatapair_id";
-		}
-
-		std::vector<PModel*> retrieveModelByType(RepresentationEnum rep, Database *db);
+		virtual ~ModelDataPair() {};
+		virtual void setRep(RepresentationEnum rep) = 0;
+		virtual void setFile(std::string pdbName) = 0;
+		virtual void setDataFile(std::string datafile) = 0;
+		virtual void setDataType(DataEnum datatype) = 0;
 
 		// setters for Model columns
-		void setModelComments(const std::string& comments) 
-		{
-        	_model->setComments(comments);
-    	}
-    	void setModelPdbName(const std::string& pdbName) 
-		{
-        	_model->setPdbName(pdbName);
-    	}
- 	    void setModelHasPdb(const std::string& hasPdb) 
-		{
-        	_model->setHasPdb(hasPdb);
-    	}
+		virtual void setModelComments(const std::string& comments) = 0;
+    	virtual void setModelPdbName(const std::string& pdbName) = 0;
+ 	    virtual void setModelHasPdb(const std::string& hasPdb) = 0;
 
-    	// Getters:
-
-    	// For PModel:
-		std::string getComments() const 
-    	{
-    		std::string comments = _model->getComments();
-		    return comments;
-		}
-
-		std::string getPdbName() const 
-		{
-			std::string pdbName = _model->getPdbName();
-		    return pdbName;
-		}
-
-		std::string getHasPdb() const 
-    	{
-    		std::string hasPdb = _model->getHasPdb();
-		    return hasPdb;
-		}
-
-		// getDate is missing 
-
-    	// For PData:
-		// std::string getDataFile() const 
-		// {
-		// 	_model->setDataFile();
-		//     return _datafile;
-		// }
-
-		// DataEnum getDataType() const 
-		// {
-		// 	_model->getDataType();
-		//     return _datatype;
-		// }
-	protected:
-		virtual std::string insertQuery() ;
-		virtual std::string updateQuery() ;
-		virtual std::string updateQueryTest(Database *db) ;
-		virtual std::string selectPidQuery() ;
-		virtual void updateDependenciesBefore(Database *db);
-		virtual void retrieveDependencies(Result &res, Database *db);
-		// std::string updateMDP(std::string mdpType, int mdpTypeId);
-
+		virtual std::string getComments() const = 0;
+		virtual std::string getPdbName() const = 0;
+		virtual std::string getHasPdb() const = 0;
 	private:
 		ModelDataPairEnum _hasmd = NoneModelDataPair;
-		PModel *_model = nullptr;
-		PData *_data = nullptr;
 	};
 }
 

@@ -79,7 +79,6 @@ namespace mulch
 		// static std::string selectQueryModelsByType(RepresentationEnum rep);
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
-		virtual std::string updateQueryTest(Database *db) ;
 		// virtual std::string updateCommentsQuery();
 		// virtual std::string updatePdbCodeQuery();
 		virtual std::string selectPidQuery();

@@ -11,14 +11,14 @@
 #include "Database.h"
 #include "Utility.h"
 #include "MulchExceptions.h"
-using namespace mulch;
 #include <sqlite3.h>
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
 #include <exception>
-// #include <odb/core.hxx>
+
+using namespace mulch;
 
 std::vector<Result> Database::_results;
 
@@ -31,6 +31,7 @@ Database::Database(std::string filepath)
 
 void Database::open(int version)
 {
+	
 	_version = version;
 	openConnection();
 	int total_num_tables = countTables();
@@ -167,7 +168,6 @@ void Database::query(std::string query)
 	/** Exectute queries */
 	char *zErrMsg = 0;
 	_results.clear();
-	// std::cout << query.c_str() <<std::endl;
 	int rq = sqlite3_exec(_db, query.c_str(), callback, 0, &zErrMsg);
 	MulchExceptions::SQLiteErrorIfNeeded(rq, zErrMsg);
 	

@@ -29,21 +29,10 @@ class Utility
 		**/
 		static void protectsql(std::string& query);
 		static std::string protectQueries(const std::string& query);
-		static void protectParameter(std::string& parameter);
+		static std::string protectParameter(std::string& parameter);
 		static bool isNull(const std::string &arg);
 		static int fromNullToZero(std::string id);
 		void zeroToNull(int var);
-
-
-	    // Debug macro
-	    #ifdef DEBUG
-	        static void debugLogTest(const std::string& message);
-	        static void debugLogTest(int number);
-	    #else
-	        static void debugLogTest(const std::string& message) {}
-	        static void debugLogTest(int number) {}
-	    #endif
-
 
 };
 
@@ -59,6 +48,9 @@ inline std::ostream &operator<<(std::ostream& stream, const mulch::Result& r)
 
 	return stream;
 }
+
+
+
 
 
 

@@ -7,7 +7,9 @@
 #include "NMRInfo.h"
 #include "CryoEMInfo.h"
 #include "PCollection.h"
+#include "DebugLog.h"
 using namespace mulch;
+
 
 StructureTechniqueInfo::StructureTechniqueInfo()
 {
@@ -58,49 +60,11 @@ std::string StructureTechniqueInfo::updateQuery()
 	std::string cryoInfoIdName = "cryoem_info_id";
 	int cryoInfoIdValue = _cryoEMInfo->primaryId();
 	query = updateStrInfo(crystInfoIdName, nmrInfoIdName, cryoInfoIdName, crystInfoIdValue, nmrInfoIdValue, cryoInfoIdValue);
-	std::cout << query << std::endl;
+	debugLog << query;
 	// Utility::protectsql(query);
 	return query;
 
 }
-
-std::string StructureTechniqueInfo::updateStrInfoTest(Database* db, std::string crystInfoIdName, std::string nmrInfoIdName, std::string cryoInfoIdName, int crystInfoIdValue, int nmrInfoIdValue, int cryoInfoId)
-{
-    std::string query = "UPDATE StructureTechniqueInfo SET ";
-    query += "(" + crystInfoIdName + "," + nmrInfoIdName + "," + cryoInfoIdName + ")";
-    query += " = (?, ?, ?)";
-    query += " WHERE structure_technique_id = ?;";
-
-    std::vector<std::string> parameters;
-    parameters.push_back(std::to_string(crystInfoIdValue));
-    parameters.push_back(std::to_string(nmrInfoIdValue));
-    parameters.push_back(std::to_string(cryoInfoId));
-    parameters.push_back(std::to_string(primaryId()));
-
-    executeUpdateQuery(db, query, parameters);
-    // Utility::protectsql(query);
-    return query;
-}
-
-std::string StructureTechniqueInfo::updateQueryTest(Database* db)
-{
-    std::string query;
-    std::string crystInfoIdName = "crystallographic_info_id";
-    int crystInfoIdValue = _crystallographicInfo->primaryId();
-    std::string nmrInfoIdName = "nmr_info_id";
-    int nmrInfoIdValue = _nmrInfo->primaryId();
-    std::string cryoInfoIdName = "cryoem_info_id";
-    int cryoInfoIdValue = _cryoEMInfo->primaryId();
-
-    query = updateStrInfoTest(db, crystInfoIdName, nmrInfoIdName, cryoInfoIdName, crystInfoIdValue, nmrInfoIdValue, cryoInfoIdValue);
-    std::cout << query << std::endl;
-    Utility::protectsql(query);
-    return query;
-}
-
-
-
-
 
 std::string StructureTechniqueInfo::selectPidQuery()
 {
