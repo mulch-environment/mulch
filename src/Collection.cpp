@@ -1,14 +1,14 @@
 #include "Collection.h"
 #include "PCollection.h"
+#include "PModelDataPair.h"
 #include "Database.h"
 
 namespace mulch
 {
-    PCollection* Collection::createPCollection()
+    Collection* Collection::createCollection()
     {
         return new PCollection();
     }
-
     Collection* Collection::collectionByPrimaryId(int id, Database* db)
     {
 

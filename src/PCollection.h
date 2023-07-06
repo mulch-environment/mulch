@@ -12,7 +12,6 @@ associated with multiple Collection objects.*/
 namespace mulch
 {
 	class Collection;  // Forward declaration
-	class ModelDataPair;
 	class CollectionHasDataset;
 	class PModelDataPair;
 	class PCollection: public Collection, public Object
@@ -49,10 +48,6 @@ namespace mulch
 	    // {
 	    //     addModelDataPair(rep, pdbName, datatype, datafile);
 	    // }
-	    const PModelDataPair* getModelDataPairWrapper(int index) const
-	    {
-	        return getModelDataPairFromCollection(index);
-	    }
 	    virtual void addModel(RepresentationEnum rep, std::string pdbName);
 		virtual void addData(DataEnum datatype, std::string datafile);
 		virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);

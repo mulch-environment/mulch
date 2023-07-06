@@ -7,9 +7,6 @@
 
 namespace mulch
 {
-	class PCollection;
-	class PModelDataPair;
-	class CollectionHasDataset;
 	class Database; 
 	class Object;
 
@@ -17,7 +14,7 @@ namespace mulch
 	{
 	public: 
 	    virtual ~Collection() {};
-   		static PCollection* createPCollection(); // Factory method to create a new PCollection object
+   		static Collection* createCollection();
 		virtual void persist() = 0;
 		virtual int getPrimaryId() const = 0;
 	    virtual void setDebugMode(bool mode) = 0;
@@ -32,7 +29,6 @@ namespace mulch
 		/* Add a model-data pair to the collection with the given representation type, PDB file name,
 		data type, and data file name, data type, and data file name */
 	    virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile) = 0;
-	    virtual const PModelDataPair* getModelDataPairFromCollection(int index) const = 0;
 	    static Collection* collectionByPrimaryId(int id, Database* db = nullptr);
    	};
 }; // namespace mulch
