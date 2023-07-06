@@ -17,7 +17,10 @@ PCollection::PCollection()
 
 }
 
-
+int PCollection::getPrimaryId() const
+{
+	return primaryId();
+}
 
 std::string PCollection::insertQuery()
 {
