@@ -14,7 +14,6 @@ namespace mulch {
     public:
         static T* cacheByPrimaryId(int id, Database* db) 
         {
-        	std::cout << "I'm in Cahce!" <<std::endl;
             // Check if the object with the given ID is already in the cache
             auto it = cache.find(id); // cache is an std::map object
             if (it != cache.end()) {
