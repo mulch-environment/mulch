@@ -30,6 +30,7 @@ public:
 		};
 		void open(int version);
 		void closeConnection();
+		int countPids();
 		void close();
 		bool isTablesEmpty();
 		void query(std::string query);	

@@ -20,6 +20,7 @@ namespace mulch
 	public:
 		/* Constructor to initialize member variables */
 		PCollection();
+		int getCountPids(Database* db = nullptr) const;
 		void persist() 
 		{ 
 			Object::persist(); 
@@ -36,7 +37,6 @@ namespace mulch
 		{
 			return "collection_id";
 		}
- 		
  		void getDatasetCascade(int id, Database *db);
 		virtual void updateDependenciesAfter(Database *db) override;
     	virtual const std::vector<CollectionHasDataset*>& getCHDsVector() const

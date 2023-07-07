@@ -27,6 +27,7 @@ Database::Database(std::string filepath)
 {
 	_db = NULL;
 	_filepath = filepath;
+	
 }
 
 void Database::open(int version)
@@ -42,6 +43,24 @@ void Database::close()
 {
     closeConnection(); 
 }
+
+int Database::countPids()
+{
+	std::string count_query = "SELECT COUNT(modeldatapair_id) FROM CollectionHasDataset;";
+	query(count_query);
+	
+	if (!_results.empty())
+	{
+		auto iter = _results[0].find("COUNT(modeldatapair_id)");
+		if (iter != _results[0].end())
+		{
+			return std::stoi(iter->second);
+		}
+	}
+	
+	return 0; // Default value if query result is not found
+}
+
 
 std::string Database::defaultTemplateFile()
 {

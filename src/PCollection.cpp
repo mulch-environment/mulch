@@ -22,6 +22,18 @@ int PCollection::getPrimaryId() const
 	return primaryId();
 }
 
+int PCollection::getCountPids(Database* db) const
+{
+	int CURRENT_VERSION = 2;
+    if (db == nullptr)
+    {
+        db = new Database("mulch.db");
+        db->open(CURRENT_VERSION);
+    }
+    return db->countPids();
+}
+
+
 std::string PCollection::insertQuery()
 {
 	std::string query;
@@ -79,6 +91,7 @@ void PCollection::addModelDataPair(RepresentationEnum rep, std::string pdbName, 
     mdp->setDataFile(datafile);
     sentToCHD(mdp);
     mdp->persist();
+    
 }
 
 const PModelDataPair* PCollection::getModelDataPairFromCollection(int index) const
@@ -108,8 +121,6 @@ void PCollection::updateDependenciesAfter(Database *db)
 		chd->updateDatabase(db);
 	}
 }
-
-
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
