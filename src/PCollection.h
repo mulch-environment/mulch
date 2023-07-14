@@ -51,11 +51,16 @@ namespace mulch
 		virtual void addData(DataEnum datatype, std::string datafile);
 		virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
 		// Setter function for debug mode
+		virtual int getChdsSize() const
+		{
+			return _chds.size();
+		}
         void setDebugMode(bool mode) override
         {
         	debugLog.setDebugMode(mode);
     	}
-		virtual int countMDPId(int id, Database *db = nullptr);
+		// virtual int countMDPId(int id, Database *db = nullptr);
+		virtual int countChdIds(Database *db = nullptr) const;
 	protected:
 		virtual const PModelDataPair* getModelDataPairFromCollection(int index) const;
 		virtual std::string insertQuery() override;

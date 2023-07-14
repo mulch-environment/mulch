@@ -18,6 +18,7 @@ namespace mulch
    		virtual int getCountPids(Database* db = nullptr) const = 0;
 		virtual void persist() = 0;
 		virtual int getPrimaryId() const = 0;
+		virtual int getChdsSize() const = 0;
 	    virtual void setDebugMode(bool mode) = 0;
 	    // virtual Collection* getCollectionInterface();
 
@@ -30,7 +31,8 @@ namespace mulch
 		/* Add a model-data pair to the collection with the given representation type, PDB file name,
 		data type, and data file name, data type, and data file name */
 	    virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile) = 0;
-		virtual int countMDPId(int id, Database *db = nullptr) = 0;
+		// virtual int countMDPId(int id, Database *db = nullptr) = 0;
+		virtual int countChdIds(Database* db = nullptr) const = 0;
 	    static Collection* collectionByPrimaryId(int id, Database* db = nullptr);
 
    	};

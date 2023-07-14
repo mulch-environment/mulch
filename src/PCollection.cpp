@@ -112,10 +112,14 @@ void PCollection::sentToCHD(PModelDataPair *MDpair)
  	chd->setCollection(this);
  	chd->setModelDataPair(MDpair);
  	_chds.push_back(chd);
+
+ 	std::cout << "Inside PCollection::sentToCHD, line 117" << std::endl;
  }
 
 void PCollection::updateDependenciesAfter(Database *db) 
 {
+	std::cout << "IN UPDATEDATABASEAFTER, LINE 12" << std::endl; 
+	std::cout << _chds.size() << std::endl; 
 	for (CollectionHasDataset *chd: _chds)
 	{
 		chd->updateDatabase(db);
@@ -124,43 +128,31 @@ void PCollection::updateDependenciesAfter(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-int PCollection::countMDPId(int id, Database *db)
+int PCollection::countChdIds(Database *db) const
 {
-	int CURRENT_VERSION = 2;
+    int count = 0;
+    std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(getPrimaryId()) + ";";
+    
+    int CURRENT_VERSION = 2;
+    // Execute the query and retrieve the results
     if (db == nullptr)
     {
         db = new Database("mulch.db");
+        // Open the database connection
         db->open(CURRENT_VERSION);
     }
-
-	std::string query;
-	query = "SELECT modeldatapair_id FROM CollectionHasDataset WHERE modeldatapair_id = ";
-	query += std::to_string(id);
-	query += ";";
-	Utility::protectsql(query);
-
-    // Execute the query
+    
     db->query(query);
-
-	// Retrieve the query results
     std::vector<Result> results = db->results();
-    // Initialize chd_id as an empty vector
-    std::vector<int> mdp_id; 
-    std::string mdp_id_str;
-    if (!results.empty())
-    {
-    	for (const auto& row : results)
-		{	
-			auto iter = row.find("modeldatapair_id");
-			if (iter != row.end())
-			{
-			    mdp_id_str = iter->second;
-			}
-        	mdp_id.push_back(std::stoi(mdp_id_str)); 
-    	}
-    }
-    return mdp_id.size();
+    
+    // Count the number of IDs returned
+    count = results.size();
+
+    
+    return count;
 }
+
+
 
 
 PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
