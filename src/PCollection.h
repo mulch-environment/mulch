@@ -37,7 +37,6 @@ namespace mulch
 		{
 			return "collection_id";
 		}
- 		void getDatasetCascade(int id, Database *db);
 		virtual void updateDependenciesAfter(Database *db) override;
     	virtual const std::vector<CollectionHasDataset*>& getCHDsVector() const
     	{
@@ -56,12 +55,12 @@ namespace mulch
         {
         	debugLog.setDebugMode(mode);
     	}
+		virtual int countMDPId(int id, Database *db = nullptr);
 	protected:
 		virtual const PModelDataPair* getModelDataPairFromCollection(int index) const;
 		virtual std::string insertQuery() override;
 		virtual std::string updateQuery() override;
 		virtual std::string selectPidQuery() override;
-		static std::vector<int> retrieveCHDId(int id, Database *db);
 		bool _debugFlag;
 	private:
 		bool _fixed = true; 

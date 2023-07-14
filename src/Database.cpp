@@ -124,7 +124,9 @@ void Database::tablesFromTemplate(int num_tables)
 	}
 
 	// Update VersionHistory table
-	updateVersionHistory(_version);
+// 	insertVersionHistory
+// bool debugMode = false;
+// DebugLog debugLog;(_version);
 }
 
 bool Database::isTablesEmpty()
@@ -214,11 +216,36 @@ void Database::closeConnection()
 	}
 }
 
-void Database::updateVersionHistory(const int version) {
-    std::string sql = "INSERT INTO VersionHistory (VersionNumber) VALUES ('" + std::to_string(version) + "');";
-    query(sql);
-}
 
+// VERSIONING 
+// void Database::insertVersionHistory(const int version) {
+//     std::string insertQueryVersion = "INSERT INTO VersionHistory (VersionNumber) VALUES ('" + std::to_string(version) + "');";
+//     query(insertQueryVersion);
+// }
+
+// void Database::updateVersionNumber(int newVersion)
+// {
+//     // Execute an SQL query to update the version number in mulch.db
+//     std::string updateQueryVersion = "UPDATE version_table SET version_number = " + std::to_string(newVersion) + ";";
+//     query(updateQueryVersion);
+// }
+
+// int getVersionNumber()
+// {
+//     // Execute an SQL query to retrieve the version number from mulch.db
+//     std::string selectQueryVersion = "SELECT version_number FROM version_table;";
+//     query(selectQueryVersion);
+//     if (!_results.empty())
+// 	{
+// 		auto iter = _results[0].find("version_number");
+// 		if (iter != _results[0].end())
+// 		{
+// 			return std::stoi(iter->second);
+// 		}
+// 	}
+
+//     return versionNumber;
+// }
 
 
 

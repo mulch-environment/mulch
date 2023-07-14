@@ -7,8 +7,6 @@
 
 using namespace mulch;
 
-
-
 void Object::initialInsert(Database *db)
 {
 	debugLog << "Run insertQuery for ";

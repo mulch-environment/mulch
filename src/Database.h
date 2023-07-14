@@ -45,7 +45,8 @@ public:
 private:
 		sqlite3 *_db = nullptr;
 		void openConnection();
-		void updateVersionHistory(const int version);
+		// void insertVersionHistory(const int version);
+		// void updateVersionNumber(int newVersion);
 		int countTables();
 		void tablesFromTemplate(int num_tables);
 		void executeSQL(std::string nameFile);

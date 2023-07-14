@@ -124,10 +124,17 @@ void PCollection::updateDependenciesAfter(Database *db)
 
 
 /// ------------------ RETRIEVING STUFF -----------------------
-std::vector<int> PCollection::retrieveCHDId(int id, Database *db)
+int PCollection::countMDPId(int id, Database *db)
 {
+	int CURRENT_VERSION = 2;
+    if (db == nullptr)
+    {
+        db = new Database("mulch.db");
+        db->open(CURRENT_VERSION);
+    }
+
 	std::string query;
-	query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = ";
+	query = "SELECT modeldatapair_id FROM CollectionHasDataset WHERE modeldatapair_id = ";
 	query += std::to_string(id);
 	query += ";";
 	Utility::protectsql(query);
@@ -138,41 +145,21 @@ std::vector<int> PCollection::retrieveCHDId(int id, Database *db)
 	// Retrieve the query results
     std::vector<Result> results = db->results();
     // Initialize chd_id as an empty vector
-    std::vector<int> chd_id; 
-    std::string chd_id_str;
-
+    std::vector<int> mdp_id; 
+    std::string mdp_id_str;
     if (!results.empty())
     {
     	for (const auto& row : results)
 		{	
-			auto iter = row.find("collectionhasdataset_id");
-			if (iter != row.end()) 
+			auto iter = row.find("modeldatapair_id");
+			if (iter != row.end())
 			{
-			    chd_id_str = iter->second;
+			    mdp_id_str = iter->second;
 			}
-        	// Add the integer value to the chd_id vector
-        	chd_id.push_back(std::stoi(chd_id_str)); 
+        	mdp_id.push_back(std::stoi(mdp_id_str)); 
     	}
     }
-    std::cout << chd_id.size() << std::endl;
-    return chd_id;
-}
-
-
-void PCollection::getDatasetCascade(int id, Database *db)
-{	
-	std::vector<int> chd_id = retrieveCHDId(id, db); 
-	std::vector<CollectionHasDataset*> chds; // Vector to store all chdPair values
-	for (const auto& chd_id_value : chd_id)
-	{
-		debugLog << "From Collection::getDatasetCascade, the chd_id is ";
-		debugLog << chd_id_value;
-
-        CollectionHasDataset* chd = CollectionHasDataset::collectHasDatasetByPrimaryId(chd_id_value, db);
-        chds.push_back(chd); // Store the chdPair in the vector
-	}
-
-
+    return mdp_id.size();
 }
 
 

@@ -30,7 +30,9 @@ namespace mulch
 		/* Add a model-data pair to the collection with the given representation type, PDB file name,
 		data type, and data file name, data type, and data file name */
 	    virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile) = 0;
+		virtual int countMDPId(int id, Database *db = nullptr) = 0;
 	    static Collection* collectionByPrimaryId(int id, Database* db = nullptr);
+
    	};
 }; // namespace mulch
 
