@@ -33,6 +33,17 @@ int PCollection::getCountPids(Database* db) const
     return db->countPids();
 }
 
+ModelDataPair* PCollection::getMDP(int index)
+{
+	const std::vector<CollectionHasDataset*>& chdsVector = getCHDsVector();
+	if (chdsVector.size() == 0) 
+	{
+        throw std::runtime_error("Error: _chds vector is empty. Cannot retrieve ModelDataPair.");
+    }
+	const PModelDataPair* pmdp = chdsVector[index]->getModelDataPair();
+	ModelDataPair* mdp = const_cast<ModelDataPair*>(static_cast<const ModelDataPair*>(pmdp));
+	return mdp;
+}
 
 std::string PCollection::insertQuery()
 {
@@ -94,17 +105,6 @@ void PCollection::addModelDataPair(RepresentationEnum rep, std::string pdbName, 
     
 }
 
-const PModelDataPair* PCollection::getModelDataPairFromCollection(int index) const
-{
-    if (index < 0 || index >= _chds.size())
-    {
-        return nullptr;
-    }
-    CollectionHasDataset* chd = _chds[index];
-    return chd->getModelDataPair();
-}
-
-
 void PCollection::sentToCHD(PModelDataPair *MDpair)
  {
 // 	debugLog << "Adding data to CollectionHasDataset";
@@ -151,8 +151,6 @@ int PCollection::countChdIds(Database *db) const
     
     return count;
 }
-
-
 
 
 PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)

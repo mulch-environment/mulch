@@ -9,6 +9,7 @@ namespace mulch
 {
 	class Database; 
 	class Object;
+	class ModelDataPair;
 
 	class Collection
 	{
@@ -19,6 +20,7 @@ namespace mulch
 		virtual void persist() = 0;
 		virtual int getPrimaryId() const = 0;
 		virtual int getChdsSize() const = 0;
+		virtual ModelDataPair* getMDP(int index) = 0;
 	    virtual void setDebugMode(bool mode) = 0;
 	    // virtual Collection* getCollectionInterface();
 

@@ -14,6 +14,7 @@ namespace mulch
 	class Collection;  // Forward declaration
 	class CollectionHasDataset;
 	class PModelDataPair;
+	class ModelDataPair;
 	class PCollection: public Collection, public Object
 
 	{
@@ -55,6 +56,7 @@ namespace mulch
 		{
 			return _chds.size();
 		}
+		virtual ModelDataPair* getMDP(int index);
         void setDebugMode(bool mode) override
         {
         	debugLog.setDebugMode(mode);
@@ -62,7 +64,6 @@ namespace mulch
 		// virtual int countMDPId(int id, Database *db = nullptr);
 		virtual int countChdIds(Database *db = nullptr) const;
 	protected:
-		virtual const PModelDataPair* getModelDataPairFromCollection(int index) const;
 		virtual std::string insertQuery() override;
 		virtual std::string updateQuery() override;
 		virtual std::string selectPidQuery() override;
