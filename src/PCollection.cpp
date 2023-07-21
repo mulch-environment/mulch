@@ -101,7 +101,7 @@ void PCollection::addModelDataPair(RepresentationEnum rep, std::string pdbName, 
     mdp->setDataType(datatype);
     mdp->setDataFile(datafile);
     sentToCHD(mdp);
-    mdp->persist();
+    // mdp->persist();
     
 }
 
@@ -111,9 +111,8 @@ void PCollection::sentToCHD(PModelDataPair *MDpair)
  	CollectionHasDataset *chd = new CollectionHasDataset();
  	chd->setCollection(this);
  	chd->setModelDataPair(MDpair);
- 	_chds.push_back(chd);
-
- 	std::cout << "Inside PCollection::sentToCHD, line 117" << std::endl;
+ 	_chds.push_back(chd); 
+ 	std::cout << _chds.size() << std::endl;
  }
 
 void PCollection::updateDependenciesAfter(Database *db) 
@@ -147,16 +146,64 @@ int PCollection::countChdIds(Database *db) const
     
     // Count the number of IDs returned
     count = results.size();
-
-    
     return count;
 }
 
 
 PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
 {
-    return Cache<PCollection>::cacheByPrimaryId(id, db); // Use the template function from the cache
+	PCollection* pCollect = Cache<PCollection>::cacheByPrimaryId(id, db); // Use the template function from the cache
+	//PCollection* pCollect = new PCollection(); // Use the template function from the cache
+	std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(pCollect->getPrimaryId()) + ";";
+	int CURRENT_VERSION = 2;
+    // Execute the query and retrieve the results
+    if (db == nullptr)
+    {
+        db = new Database("mulch.db");
+        // Open the database connection
+        db->open(CURRENT_VERSION);
+    }
+    
+    db->query(query);
+    std::vector<Result> results = db->results();
+    std::vector<int> temp_chds;
+    for (size_t i = 0; i < results.size(); ++i)
+    {
+        Result result = results[i];
+        std::string temp_chd_str = result["collectionhasdataset_id"];
+        int temp_chd = std::stoi(temp_chd_str);
+
+        std::cout << "Result " << i + 1 << ": " << temp_chd << std::endl;
+
+        // Store the value in the vector
+        temp_chds.push_back(temp_chd);
+    }
+   // Create CollectionHasDataset objects and store pointers in _chds vector
+	PCollection* newPcollect = pCollect->populateCHDs(pCollect, temp_chds, id, db);
+	return newPcollect;
+
 }
 
 
+PCollection* PCollection::populateCHDs(PCollection* pCollectTemp, std::vector<int> chds, int id, Database *db) 
+{
+     // Create CollectionHasDataset objects and store pointers in _chdsTemp vector
+    std::vector<CollectionHasDataset*> _chdsTemp;
+    for (int chd : chds)
+    {
+        CollectionHasDataset *chdTemp = new CollectionHasDataset();
+        _chdsTemp.push_back(chdTemp);
+    }
 
+    if (_chdsTemp.size() > 0)
+    {
+        _chds = _chdsTemp; // Assign the vector to the _chds member variable
+        return pCollectTemp;
+    }
+    else
+    {
+        PCollection* pCollectTemp = Cache<PCollection>::cacheByPrimaryId(id, db);
+        return pCollectTemp;
+    }
+
+}

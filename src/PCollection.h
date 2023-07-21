@@ -39,9 +39,14 @@ namespace mulch
 			return "collection_id";
 		}
 		virtual void updateDependenciesAfter(Database *db) override;
-    	virtual const std::vector<CollectionHasDataset*>& getCHDsVector() const
+    	std::vector<CollectionHasDataset*>& getCHDsVector()
     	{
         	return _chds;
+    	}
+    	virtual int getCHDsVectorSize()
+    	{
+    		int size = _chds.size();
+        	return size;
     	}
     	static PCollection* pCollectionByPrimaryId(int id, Database *db);
     	// void addModelDataPairWrapper(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile)
@@ -52,10 +57,6 @@ namespace mulch
 		virtual void addData(DataEnum datatype, std::string datafile);
 		virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
 		// Setter function for debug mode
-		virtual int getChdsSize() const
-		{
-			return _chds.size();
-		}
 		virtual ModelDataPair* getMDP(int index);
         void setDebugMode(bool mode) override
         {
@@ -63,11 +64,13 @@ namespace mulch
     	}
 		// virtual int countMDPId(int id, Database *db = nullptr);
 		virtual int countChdIds(Database *db = nullptr) const;
+		PCollection* populateCHDs(PCollection* pCollectTemp, std::vector<int> chds, int id, Database *db);
 	protected:
 		virtual std::string insertQuery() override;
 		virtual std::string updateQuery() override;
 		virtual std::string selectPidQuery() override;
 		bool _debugFlag;
+
 	private:
 		bool _fixed = true; 
 		std::vector<CollectionHasDataset*> _chds;

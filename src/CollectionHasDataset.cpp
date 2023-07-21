@@ -72,7 +72,7 @@ void CollectionHasDataset::setModelDataPair(PModelDataPair* _MDpair)
 }
 
 
-void CollectionHasDataset::fillInFromResult(const Result &res)
+void CollectionHasDataset::fillInFromResults(const Result &res)
 {
 	// debugLog << typeid(res).name();
 	_modelDataPair->getPidFromResults(res);

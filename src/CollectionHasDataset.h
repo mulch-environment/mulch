@@ -46,7 +46,7 @@ namespace mulch
 		void setModelDataPair(PModelDataPair* _MDpair);
 
 		/* Get ModelDataPair form CollectionHasDataset */
-		virtual const PModelDataPair* getModelDataPair() const 
+		virtual PModelDataPair* getModelDataPair() 
 		{
         	return _modelDataPair;
     	}
@@ -66,9 +66,9 @@ namespace mulch
 		virtual std::string selectPidQuery() ;
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void retrieveDependencies(Result &res, Database *db);
-		void fillInFromResult(const Result &res);
+		void fillInFromResults(const Result &res);
 	private:
-		std::vector<ModelDataPair*> mdpVector;
+		std::vector<PModelDataPair*> mdpVector;
 		PModelDataPair *_modelDataPair = nullptr;
 		PCollection *_collection = nullptr;
 
