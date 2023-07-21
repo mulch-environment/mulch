@@ -120,13 +120,8 @@ void Database::tablesFromTemplate(int num_tables)
 	} 
 	else 
 	{
-        std::cout << "Database has " << num_tables << " number of tables." << std::endl;
+        // std::cout << "Database has " << num_tables << " number of tables." << std::endl;
 	}
-
-	// Update VersionHistory table
-// 	insertVersionHistory
-// bool debugMode = false;
-// DebugLog debugLog;(_version);
 }
 
 bool Database::isTablesEmpty()

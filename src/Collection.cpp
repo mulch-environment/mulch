@@ -2,6 +2,7 @@
 #include "PCollection.h"
 #include "PModelDataPair.h"
 #include "Database.h"
+#include "CollectionHasDataset.h"
 
 namespace mulch
 {
@@ -11,7 +12,6 @@ namespace mulch
     }
     Collection* Collection::collectionByPrimaryId(int id, Database* db)
     {
-
         int CURRENT_VERSION = 2;
         if (db == nullptr)
         {
@@ -22,7 +22,13 @@ namespace mulch
         PCollection* pCollect = PCollection::pCollectionByPrimaryId(id, db);
         return pCollect;
     }
-
-
-
 } 
+
+
+
+
+
+
+
+
+

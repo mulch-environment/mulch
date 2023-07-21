@@ -19,9 +19,10 @@ namespace mulch
    		virtual int getCountPids(Database* db = nullptr) const = 0;
 		virtual void persist() = 0;
 		virtual int getPrimaryId() const = 0;
-		virtual int getChdsSize() const = 0;
 		virtual ModelDataPair* getMDP(int index) = 0;
 	    virtual void setDebugMode(bool mode) = 0;
+	  	virtual int getCHDsVectorSize() = 0;
+
 	    // virtual Collection* getCollectionInterface();
 
 	    // static Collection* createCollectionByPrimaryId(int id, Database* db);

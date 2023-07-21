@@ -17,7 +17,6 @@ namespace mulch {
             // Check if the object with the given ID is already in the cache
             auto it = cache.find(id); // cache is an std::map object
             if (it != cache.end()) {
-                std::cout << "Returning cached " << typeid(T).name() << " object for ID " << id << std::endl;
                 return it->second;
             }
 

@@ -114,10 +114,12 @@ namespace mulch
 		Defihttps://suite.endole.co.uk/insight/company/03616953-analytik-jena-uk-limitedned inside each of the Object-table cpp file. 
 		**/
 		virtual void updateDependenciesBefore(Database *db) {};
+		virtual const int getCHDsVectorSize() const {};
 		virtual void retrieveDependencies(Result &res, Database *db) {};	
 		// virtual void updateDependenciesAfter(const mulch::Result &res, Database *db) {};
 		virtual void updateDependenciesAfter(Database *db) {};	
 		virtual void fillInFromResults(const mulch::Result &res){};
+		virtual void populateCHDs(){};
 
 		/* sqlIdName: 
 		Get the pid from Object tables.

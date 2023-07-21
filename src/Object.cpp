@@ -101,22 +101,11 @@ void Object::updateDatabase(Database *db)
 
 }
 
-// mulch::Result Object::retrieveExisting(int pid, Database *db)
-// {
-// 	setPrimaryId(pid);
-// 	// fill al my other infos in the table
-// 	selectExisting(db);
-// 	std::vector<Result> results = db->results();
-
-// 	fillInFromResults(results);
-// 	//result[0] is a map. it will have: model_id = 3, rep_id = 3 ...
-// 	retrieveDependencies(results[0] , db);
-// }
 mulch::Result Object::retrieveExisting(int pid, Database *db)
 {
-
     setPrimaryId(pid);
     selectExisting(db);
+
     std::vector<Result> results = db->results();
     if (results.size() == 0)
     {
@@ -131,7 +120,6 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
 	        fillInFromResults(res);
 	    }
 	}
-
     // Combine the results into a single mulch::Result object
     mulch::Result combinedResult;
     for (const auto& res : results) 
@@ -190,7 +178,6 @@ void Object::fillInFromDatabase(Result &res, Database *db)
 	mulch::Result fullRes = retrieveExisting(_pid, db);
 	fillInFromResults(fullRes);
 	retrieveDependencies(res, db);
-
 }
 
 
