@@ -153,7 +153,6 @@ int PCollection::countChdIds(Database *db) const
 PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
 {
 	PCollection* pCollect = Cache<PCollection>::cacheByPrimaryId(id, db); // Use the template function from the cache
-	//PCollection* pCollect = new PCollection(); // Use the template function from the cache
 	std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(pCollect->getPrimaryId()) + ";";
 	int CURRENT_VERSION = 2;
     // Execute the query and retrieve the results
@@ -178,32 +177,26 @@ PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
         // Store the value in the vector
         temp_chds.push_back(temp_chd);
     }
-   // Create CollectionHasDataset objects and store pointers in _chds vector
-	PCollection* newPcollect = pCollect->populateCHDs(pCollect, temp_chds, id, db);
-	return newPcollect;
 
+
+   // Create CollectionHasDataset objects and store pointers in _chds vector
+	pCollect->populateCHDs(temp_chds, id, db);
+	return pCollect;
 }
 
 
-PCollection* PCollection::populateCHDs(PCollection* pCollectTemp, std::vector<int> chds, int id, Database *db) 
+void PCollection::populateCHDs(std::vector<int> chds, int id, Database *db) 
 {
      // Create CollectionHasDataset objects and store pointers in _chdsTemp vector
-    std::vector<CollectionHasDataset*> _chdsTemp;
+	std::vector<CollectionHasDataset*> _chdsTemp;
+
     for (int chd : chds)
     {
-        CollectionHasDataset *chdTemp = new CollectionHasDataset();
-        _chdsTemp.push_back(chdTemp);
+    	CollectionHasDataset *chdTemp = new CollectionHasDataset();
+       	_chdsTemp.push_back(chdTemp);
     }
-
     if (_chdsTemp.size() > 0)
     {
         _chds = _chdsTemp; // Assign the vector to the _chds member variable
-        return pCollectTemp;
     }
-    else
-    {
-        PCollection* pCollectTemp = Cache<PCollection>::cacheByPrimaryId(id, db);
-        return pCollectTemp;
-    }
-
 }
