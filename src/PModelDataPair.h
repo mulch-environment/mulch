@@ -27,6 +27,7 @@ namespace mulch
 		virtual void setDataType(DataEnum datatype);
 		virtual std::string sqlIdName() 
 		{
+			debugLog << staticSqlIDName();
 			return staticSqlIDName(); 	
 		}
 		static std::string staticSqlIDName()

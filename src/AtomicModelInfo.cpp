@@ -76,9 +76,11 @@ void AtomicModelInfo::retrieveDependencies(Result &res, Database *db)
 	delete _tlsParametersInfo;
 	std::string tls_id = TLSParametersInfo::staticSqlIDName();
 	debugLog << "res[tls_id] = " + res[tls_id];
-	TLSParametersInfo* tls = TLSParametersInfo::tlsByPrimaryId(std::stoi(res[tls_id]), db);
-	_tlsParametersInfo = tls;
-	
+	if (!Utility::isNull(res[tls_id]))
+	{
+		TLSParametersInfo* tls = TLSParametersInfo::tlsByPrimaryId(std::stoi(res[tls_id]), db);
+		_tlsParametersInfo = tls;
+	}
 }
 
 void AtomicModelInfo::fillInFromResults(const Result &res) 

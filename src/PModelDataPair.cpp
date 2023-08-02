@@ -150,40 +150,53 @@ void PModelDataPair::retrieveDependencies(Result &res, Database *db)
 	std::string model_id = PModel::staticSqlIDName();
 	std::string data_id =  PData::staticSqlIDName();
 
-	bool allNull = Utility::isNull(res[model_id]) && Utility::isNull(res[data_id]);
+    if (!Utility::isNull(res[model_id]))
+    {
+        delete _model;
+        PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
+        _model = model;
+    }
+    
+    if (!Utility::isNull(res[data_id]))
+    {
+        delete _data;
+        PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
+        _data = data;
+    }
 
+	bool allNull = Utility::isNull(res[model_id]) && Utility::isNull(res[data_id]);
     if (allNull)
     {
-        throw std::runtime_error("In ModelDataPair: Unregistered values aftet this point.");
+        throw std::runtime_error("In ModelDataPair: Unregistered values.");
     }
 
-    try {
-        if (_model != nullptr)
-        {
-            delete _model;
-        }
-        if (!Utility::isNull(res[model_id]))
-        {
-            PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
-            _model = model;
-        }
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Error converting res[model_id] to integer: " << e.what() << std::endl;
-    }
+    // try {
+    //     if (_model != nullptr)
+    //     {
+    //         delete _model;
+    //     }
+    //     if (!Utility::isNull(res[model_id]))
+    //     {
+    //         PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
+    //         _model = model;
+    //     }
+    // } catch (const std::invalid_argument& e) {
+    //     std::cerr << "Error converting res[model_id] to integer: " << e.what() << std::endl;
+    // }
 
-    try {
-        if (_data != nullptr)
-        {
-            delete _data;
-        }
-        if (!Utility::isNull(res[data_id]))
-        {
-            PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
-            _data = data;
-        }
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Error converting res[data_id] to integer: " << e.what() << std::endl;
-    }
+    // try {
+    //     if (_data != nullptr)
+    //     {
+    //         delete _data;
+    //     }
+    //     if (!Utility::isNull(res[data_id]))
+    //     {
+    //         PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
+    //         _data = data;
+    //     }
+    // } catch (const std::invalid_argument& e) {
+    //     std::cerr << "Error converting res[data_id] to integer: " << e.what() << std::endl;
+    // }
 
 }
 

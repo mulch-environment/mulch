@@ -166,11 +166,6 @@ void PData::retrieveDependencies(Result &res, Database *db)
 		DataCryoEMInfo* dataCryo = DataCryoEMInfo::dataCryoEMInfoByPrimaryId(std::stoi(res[datCryo_id]), db);
 		_dataCryoEMInfo = dataCryo;	
 	}
-	else
-	{
-		std::cout << res << std::endl;
-		throw std::runtime_error("Can't retrieving dependencies for PData: check values");
-	}
 }
 
 void PData::fillInFromResults(const Result &res) 

@@ -192,7 +192,6 @@ void PCollection::populateCHDs(std::vector<int> chds, Database *db)
 
     for (int chd : chds)
     {
-    	debugLog << chd;
     	CollectionHasDataset *chdTemp = CollectionHasDataset::collectHasDatasetByPrimaryId(chd, db);
        	_chdsTemp.push_back(chdTemp);
     }
