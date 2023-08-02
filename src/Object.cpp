@@ -41,6 +41,7 @@ void Object::selectExisting(Database *db)
 		_pid = _tableId;
 	}
 	std::string which_table = sqlIdName();
+	debugLog << "Which table? ";
 	debugLog << which_table;
 	std::string query = selectPidQuery(); 
 	debugLog << query;

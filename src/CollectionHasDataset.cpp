@@ -40,7 +40,7 @@ std::string CollectionHasDataset::updateQuery()
 std::string CollectionHasDataset::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT * FROM CollectionHasDataset WHERE collectionhasdataset_id =";
+	query = "SELECT * FROM CollectionHasDataset WHERE collectionhasdataset_id = ";
 	query += std::to_string(primaryId());
 	query += ";";
 
@@ -74,8 +74,10 @@ void CollectionHasDataset::setModelDataPair(PModelDataPair* _MDpair)
 
 void CollectionHasDataset::fillInFromResults(const Result &res)
 {
-	// debugLog << typeid(res).name();
+	debugLog << "Inside CollectionHasDataset::fillInFromResults(const Result &res)";
+	_modelDataPair = new PModelDataPair();
 	_modelDataPair->getPidFromResults(res);
+	_collection = new PCollection();
 	_collection->getPidFromResults(res);
 }
 

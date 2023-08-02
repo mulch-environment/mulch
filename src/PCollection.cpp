@@ -180,19 +180,20 @@ PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
 
 
    // Create CollectionHasDataset objects and store pointers in _chds vector
-	pCollect->populateCHDs(temp_chds, id, db);
+	pCollect->populateCHDs(temp_chds, db);
 	return pCollect;
 }
 
 
-void PCollection::populateCHDs(std::vector<int> chds, int id, Database *db) 
+void PCollection::populateCHDs(std::vector<int> chds, Database *db) 
 {
      // Create CollectionHasDataset objects and store pointers in _chdsTemp vector
 	std::vector<CollectionHasDataset*> _chdsTemp;
 
     for (int chd : chds)
     {
-    	CollectionHasDataset *chdTemp = new CollectionHasDataset();
+    	debugLog << chd;
+    	CollectionHasDataset *chdTemp = CollectionHasDataset::collectHasDatasetByPrimaryId(chd, db);
        	_chdsTemp.push_back(chdTemp);
     }
     if (_chdsTemp.size() > 0)

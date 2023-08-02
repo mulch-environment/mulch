@@ -16,10 +16,10 @@ namespace mulch {
         {
             // Check if the object with the given ID is already in the cache
             auto it = cache.find(id); // cache is an std::map object
-            if (it != cache.end()) {
+            if (it != cache.end()) 
+            {
                 return it->second;
             }
-
             // If the object is not in the cache, create a new one
             T* newObject = new T();
 
