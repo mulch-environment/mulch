@@ -110,22 +110,23 @@ void RepresentationType::updateDependenciesBefore(Database *db)
 	**/
 	if (_atomicModelInfo != nullptr)
 	{
-		// Utility::debugLogTest("Updating dependencies for RepresentationType->AtomicModelInfo");
+
+		debugLog << "Updating dependencies for RepresentationType->AtomicModelInfo";
 		_atomicModelInfo->updateDatabase(db);
 	}
 	else if (_bondBasedModelInfo != nullptr)
 	{
-		// Utility::debugLogTest("Updating dependencies for RepresentationType->BondBasedModelInfo");
+		debugLog << "Updating dependencies for RepresentationType->BondBasedModelInfo";
 		_bondBasedModelInfo->updateDatabase(db);
 	}
 	else if (_coarseGrainingModelInfo != nullptr)
 	{
-		// Utility::debugLogTest("Updating dependencies for RepresentationType->CoarseGrainingModelInfo");
+		debugLog << "Updating dependencies for RepresentationType->CoarseGrainingModelInfo";
 		_coarseGrainingModelInfo->updateDatabase(db);
 	}
 	else if (_ensembleRefineInfo != nullptr)
 	{
-		// Utility::debugLogTest("Updating dependencies for RepresentationType->EnsembleRefineInfo");
+		debugLog << "Updating dependencies for RepresentationType->EnsembleRefineInfo";
 		_ensembleRefineInfo->updateDatabase(db);
 	}
 	else
@@ -189,6 +190,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	{
 		// Utility::debugLogTest("Retrieving from RepresentationType->AtomicModelInfo");
 		delete _atomicModelInfo;
+		_atomicModelInfo = nullptr;
 
 		// debugLog << "res[atomic_id] = " + res[atomic_id];
 		AtomicModelInfo* atom = AtomicModelInfo::atomicModelByPrimaryId(std::stoi(res[atomic_id]), db);
@@ -198,6 +200,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	{
 		// Utility::debugLogTest("Retrieving from RepresentationType->BondBasedModelInfo");
 		delete _bondBasedModelInfo;
+		_bondBasedModelInfo = nullptr;
 
 		// debugLog << "res[atomic_id] = " + res[bond_id];
 		BondBasedModelInfo* bondBase = BondBasedModelInfo::bondModelByPrimaryId(std::stoi(res[bond_id]), db);
@@ -207,6 +210,7 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	{
 		// Utility::debugLogTest("Retrieving from RepresentationType->CoarseGrainingModelInfo");
 		delete _coarseGrainingModelInfo;
+		_coarseGrainingModelInfo = nullptr;
 		
 		
 		// debugLog << "res[cg_id] = " + res[cg_id];
@@ -218,6 +222,8 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 	{
 		// Utility::debugLogTest("Retrieving from RepresentationType->EnsembleRefineInfo");
 		delete _ensembleRefineInfo;
+		_ensembleRefineInfo = nullptr;
+
 
 		// debugLog << "res[ensembl_id] = " + res[ensembl_id];
 		EnsembleRefineInfo* ensembl = EnsembleRefineInfo::ensembleByPrimaryId(std::stoi(res[ensembl_id]), db);
@@ -263,22 +269,5 @@ void RepresentationType::fillInFromResults(const Result &res)
 		_ensembleRefineInfo->getPidFromResults(res);
 	}
 }
-
-
-
-// ~RepresentationType() {
-//     if (_atomicModelInfo) {
-//         delete _atomicModelInfo;
-//     }
-//     if (_bondBasedModelInfo) {
-//         delete _bondBasedModelInfo;
-//     }
-//     if (_coarseGrainingModelInfo) {
-//         delete _coarseGrainingModelInfo;
-//     }
-//     if (_ensembleRefineInfo) {
-//         delete _ensembleRefineInfo;
-//     }
-// }
 
 

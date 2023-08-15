@@ -140,6 +140,7 @@ void PData::retrieveDependencies(Result &res, Database *db)
 	{
 		debugLog << "Retrieving from PData->DataNMRInfo \n";
 		delete _dataNMRInfo;
+		_dataNMRInfo = nullptr;
 
 		std::string datNmr_id = DataNMRInfo::staticSqlIDName();
 		debugLog << "res[datNmr_id] = " + res[datNmr_id];
@@ -150,6 +151,7 @@ void PData::retrieveDependencies(Result &res, Database *db)
 	{
 		debugLog << "Retrieving from PData->DataCrystallographicInfo \n";
 		delete _dataCrystallographicInfo;
+		_dataCrystallographicInfo = nullptr;
 
 		std::string datCryst_id = DataCrystallographicInfo::staticSqlIDName();
 		debugLog << "res[datCryst_id] = " + res[datCryst_id];
@@ -160,6 +162,7 @@ void PData::retrieveDependencies(Result &res, Database *db)
 	{
 		debugLog << "Retrieving from PData->DataCryoEMInfo \n";
 		delete _dataCryoEMInfo;
+		_dataCryoEMInfo = nullptr;
 
 		std::string datCryo_id = DataCryoEMInfo::staticSqlIDName();
 		debugLog << "res[datCryo_id] = " + res[datCryo_id];
@@ -199,7 +202,6 @@ void PData::setDataInfo(DataEnum dat)
 {	
 	MulchExceptions::DataTypeIsNone(_datInfo);
 	_datInfo = dat;
-	debugLog << _datInfo;
 	if (_datInfo == NMR) 
 	{
 		_dataNMRInfo = new DataNMRInfo();

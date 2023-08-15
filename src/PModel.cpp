@@ -108,7 +108,9 @@ std::string PModel::selectQueryModelsByType(RepresentationEnum rep)
 void PModel::updateDependenciesBefore(Database *db)
 {
 	// send that representationType to the database
+	debugLog << "Update _representationType from PModelDataPair::updateDependenciesBefore";
 	_representationType->updateDatabase(db);
+	debugLog << "Update _structureTechniqueInfo from PModelDataPair::updateDependenciesBefore";
 	_structureTechniqueInfo->updateDatabase(db);
 	
 }
@@ -127,7 +129,9 @@ PModel* PModel::modelByPrimaryId(int id, Database *db)
 void PModel::retrieveDependencies(Result &res, Database *db)
 {
     delete _representationType;
+    _representationType = nullptr;
     delete _structureTechniqueInfo;
+    _structureTechniqueInfo = nullptr;
 
     std::string rep_id = RepresentationType::staticSqlIDName();
     std::string str_id = StructureTechniqueInfo::staticSqlIDName();
@@ -139,7 +143,7 @@ void PModel::retrieveDependencies(Result &res, Database *db)
     	RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(repId, db);
     	_representationType = repType;
 
-    	debugLog << "Retrieving from PModel->RepresentationType \n";
+    	debugLog << "Retrieving from PModel->StructureTechniqueInfo \n";
     	int strId = std::stoi(res[str_id]);
     	StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(strId, db);
     	_structureTechniqueInfo = strTech;

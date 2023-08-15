@@ -92,8 +92,11 @@ StructureTechniqueInfo* StructureTechniqueInfo::structureTechniqueInfoByPrimaryI
 void StructureTechniqueInfo::retrieveDependencies(Result &res, Database *db)
 {
     delete _crystallographicInfo;
+    _crystallographicInfo = nullptr;
     delete _nmrInfo;
+    _nmrInfo = nullptr;
     delete _cryoEMInfo;
+    _cryoEMInfo = nullptr;
 
     std::string crys_id = CrystallographicInfo::staticSqlIDName();
     std::string nmr_id = NMRInfo::staticSqlIDName();

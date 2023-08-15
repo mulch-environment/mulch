@@ -117,7 +117,7 @@ void PCollection::sentToCHD(PModelDataPair *MDpair)
 
 void PCollection::updateDependenciesAfter(Database *db) 
 {
-	std::cout << "IN UPDATEDATABASEAFTER, LINE 12" << std::endl; 
+	std::cout << "IN UPDATEDATABASEAFTER, LINE 120" << std::endl; 
 	std::cout << _chds.size() << std::endl; 
 	for (CollectionHasDataset *chd: _chds)
 	{

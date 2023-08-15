@@ -117,10 +117,12 @@ void PModelDataPair::updateDependenciesBefore(Database *db)
 	// send that representationType to the database
 	if (_model != nullptr)
     {
+        debugLog << "Update _model from PModelDataPair::updateDependenciesBefore";
         _model->updateDatabase(db);
     }
     if (_data != nullptr)
     {
+        debugLog << "Update _data from PModelDataPair::updateDependenciesBefore";
         _data->updateDatabase(db);
     }
 
@@ -145,7 +147,9 @@ void PModelDataPair::retrieveDependencies(Result &res, Database *db)
 {
 
 	delete _model;
+    _model = nullptr;
 	delete _data;
+    _data = nullptr;
 
 	std::string model_id = PModel::staticSqlIDName();
 	std::string data_id =  PData::staticSqlIDName();

@@ -51,6 +51,7 @@ std::string CollectionHasDataset::selectPidQuery()
 void CollectionHasDataset::updateDependenciesBefore(Database *db)
 {
 	// send that representationType to the database
+	debugLog << "Update _modelDataPair from CollectionHasDataset::updateDependenciesBefore";
 	_modelDataPair->updateDatabase(db);	
 }
 
@@ -97,6 +98,7 @@ void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
 	{
 		// debugLog << "Retrieving from CollectionHasDataset->PModelDataPair";
 		delete _modelDataPair;
+		_modelDataPair = nullptr;
 
 		// debugLog << "res[mdp_id] = " + res[mdp_id];
 		PModelDataPair* mdp = PModelDataPair::modelDataPairByPrimaryId(std::stoi(res[mdp_id]), db);
@@ -106,6 +108,7 @@ void CollectionHasDataset::retrieveDependencies(Result &res, Database *db)
 	{
 		// debugLog << "Retrieving from CollectionHasDataset->PCollection" << std::endl;
 		delete _collection;
+		_collection = nullptr;
 
 		std::string collect_id = PCollection::staticSqlIDName();
 		// debugLog << "res[collect_id] = " + res[collect_id];

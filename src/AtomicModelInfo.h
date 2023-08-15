@@ -37,7 +37,7 @@ namespace mulch
 		virtual void fillInFromResults(const Result &res);
 	private:
 		std::string _pdbCode;
-		TLSParametersInfo* _tlsParametersInfo = nullptr;
+		TLSParametersInfo* _tlsParametersInfo;
 		std::string _comments = "";
 
 	};

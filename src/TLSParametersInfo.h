@@ -5,6 +5,7 @@
 #define __mulch__TLSParametersInfo_h__
 
 #include "Object.h"
+#include <sqlite3.h>
 
 namespace mulch
 {
@@ -14,7 +15,7 @@ namespace mulch
 		TLSParametersInfo();
 		static TLSParametersInfo* tlsByPrimaryId(int id, Database *db);
 
-		virtual std::string sqlIdName() 
+		virtual std::string sqlIdName() override
 		{
 			return staticSqlIDName(); 	
 		};
@@ -26,7 +27,7 @@ namespace mulch
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
 		virtual std::string selectPidQuery();
-	private:
+		std::string _comments = "";
 	};
 }
 

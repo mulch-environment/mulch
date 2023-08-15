@@ -70,6 +70,8 @@ void DataCrystallographicInfo::retrieveDependencies(Result &res, Database *db)
 {
 
 	delete _crystalQualityData;
+	_crystalQualityData = nullptr;
+	
 	std::string crysQual_id = CrystalQualityData::staticSqlIDName();
 	std::cout << "res[crysQual_id] = " + res[crysQual_id] << std::endl;
 	CrystalQualityData* cryQual = CrystalQualityData::crystQualDataByPrimaryId(std::stoi(res[crysQual_id]), db);

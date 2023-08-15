@@ -28,7 +28,8 @@ std::string TLSParametersInfo::updateQuery()
 std::string TLSParametersInfo::selectPidQuery()
 {
 	std::string query;
-	query = "SELECT * FROM TLSParametersInfo";
+	query = "SELECT * FROM TLSParametersInfo WHERE tlsparameters_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
 	Utility::protectsql(query);
 	return query;

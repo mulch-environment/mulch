@@ -7,7 +7,7 @@ using namespace mulch;
 
 DataNMRInfo::DataNMRInfo()
 {
-	// _nmrQualityData = new NMRQualityData();
+	_nmrQualityData = new NMRQualityData();
 }
 
 std::string DataNMRInfo::insertQuery()
@@ -61,9 +61,11 @@ void DataNMRInfo::retrieveDependencies(Result &res, Database *db)
 {
 
 	delete _nmrQualityData;
+	_nmrQualityData = nullptr;
+	
 	std::string nmrQual_id = NMRQualityData::staticSqlIDName();
-	// std::cout << "res[nmrQual_id] = " + res[nmrQual_id] << std::endl;
-	// _nmrQualityData = NMRQualityData::NMRQualDataByPrimaryId(std::stoi(res[nmrQual_id]), db);
+	std::cout << "res[nmrQual_id] = " + res[nmrQual_id] << std::endl;
+	_nmrQualityData = NMRQualityData::nmrQualityDataByPrimaryId(std::stoi(res[nmrQual_id]), db);
 }
 
 

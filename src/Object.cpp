@@ -65,9 +65,7 @@ void Object::updatePid(Database *db)
 void Object::getPidFromResults(const Result &res)
 {
 	std::string nameofID = sqlIdName();
-	debugLog << nameofID;
 	int name_pid = atoi(res.at(nameofID).c_str());
-
 
 	// set primary ID
 	setPrimaryId(name_pid);
@@ -78,9 +76,9 @@ void Object::updateDatabase(Database *db)
 	debugLog << "Beginning updating table... \n";
 	std::string querySetForeignOn = Utility::SetForeignKeysOn();
 	db->query(querySetForeignOn);
-	// debugLog << "Which table are you currently updating the dependecies?";
-	// debugLog << sqlIdName();
-
+	debugLog << "Which table are you currently updating the dependecies?";
+	debugLog << sqlIdName();
+	
 	updateDependenciesBefore(db); 
 	// if the object doesn't exist in the database yet,
 	if (!alreadyInDatabase())
@@ -97,7 +95,7 @@ void Object::updateDatabase(Database *db)
 	}
 
 	updateDependenciesAfter(db);
-	debugLog << "Finish updating dependecies for table: \n";	
+	debugLog << "Finished updating dependecies for table: \n";	
 	debugLog << sqlIdName();	
 
 }
@@ -115,7 +113,6 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
     else
     {
     // Call fillInFromResults on each element of the vector
-    	// debugLog << "Number of results: ";
 	    for (const auto& res : results) 
 	    {
 	        fillInFromResults(res);
@@ -132,6 +129,7 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
     }
     retrieveDependencies(results[0] , db);
     std::string nameId = sqlIdName();
+    debugLog << "In Object::retrieveDependencies, trying to retrieve from table: ";
     debugLog << nameId;
     return combinedResult;
 }
@@ -145,6 +143,7 @@ std::string Object::queryLastId()
 
 void Object::persist()
 {
+	debugLog << "Begin persist process ...";
 	Database *db = new Database("mulch.db");
 	int version;
 	version = db->getVersion(); // Set the version number in the Database object

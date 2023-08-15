@@ -31,9 +31,10 @@ std::string CryoEMInfo::selectPidQuery()
 {
 	std::string query;
 
-	query = "SELECT * FROM CryoEMInfo ";
+	query = "SELECT * FROM CryoEMInfo WHERE cryoem_info_id = ";
+	query += std::to_string(primaryId());
 	query += ";";
-	Utility::protectsql(query);
+
 	return query;
 }
 
