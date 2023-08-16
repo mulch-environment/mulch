@@ -21,13 +21,17 @@ namespace mulch
 		virtual void setDataType(DataEnum datatype) = 0;
 
 		// setters for Model columns
+		virtual void setComments(const std::string& comments) = 0;
 		virtual void setModelComments(const std::string& comments) = 0;
     	virtual void setModelPdbName(const std::string& pdbName) = 0;
  	    virtual void setModelHasPdb(const std::string& hasPdb) = 0;
+ 	    virtual void setDataComments(const std::string& comments) = 0;
 
-		virtual std::string getComments() const = 0;
-		virtual std::string getPdbName() const = 0;
-		virtual std::string getHasPdb() const = 0;
+ 	    virtual const std::string &getComments() const = 0;
+		virtual const std::string &getModelComments() const = 0;
+		virtual const std::string &getDataComments() const = 0;
+		virtual const std::string &getPdbName() const = 0;
+		virtual const std::string &getHasPdb() const = 0;
 	private:
 		ModelDataPairEnum _hasmd = NoneModelDataPair;
 	};

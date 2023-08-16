@@ -5,6 +5,7 @@
 #define __mulch__PData_h__
 #include <iostream>
 #include "Object.h"
+#include "Data.h"
 #include "Cache.h"
 
 namespace mulch
@@ -13,7 +14,7 @@ namespace mulch
 	class DataCrystallographicInfo;
 	class DataCryoEMInfo; 
 
-	class PData : public Object
+	class PData : public Data, public Object
 	{
 	public:
 		PData();
@@ -62,8 +63,8 @@ namespace mulch
 		DataNMRInfo *_dataNMRInfo = nullptr;
 		DataCrystallographicInfo *_dataCrystallographicInfo = nullptr;
 		DataCryoEMInfo *_dataCryoEMInfo = nullptr;
-		std::string _fileData = " ";
-		std::string _comments = " ";
+		std::string _fileData = "";
+		std::string _comments = "";
 	};
 }
 

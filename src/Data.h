@@ -24,7 +24,7 @@ namespace mulch
 
 	protected:
 		std::string _fileData = "No data file yet";
-		std::string _comments = "No comments yet";
+		std::string _comments = "";
 	};
 }
 #endif

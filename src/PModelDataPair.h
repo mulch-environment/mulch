@@ -6,10 +6,10 @@
 #include <iostream>
 #include "Object.h"
 #include "ModelDataPair.h"
-#include "Model.h"
 #include "Database.h"
 #include "EnumTables.h"
 #include "PModel.h"
+#include "PData.h"
 
 namespace mulch
 {
@@ -37,11 +37,24 @@ namespace mulch
 
 		std::vector<PModel*> retrieveModelByType(RepresentationEnum rep, Database *db);
 
+
 		// setters for Model columns
+		void setComments(const std::string& comments)
+		{
+			debugLog <<	"Hi I am in line 44 in PModelDataPair::setComments";
+			_comments = comments;
+		}
+
 		void setModelComments(const std::string& comments) 
 		{
         	_model->setComments(comments);
     	}
+
+		void setDataComments(const std::string& comments) 
+		{
+        	_data->setComments(comments);
+    	}
+
     	void setModelPdbName(const std::string& pdbName) 
 		{
         	_model->setPdbName(pdbName);
@@ -53,33 +66,46 @@ namespace mulch
 
     	// Getters:
 
+ 	    virtual const std::string &getComments() const
+ 	    {
+ 	    	return _comments;
+ 	    }
+
     	// For PModel:
-		std::string getComments() const 
+		virtual const std::string &getModelComments() const 
     	{
     		std::string comments = _model->getComments();
 		    return comments;
 		}
 
-		std::string getPdbName() const 
+		virtual const std::string &getPdbName() const 
 		{
 			std::string pdbName = _model->getPdbName();
 		    return pdbName;
 		}
 
-		std::string getHasPdb() const 
+		virtual const std::string& getHasPdb() const 
     	{
     		std::string hasPdb = _model->getHasPdb();
 		    return hasPdb;
 		}
+		// For PData:
+		virtual const std::string &getDataComments() const 
+    	{
+    		std::string dataComments = _data->getComments();
+		    return dataComments;
+		}
 	protected:
-		virtual std::string insertQuery() ;
-		virtual std::string updateQuery() ;
-		virtual std::string selectPidQuery() ;
-		virtual void updateDependenciesBefore(Database *db);
+		virtual std::string insertQuery();
+		virtual std::string updateQuery();
+		virtual std::string selectPidQuery();
 		virtual void retrieveDependencies(Result &res, Database *db);
+		virtual void updateDependenciesBefore(Database *db);
+
 		// std::string updateMDP(std::string mdpType, int mdpTypeId);
 
 	private:
+		std::string _comments =  "";
 		ModelDataPairEnum _hasmd = NoneModelDataPair;
 		PModel *_model = nullptr;
 		PData *_data = nullptr;
