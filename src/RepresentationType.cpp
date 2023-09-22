@@ -5,11 +5,25 @@
 #include "BondBasedModelInfo.h"
 #include "CoarseGrainingModelInfo.h"
 #include "EnsembleRefineInfo.h"
-#include "Utility.h"
 #include "DebugLog.h"
 
-
 using namespace mulch;
+
+RepresentationEnum RepresentationType::type() const
+{
+    if (_atomicModelInfo != nullptr) {
+        return Atomic;
+    } else if (_bondBasedModelInfo != nullptr) {
+        return BondBased;
+    } else if (_coarseGrainingModelInfo != nullptr) {
+        return CG;
+    } else if (_ensembleRefineInfo != nullptr) {
+        return Ensemble;
+    } else {
+        return NoneRepresentation;
+    }
+}
+
 
 RepresentationType::RepresentationType()
 {
@@ -43,53 +57,56 @@ std::string RepresentationType::updateRepType(std::string repTypeIdName, int rep
 
 std::string RepresentationType::updateQuery()
 {
-	std::string query;
-	std::string repTypeIdName;
-	int repTypeIdValue;
+    std::string query;
+    std::string repTypeIdName;
+    int repTypeIdValue;
 
-	if (_type == Atomic)
-	{
-		repTypeIdName = "atomic_model_id";
-		repTypeIdValue = _atomicModelInfo->primaryId();
-		query = updateRepType(repTypeIdName, repTypeIdValue);
-		debugLog << query;
-		Utility::protectsql(query);
-		return query;
-	}
-	else if (_type == BondBased)
-	{
-		repTypeIdName = "bondbased_model_id";
-		repTypeIdValue = _bondBasedModelInfo->primaryId();
-		query = updateRepType(repTypeIdName, repTypeIdValue);
-		debugLog << query;
-		Utility::protectsql(query);
-		return query;
-	}
-	else if (_type == CG)
-	{
-		repTypeIdName = "coarsegraining_model_id";
-		repTypeIdValue = _coarseGrainingModelInfo->primaryId();
-		query = updateRepType(repTypeIdName, repTypeIdValue);
-		debugLog << query;
-		Utility::protectsql(query);
-		return query;
-		
-	}
-		else if (_type == Ensemble)
-	{
-		repTypeIdName = "ensemble_refine_id";
-		repTypeIdValue = _ensembleRefineInfo->primaryId();
-		query = updateRepType(repTypeIdName, repTypeIdValue);
-		debugLog << query;
-		Utility::protectsql(query);
-		return query;
-	}
-	else
-	{
-		throw std::runtime_error("Can't update RepresentationType: no representation type");
-	}
+    RepresentationEnum currentType = type();
+
+    if (currentType == Atomic)
+    {
+        repTypeIdName = "atomic_model_id";
+        repTypeIdValue = _atomicModelInfo->primaryId();
+        query = updateRepType(repTypeIdName, repTypeIdValue);
+        debugLog << query;
+        Utility::protectsql(query);
+        return query;
+    }
+    else if (currentType == BondBased)
+    {
+        repTypeIdName = "bondbased_model_id";
+        repTypeIdValue = _bondBasedModelInfo->primaryId();
+        query = updateRepType(repTypeIdName, repTypeIdValue);
+        debugLog << query;
+        Utility::protectsql(query);
+        return query;
+    }
+    else if (currentType == CG)
+    {
+        repTypeIdName = "coarsegraining_model_id";
+        repTypeIdValue = _coarseGrainingModelInfo->primaryId();
+        query = updateRepType(repTypeIdName, repTypeIdValue);
+        debugLog << query;
+        Utility::protectsql(query);
+        return query;
+    }
+    else if (currentType == Ensemble)
+    {
+        repTypeIdName = "ensemble_refine_id";
+        repTypeIdValue = _ensembleRefineInfo->primaryId();
+        query = updateRepType(repTypeIdName, repTypeIdValue);
+        debugLog << query;
+        Utility::protectsql(query);
+        return query;
+    }
+    else
+    {
+    	return ""; // No updates to perform
+        // throw std::runtime_error("Can't update RepresentationType: no representation type");
+    }
 
 }
+
 
 
 std::string RepresentationType::selectPidQuery()
@@ -129,39 +146,35 @@ void RepresentationType::updateDependenciesBefore(Database *db)
 		debugLog << "Updating dependencies for RepresentationType->EnsembleRefineInfo";
 		_ensembleRefineInfo->updateDatabase(db);
 	}
-	else
-	{
-		throw std::runtime_error("Can't update dependencies for RepresentationType: no representation type");
-	}
 }
 
 void RepresentationType::setRepType(RepresentationEnum rep)
 {
-	MulchExceptions::RepTypeIsNone(_type);
-	_type = rep;
-	// debugLog<<_type;
-	if (_type == Atomic)
-	{
-		// Utility::debugLogTest("New instance for Atomistic model type");
-		_atomicModelInfo = new AtomicModelInfo();
-	}
-	else if (_type == BondBased)
-	{
-		// Utility::debugLogTest("New instance for Bond-based model type");
-		_bondBasedModelInfo = new BondBasedModelInfo();
-	}
-	else if (_type == CG)
-	{
-		// Utility::debugLogTest("New instance for CG model type");
-		_coarseGrainingModelInfo = new CoarseGrainingModelInfo();
-	}
-	else if (_type == Ensemble)
-	{
-		// Utility::debugLogTest("New instance for Ensemble model type");
-		_ensembleRefineInfo = new EnsembleRefineInfo();
-	}
+    RepresentationEnum temp = type(); // Create a local variable
 
-};
+    MulchExceptions::RepTypeIsNone(temp);
+
+    temp = rep;
+
+    // Initialize the corresponding model info based on the new type
+    if (temp == Atomic)
+    {
+        _atomicModelInfo = new AtomicModelInfo();
+    }
+    else if (temp == BondBased)
+    {
+        _bondBasedModelInfo = new BondBasedModelInfo();
+    }
+    else if (temp == CG)
+    {
+        _coarseGrainingModelInfo = new CoarseGrainingModelInfo();
+    }
+    else if (temp == Ensemble)
+    {
+        _ensembleRefineInfo = new EnsembleRefineInfo();
+    }
+}
+
 
 void RepresentationType::setFileName(std::string pdbName)
 {	
@@ -230,10 +243,6 @@ void RepresentationType::retrieveDependencies(Result &res, Database *db)
 		_ensembleRefineInfo = ensembl;
 		
 	}
-	else
-	{
-		throw std::runtime_error("Can't retrieving dependencies for RepresentationType: no representation type");
-	}
 
 }
 
@@ -269,5 +278,22 @@ void RepresentationType::fillInFromResults(const Result &res)
 		_ensembleRefineInfo->getPidFromResults(res);
 	}
 }
+
+
+
+// ~RepresentationType() {
+//     if (_atomicModelInfo) {
+//         delete _atomicModelInfo;
+//     }
+//     if (_bondBasedModelInfo) {
+//         delete _bondBasedModelInfo;
+//     }
+//     if (_coarseGrainingModelInfo) {
+//         delete _coarseGrainingModelInfo;
+//     }
+//     if (_ensembleRefineInfo) {
+//         delete _ensembleRefineInfo;
+//     }
+// }
 
 

@@ -21,6 +21,8 @@ void Object::updateExisting(Database *db)
 {
 	debugLog << "Run updateQuery for ";
 	debugLog << sqlIdName();
+	debugLog << primaryId();
+
 
 	if (primaryId() < 0)
 	{
@@ -74,24 +76,26 @@ void Object::getPidFromResults(const Result &res)
 void Object::updateDatabase(Database *db)
 {
 	debugLog << "Beginning updating table... \n";
+	debugLog << "Which table are you currently updating the dependecies?";
 	std::string querySetForeignOn = Utility::SetForeignKeysOn();
 	db->query(querySetForeignOn);
-	debugLog << "Which table are you currently updating the dependecies?";
 	debugLog << sqlIdName();
-	
+	debugLog << primaryId();
+
 	updateDependenciesBefore(db); 
 	// if the object doesn't exist in the database yet,
 	if (!alreadyInDatabase())
 	{
+		debugLog << "Object NOT before in the database";
+		debugLog << sqlIdName();
 		initialInsert(db);
 		updatePid(db);
 		updateExisting(db);
 	}
 	else
 	{
-		// std::cout << "In updateDatabase, but something wrong. Do nothing for now. \n" << std::endl;
-		// we need to create an UPDATE query that only acts on our primary ID
-		// send that query to the database
+		debugLog << "Hello! I'm in updatesDatabase, the /else/ option";
+		updateExisting(db);
 	}
 
 	updateDependenciesAfter(db);
@@ -129,7 +133,7 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
     }
     retrieveDependencies(results[0] , db);
     std::string nameId = sqlIdName();
-    debugLog << "In Object::retrieveDependencies, trying to retrieve from table: ";
+    debugLog << "In Object::retrieveDExisting, trying to retrieve from table: ";
     debugLog << nameId;
     return combinedResult;
 }

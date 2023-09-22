@@ -121,12 +121,14 @@ namespace mulch
 		virtual void fillInFromResults(const mulch::Result &res){};
 		virtual void populateCHDs(){};
 
+
 		/* sqlIdName: 
 		Get the pid from Object tables.
 		fillInFromResults: 
 		Fill the columns of the Object table with the data you retrieved from the Database.
 		**/
 		virtual std::string sqlIdName() {return "";};
+		virtual std::string getComments() {return "";} const;
 		DebugLog debugLog;
 
 

@@ -14,6 +14,7 @@ public:
 	static void NoFileError(int &input);
 	static void SQLiteErrorIfNeeded(int &c, char *zErrMsg);
 	static void RepTypeIsNone(RepresentationEnum repType);
+	static void StrcInfoIsNone(StructureTechniqueInfoEnum strcInfo);
 	static void FileNameIsNone(std::string fileName);
 	static void DataTypeIsNone(DataEnum datInfo);
 

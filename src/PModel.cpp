@@ -32,22 +32,63 @@ std::string PModel::insertQuery()
 std::string PModel::updateQuery()
 {
 	std::string query;
-	query = "UPDATE Model SET pdb_code = '";
-	query += _pdbName;
-	query +=  "', haspdb = '";
-	query += _hasPdb;
-	query += "' , comments = '";
-	query += _comments;
-	query += "' WHERE model_ID = (";
-	query += std::to_string(primaryId());
-	query += ");";
-	debugLog << "Update query in PModel: ";
-	debugLog << query;
+	std::string new_comment_model = PModel::getComments();
+	debugLog << new_comment_model;
+	Utility::protectParameter(new_comment_model);
+
+	query = "UPDATE Model SET ";
+    bool hasUpdates = false;
+
+    if (_representationType != nullptr && _structureTechniqueInfo != nullptr)
+    {
+    	query += "representation_type_id = ";
+    	query += std::to_string(_representationType->primaryId());
+    	query += " , structure_technique_ID = ";
+    	query += std::to_string(_structureTechniqueInfo->primaryId());
+    	query += " , pdb_code = '";
+		query += _pdbName;
+		query += "' , haspdb = '";
+		query += _hasPdb;
+		query += "'";
+    	hasUpdates = true;
+    }
+
+	// Add comments
+    if (!new_comment_model.empty()) {
+        if (hasUpdates) {
+            query += ", ";
+        }
+        query += "comments = '";
+        query += new_comment_model;
+        query += "'";
+    }
+
+    if (hasUpdates) {
+        query += " WHERE model_ID = (";
+        query += std::to_string(PModel::primaryId());
+        query += ");";
+        debugLog << "Update query in PModel: " << query;
+        return query;
+    } else {
+        return ""; // No updates to perform
+    }
+
+	// query = "UPDATE Model SET pdb_code = '";
+	// query += _pdbName;
+	// query +=  "', haspdb = '";
+	// query += _hasPdb;
+	// query += "' , comments = '";
+	// query += _comments;
+	// query += "' WHERE model_ID = (";
+	// query += std::to_string(primaryId());
+	// query += ");";
+	// debugLog << "Update query in PModel: ";
+	// debugLog << query;
 	// Utility::protectParameter(_pdbName);
 	// Utility::protectParameter(_hasPdb);
 	// Utility::protectParameter(_comments);
     // Utility::protectsql(query);
-    return query;
+    // return query;
 }
 
 
@@ -88,7 +129,7 @@ std::string PModel::selectQueryModelsByType(RepresentationEnum rep)
 		break;
 
 		default:
-		std::cout << "default\n";
+		std::cout << "default\n" << std::endl;
 		break;	
 	};
 
@@ -107,12 +148,15 @@ std::string PModel::selectQueryModelsByType(RepresentationEnum rep)
 
 void PModel::updateDependenciesBefore(Database *db)
 {
-	// send that representationType to the database
-	debugLog << "Update _representationType from PModelDataPair::updateDependenciesBefore";
-	_representationType->updateDatabase(db);
-	debugLog << "Update _structureTechniqueInfo from PModelDataPair::updateDependenciesBefore";
-	_structureTechniqueInfo->updateDatabase(db);
-	
+	if (_representationType != nullptr && _structureTechniqueInfo != nullptr)
+	{
+		// send that representationType to the database
+		debugLog << "Updating PModel->RepresentationType";
+		_representationType->updateDatabase(db);
+
+		debugLog << "Updating PModel->StructureTechniqueInfo";
+		_structureTechniqueInfo->updateDatabase(db);
+	}
 }
 
 
@@ -128,24 +172,30 @@ PModel* PModel::modelByPrimaryId(int id, Database *db)
 
 void PModel::retrieveDependencies(Result &res, Database *db)
 {
-    delete _representationType;
-    _representationType = nullptr;
-    delete _structureTechniqueInfo;
-    _structureTechniqueInfo = nullptr;
 
-    std::string rep_id = RepresentationType::staticSqlIDName();
-    std::string str_id = StructureTechniqueInfo::staticSqlIDName();
+    std::string repId = RepresentationType::staticSqlIDName();
+    std::string strId = StructureTechniqueInfo::staticSqlIDName();
     
-    if (!Utility::isNull(res[rep_id]) && !Utility::isNull(res[str_id]))
+    if (!Utility::isNull(res[repId]) && !Utility::isNull(res[strId]))
     {
     	debugLog << "Retrieving from PModel->RepresentationType \n";
-    	int repId = std::stoi(res[rep_id]);
-    	RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(repId, db);
+    	delete _representationType;
+   		_representationType = nullptr;
+    	
+    	// int repId = std::stoi(res[rep_id]);
+    	std::string repId = RepresentationType::staticSqlIDName();
+    	debugLog << "res[repId] = " + res[repId];
+    	RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(std::stoi(res[repId]), db);
     	_representationType = repType;
 
     	debugLog << "Retrieving from PModel->StructureTechniqueInfo \n";
-    	int strId = std::stoi(res[str_id]);
-    	StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(strId, db);
+    	delete _structureTechniqueInfo;
+    	_structureTechniqueInfo = nullptr;
+
+    	// int strId = std::stoi(res[str_id]);
+    	std::string strId = StructureTechniqueInfo::staticSqlIDName();
+    	debugLog << "res[strId] = " + res[strId];
+    	StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(std::stoi(res[strId]), db);
     	_structureTechniqueInfo = strTech;
 
 	}
@@ -174,10 +224,23 @@ void PModel::retrieveDependencies(Result &res, Database *db)
 
 void PModel::fillInFromResults(const Result &res) 
 {
-    // std::cout << typeid(res).name() << std::endl;
-    _comments = res.at("comments");
-    _representationType->getPidFromResults(res);
-    _structureTechniqueInfo->getPidFromResults(res);
+
+	std::string repId = RepresentationType::staticSqlIDName();
+    std::string strId = StructureTechniqueInfo::staticSqlIDName();
+
+    if (!Utility::isNull(res.at(repId)))
+	{
+		_representationType =  new RepresentationType;
+		_representationType->getPidFromResults(res);
+	}
+	
+	if (!Utility::isNull(res.at(strId)))
+	{
+		_structureTechniqueInfo = new StructureTechniqueInfo;
+		_structureTechniqueInfo->getPidFromResults(res);
+	} 
+
+
 }
 
 // std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
@@ -201,6 +264,29 @@ void PModel::fillInFromResults(const Result &res)
 // 	}
 //     return retrieved_res;
 // }
+
+void PModel::setRepType(RepresentationEnum rep)
+{	
+	_representationType->setRepType(rep);
+}
+
+void PModel::setFileName(std::string pdbName)
+{	
+	// if (_representationType == nullptr)
+	// {
+	// 	_representationType = new RepresentationType;
+	// }
+
+	_representationType->setFileName(pdbName);
+}
+
+
+void PModel::setComments(std::string comments)
+{
+	_comments = comments;
+	debugLog << "In PModel::setComments. Received comments: " << _comments;
+};
+
 
 std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
 {
@@ -226,17 +312,6 @@ std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
     return retrieved_res;
 }
 
-void PModel::setRepType(RepresentationEnum rep)
-{	
-	_representationType->setRepType(rep);
-
-}
-
-void PModel::setFileName(std::string pdbName)
-{	
-
-	_representationType->setFileName(pdbName);
-}
 
 
 std::vector<PModel*> PModel::retrieveByType(RepresentationEnum rep, Database *db)

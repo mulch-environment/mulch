@@ -38,6 +38,8 @@ namespace mulch
 		virtual int countChdIds(Database* db = nullptr) const = 0;
 	    static Collection* collectionByPrimaryId(int id, Database* db = nullptr);
 
+	private:
+		std::string _comments = "";
    	};
 }; // namespace mulch
 

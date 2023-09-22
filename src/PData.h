@@ -23,6 +23,7 @@ namespace mulch
 		static PData* dataByPrimaryId(int id, Database *db);
 		static std::vector<Result> showRetrievedValues(int pid, Database *db);
 		virtual void setFileName(std::string fileData);
+		virtual void setComments(std::string comments);
 		// std::pair<PData*, int> objectByPrimaryId(int id, Database* db)  
 		// {
   //       	return Cache<PData>::cacheByPrimaryId(id, db);
@@ -35,15 +36,9 @@ namespace mulch
 		{
 			return "data_id";
 		};
-
-		virtual void setComments(std::string comments)
-		{
-			_comments = comments;
-		};
 		
-
 		// Getters //
-		virtual const std::string &getComments() const
+		virtual std::string getComments() const
 		{
 			return _comments;
 		};

@@ -19,7 +19,7 @@ namespace mulch
 		virtual void setComments(std::string comments) = 0; // setter function 
 		virtual void setPdbName(std::string pdbName) = 0;
 		virtual void setHasPdb(std::string hasPdb) = 0;
-		virtual const std::string &getComments() const = 0; // getter function
+		virtual std::string getComments() const = 0;
 		virtual const std::string &getPdbName() const = 0;
 		virtual const std::string &getHasPdb() const = 0;
 		static PModel* modelByPrimaryId(int id, Database *db);

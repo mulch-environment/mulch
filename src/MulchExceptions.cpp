@@ -28,6 +28,14 @@ void MulchExceptions::RepTypeIsNone(RepresentationEnum repType)
 	}
 }
 
+void MulchExceptions::StrcInfoIsNone(StructureTechniqueInfoEnum strcInfo)
+{
+		if (strcInfo != NoneStructureTechniqueInfo) 
+	{
+	    throw std::runtime_error("Invalid structure technique info");
+	}
+}
+
 void MulchExceptions::DataTypeIsNone(DataEnum datInfo) 
 {
 	if (datInfo != NoneData) 

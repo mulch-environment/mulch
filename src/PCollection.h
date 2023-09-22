@@ -65,6 +65,7 @@ namespace mulch
 		// virtual int countMDPId(int id, Database *db = nullptr);
 		virtual int countChdIds(Database *db = nullptr) const;
 		void populateCHDs(std::vector<int> chds, Database *db);
+
 	protected:
 		virtual std::string insertQuery() override;
 		virtual std::string updateQuery() override;

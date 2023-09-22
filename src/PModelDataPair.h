@@ -19,12 +19,17 @@ namespace mulch
 	{
 	public:
 		PModelDataPair();
+		int getPrimaryId() const;
 		std::vector<PModelDataPair*> mdpVector;
 		static PModelDataPair* modelDataPairByPrimaryId(int id, Database *db);
 		virtual void setRep(RepresentationEnum rep);
 		virtual void setFile(std::string pdbName);
 		virtual void setDataFile(std::string datafile);
 		virtual void setDataType(DataEnum datatype);
+		void persist() 
+		{ 
+			Object::persist(); 
+		}
 		virtual std::string sqlIdName() 
 		{
 			debugLog << staticSqlIDName();
@@ -41,20 +46,11 @@ namespace mulch
 		// setters for Model columns
 		void setComments(const std::string& comments)
 		{
-			debugLog <<	"Hi I am in line 44 in PModelDataPair::setComments";
 			_comments = comments;
 		}
 
-		void setModelComments(const std::string& comments) 
-		{
-        	_model->setComments(comments);
-    	}
-
-		void setDataComments(const std::string& comments) 
-		{
-        	_data->setComments(comments);
-    	}
-
+		void setModelComments(const std::string& comments);
+		void setDataComments(const std::string& comments);
     	void setModelPdbName(const std::string& pdbName) 
 		{
         	_model->setPdbName(pdbName);
@@ -72,10 +68,10 @@ namespace mulch
  	    }
 
     	// For PModel:
-		virtual const std::string &getModelComments() const 
+		virtual std::string getModelComments() const 
     	{
-    		std::string comments = _model->getComments();
-		    return comments;
+    		std::cout << "In MDP::getModelComments" <<std::endl;
+    		return _model->getComments();
 		}
 
 		virtual const std::string &getPdbName() const 
@@ -90,10 +86,10 @@ namespace mulch
 		    return hasPdb;
 		}
 		// For PData:
-		virtual const std::string &getDataComments() const 
+		virtual std::string getDataComments() const 
     	{
-    		std::string dataComments = _data->getComments();
-		    return dataComments;
+    		std::cout << "In MDP::getDataComments"<<std::endl;
+		    return _data->getComments();
 		}
 	protected:
 		virtual std::string insertQuery();
@@ -101,6 +97,7 @@ namespace mulch
 		virtual std::string selectPidQuery();
 		virtual void retrieveDependencies(Result &res, Database *db);
 		virtual void updateDependenciesBefore(Database *db);
+		virtual void fillInFromResults(const Result &res);
 
 		// std::string updateMDP(std::string mdpType, int mdpTypeId);
 

@@ -18,7 +18,8 @@ namespace mulch
 		virtual ~Data() {};
 		virtual void setComments(std::string comments) = 0; // setter function 
 		virtual void setFileName(std::string fileData) = 0; 
-		virtual const std::string &getComments() const = 0; // getter function
+		virtual std::string getComments() const = 0;
+		// virtual const std::string &getComments() const = 0; // getter function
 		virtual const std::string &getFileName() const = 0;
 		static PData* modelByPrimaryId(int id, Database *db);
 

@@ -18,12 +18,8 @@ PData::PData()
 
 	if (_dataNMRInfo != nullptr || _dataCrystallographicInfo != nullptr || _dataCryoEMInfo != nullptr)
 	{
-		throw  std::runtime_error("Issue in PData: more thatn one type of data.");
+		throw  std::runtime_error("Issue in PData: more than one type of data.");
 	}
-	// _dataNMRInfo = new DataNMRInfo();
-	// _dataCrystallographicInfo = new DataCrystallographicInfo();
-	// _dataCryoEMInfo = new DataCryoEMInfo();
-
 
 }
 
@@ -33,25 +29,90 @@ std::string PData::insertQuery()
 	query = "INSERT INTO Data DEFAULT VALUES";
 	// query += "(";
 	// query += std::to_string(_dataCrystallographicInfo->primaryId());
-	// query += ");";
+	query += ";";
 	Utility::protectsql(query);
 	return query;
 }
 
+// std::string PData::updateQuery()
+// {
+// 	std::string query;
+// 	std::string new_comment = PData::getComments();
+// 	Utility::protectParameter(new_comment);
+// 	query = "UPDATE Data SET comments = ";
+// 	query += "'";
+// 	query += _comments;
+// 	query += "'";
+// 	query += " WHERE data_ID = ";
+// 	query += std::to_string(PData::primaryId());
+// 	query += ";";
+// 	debugLog << "Update query in PData: ";
+// 	debugLog << query;
+// 	return query;
+// }
 std::string PData::updateQuery()
 {
-	std::string query;
-	query = "UPDATE Data SET comments = ";
-	query += "'";
-	query += _comments;
-	query += "'";
-	query += " WHERE data_ID = ";
-	query += std::to_string(primaryId());
-	query += ";";
+    std::string query;
+    std::string new_comment_data = PData::getComments();
+    debugLog << new_comment_data;
+    Utility::protectParameter(new_comment_data);
 
-	debugLog << "Update query in PData: ";
-	return query;
+    query = "UPDATE Data SET ";
+    bool hasUpdates = false;
+
+    // Check if there is a new data_crystallographic_info_id
+    if (_dataCrystallographicInfo != nullptr) 
+    {
+        query += "data_crystallographic_info_id = ";
+        query += std::to_string(_dataCrystallographicInfo->primaryId());
+        hasUpdates = true;
+    }
+
+    // Check if there is a new data_nmr_info_id
+    if (_dataNMRInfo != nullptr) {
+        if (hasUpdates) {
+            query += ", ";
+        }
+        query += "data_nmr_info_id = ";
+        query += std::to_string(_dataNMRInfo->primaryId());
+        hasUpdates = true;
+    }
+
+    // Check if there is a new data_cryoem_info_id
+    if (_dataCryoEMInfo != nullptr) {
+        if (hasUpdates) {
+            query += ", ";
+        }
+        query += "data_cryoem_info_id = ";
+        query += std::to_string(_dataCryoEMInfo->primaryId());
+        hasUpdates = true;
+    }
+
+    // Add comments
+    if (!new_comment_data.empty()) {
+        if (hasUpdates) {
+            query += ", ";
+        }
+        query += "comments = '";
+        query += new_comment_data;
+        query += "'";
+    }
+
+    if (hasUpdates) {
+        query += " WHERE data_ID = (";
+        query += std::to_string(PData::primaryId());
+        query += ");";
+        debugLog << "Update query in PData: " << query;
+        return query;
+    } else {
+        return ""; // No updates to perform
+    }
 }
+
+
+
+
+
 
 std::string PData::selectPidQuery()
 {
@@ -81,6 +142,7 @@ std::string PData::selectQueryDataByInfo(DataEnum dat)
 		case Cryo:
 		table = "DataCryoEMInfo";
 		id = "data_cryoem_info_id";
+
 		break;
 
 		default:
@@ -100,23 +162,24 @@ void PData::updateDependenciesBefore(Database *db)
 {
 	if (_dataNMRInfo != nullptr)
 	{
-		debugLog << "Updating Data->DataNMRInfo \n";
+		debugLog << "Updating PData->DataNMRInfo \n";
 		_dataNMRInfo->updateDatabase(db);
 	}
 	else if (_dataCrystallographicInfo != nullptr)
 	{
-		debugLog << "Updating Data->DataCrystallographicDataInfo \n";
+		debugLog << "Updating PData->DataCrystallographicDataInfo \n";
 		_dataCrystallographicInfo->updateDatabase(db);
 	}
 	else if (_dataCryoEMInfo != nullptr)
 	{
-		debugLog << "Updating Data->DataCryoEMInfo \n";
+		debugLog << "Updating PData->DataCryoEMInfo \n";
 		_dataCryoEMInfo->updateDatabase(db);
 	}
-	else
-	{
-		throw std::runtime_error("Can't update Data: no data info");
-	}
+	// else
+	// {
+	// 	std::cout << "For data_id = " +  std::to_string(primaryId()) << std::endl;
+	// 	throw std::runtime_error("Can't update Data: no dependencies");
+	// }
 }
 
 
@@ -126,8 +189,8 @@ PData* PData::dataByPrimaryId(int id, Database *db)
 	// PData *data = new PData();
 	// data->retrieveExisting(id, db);
 	// return data;
-    return Cache<PData>::cacheByPrimaryId(id, db); // Use the template function from the cache
-
+	PData* pData = Cache<PData>::cacheByPrimaryId(id, db);
+    return pData;
 }
 
 void PData::retrieveDependencies(Result &res, Database *db)
@@ -219,10 +282,22 @@ void PData::setDataInfo(DataEnum dat)
 
 void PData::setFileName(std::string fileName)
 {	
-	if (_dataCrystallographicInfo!=nullptr)
+	// if (_dataCrystallographicInfo!=nullptr)
+	// {
+	// 	_dataCrystallographicInfo->setFileName(fileName);
+	// }
+
+	if (_dataCrystallographicInfo == nullptr)
 	{
-		_dataCrystallographicInfo->setFileName(fileName);
+		_dataCrystallographicInfo = new DataCrystallographicInfo;
 	}
+	_dataCrystallographicInfo->setFileName(fileName);
+};
+
+void PData::setComments(std::string comments)
+{
+	_comments = comments;
+	debugLog << "In PData::setComments. Received comments: " << _comments;
 };
 
 std::vector<Result> PData::showRetrievedValues(int pid, Database *db)

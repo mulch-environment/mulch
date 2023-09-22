@@ -10,15 +10,18 @@
 namespace mulch
 {
 	class PModelDataPair;
+	class Object;
 	class Database;
 	class ModelDataPair
 	{
 	public:
 		virtual ~ModelDataPair() {};
+		virtual int getPrimaryId() const = 0;
 		virtual void setRep(RepresentationEnum rep) = 0;
 		virtual void setFile(std::string pdbName) = 0;
 		virtual void setDataFile(std::string datafile) = 0;
 		virtual void setDataType(DataEnum datatype) = 0;
+		virtual void persist() = 0;
 
 		// setters for Model columns
 		virtual void setComments(const std::string& comments) = 0;
@@ -27,9 +30,11 @@ namespace mulch
  	    virtual void setModelHasPdb(const std::string& hasPdb) = 0;
  	    virtual void setDataComments(const std::string& comments) = 0;
 
+
  	    virtual const std::string &getComments() const = 0;
-		virtual const std::string &getModelComments() const = 0;
-		virtual const std::string &getDataComments() const = 0;
+		virtual std::string getModelComments() const = 0;
+		virtual std::string getDataComments() const = 0;
+		// virtual const std::string &getDataComments() const = 0;
 		virtual const std::string &getPdbName() const = 0;
 		virtual const std::string &getHasPdb() const = 0;
 	private:

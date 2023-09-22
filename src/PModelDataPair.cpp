@@ -9,6 +9,11 @@
 
 using namespace mulch;
 
+int PModelDataPair::getPrimaryId() const
+{
+    return primaryId();
+}
+
 PModelDataPair::PModelDataPair()
 {
 	_model = nullptr;
@@ -54,52 +59,145 @@ void PModelDataPair::setDataFile(std::string datafile)
 	_data->setFileName(datafile);
 }
 
+// void PModelDataPair::setDataComments(const std::string& comments)
+// {
+//     if (_data != nullptr)
+//     {
+//         _data->setComments(comments);
+//     }
+//     else
+//     {
+//         debugLog << "No _data object to set comments on.";
+//     }
+// }
 
-std::string PModelDataPair::insertQuery()
-{    
-    std::string query;
-
-    if (_data != nullptr && _model != nullptr)
+void PModelDataPair::setDataComments(const std::string& comments)
+{
+    if (_data != nullptr)
     {
-        query = "INSERT INTO ModelDataPair (data_ID, model_ID) VALUES ";
-        query += "(";
-        query += std::to_string(_data->primaryId());
-        query += ",";
-        query += std::to_string(_model->primaryId());
-        query += ");";
-    }
-    else if (_data == nullptr)
-    {
-        query = "INSERT INTO ModelDataPair (model_ID) VALUES ";
-        query += "(";
-        query += std::to_string(_model->primaryId());
-        query += ");";
-        Utility::protectsql(query);    
-    }
-    else if (_model == nullptr)
-    {
-        query = "INSERT INTO ModelDataPair (data_ID) VALUES ";
-        query += "(";
-        query += std::to_string(_data->primaryId());
-        query += ");";
-        Utility::protectsql(query);    
+        _data->setComments(comments);
     }
     else
     {
-        throw std::runtime_error("Error: Cannot generate insert query with uninitialized data or model.");
+        debugLog << "No _data object to set comments on.";
     }
-
-    return query;    
 }
 
+void PModelDataPair::setModelComments(const std::string& comments)
+{
+    if (_model == nullptr)
+    {
+        _model = new PModel;
+    }  
+    else
+    {
+        debugLog << "No _model object to set comments on.";
+    } 
+    debugLog << "Before _model->setComments: " << _model->getComments();
+    _model->setComments(comments);
+    debugLog << "After _model->setComments: " << _model->getComments();
+
+}
+
+std::string PModelDataPair::insertQuery()
+{
+    std::string query;
+    query = "INSERT INTO ModelDataPair DEFAULT VALUES";
+    Utility::protectsql(query);
+    return query;
+}
+
+
+
+// std::string PModelDataPair::insertQuery()
+// {    
+//     std::string query;
+
+//     if (_data != nullptr && _model != nullptr)
+//     // if (_data->primaryId() > 0 && _model->primaryId() > 0 )
+//     {
+
+//         query = "INSERT INTO ModelDataPair (data_ID, model_ID) VALUES ";
+//         query += "(";
+//         query += std::to_string(_data->primaryId());
+//         query += ",";
+//         query += std::to_string(_model->primaryId());
+//         query += ");";
+//     }
+//     else if (_data == nullptr)
+//     {
+//         query = "INSERT INTO ModelDataPair (model_ID) VALUES ";
+//         query += "(";
+//         query += std::to_string(_model->primaryId());
+//         query += ");";
+//         Utility::protectsql(query);    
+//     }
+//     else if (_model == nullptr)
+//     {
+//         query = "INSERT INTO ModelDataPair (data_ID) VALUES ";
+//         query += "(";
+//         query += std::to_string(_data->primaryId());
+//         query += ");";
+//         Utility::protectsql(query);    
+//     }
+//     else
+//     {
+//         throw std::runtime_error("Error: Cannot generate insert query with uninitialized data or model.");
+//     }
+
+//     debugLog << query;
+//     return query;    
+// }
+
+
+// std::string PModelDataPair::updateQuery()
+// {
+// 	std::string query;
+// 	query = " ";
+// 	Utility::protectsql(query);
+// 	return query;
+// }
 
 std::string PModelDataPair::updateQuery()
 {
-	std::string query;
-	query = " ";
-	Utility::protectsql(query);
-	return query;
+    std::string query;
+    query = "UPDATE ModelDataPair SET ";
+    bool hasUpdates = false;
+
+    if (_data != nullptr && _model != nullptr)
+    {
+        query += "model_ID = ";
+        query += std::to_string(_model->primaryId());
+        query += ", data_ID = ";
+        query += std::to_string(_data->primaryId());
+        hasUpdates = true;
+    }
+    else if (_model != nullptr && _data == nullptr)
+    {
+        query += "model_ID = ";
+        query += std::to_string(_model->primaryId());
+        hasUpdates = true;
+    }
+    else if (_data != nullptr && _model == nullptr)
+    {
+        if (hasUpdates) {
+            query += ", ";
+        }
+        query += "data_ID = ";
+        query += std::to_string(_data->primaryId());
+        hasUpdates = true;
+    }
+    if (hasUpdates) {
+        query += " WHERE modeldatapair_id = (";
+        query += std::to_string(PModelDataPair::primaryId());
+        query += + ");";
+        debugLog << "Update query in PModelDataPair: " << query;
+        return query;
+    } else {
+        return ""; // No updates to perform
+    }
 }
+
 
 
 std::string PModelDataPair::selectPidQuery()
@@ -114,13 +212,19 @@ std::string PModelDataPair::selectPidQuery()
 
 void PModelDataPair::updateDependenciesBefore(Database *db)
 {
-	// send that representationType to the database
-	if (_model != nullptr)
+
+    if (_model != nullptr && _data != nullptr)
+    {
+        debugLog << "Update _model and _data from PModelDataPair::updateDependenciesBefore";
+        _model->updateDatabase(db);
+        _data->updateDatabase(db);
+    }	
+	else if (_model != nullptr)
     {
         debugLog << "Update _model from PModelDataPair::updateDependenciesBefore";
         _model->updateDatabase(db);
     }
-    if (_data != nullptr)
+    else if (_data != nullptr)
     {
         debugLog << "Update _data from PModelDataPair::updateDependenciesBefore";
         _data->updateDatabase(db);
@@ -146,17 +250,23 @@ PModelDataPair* PModelDataPair::modelDataPairByPrimaryId(int id, Database *db)
 void PModelDataPair::retrieveDependencies(Result &res, Database *db)
 {
 
-	delete _model;
-    _model = nullptr;
-	delete _data;
-    _data = nullptr;
+    std::string model_id = PModel::staticSqlIDName();
+    std::string data_id =  PData::staticSqlIDName();
+	// delete _model;
+ //    _model = nullptr;
+	// delete _data;
+ //    _data = nullptr;
 
-	std::string model_id = PModel::staticSqlIDName();
-	std::string data_id =  PData::staticSqlIDName();
+
 
     if (!Utility::isNull(res[model_id]))
     {
         delete _model;
+        _model  = nullptr;
+
+        std::string model_id = PModel::staticSqlIDName();
+        debugLog << "res[model_id] = " + res[model_id];
+
         PModel* model = PModel::modelByPrimaryId(std::stoi(res[model_id]), db);
         _model = model;
     }
@@ -164,6 +274,11 @@ void PModelDataPair::retrieveDependencies(Result &res, Database *db)
     if (!Utility::isNull(res[data_id]))
     {
         delete _data;
+        _data = nullptr;
+
+        std::string data_id = PData::staticSqlIDName();
+        debugLog << "res[data_id] = " + res[data_id];
+
         PData* data = PData::dataByPrimaryId(std::stoi(res[data_id]), db);
         _data = data;
     }
@@ -202,5 +317,26 @@ void PModelDataPair::retrieveDependencies(Result &res, Database *db)
     //     std::cerr << "Error converting res[data_id] to integer: " << e.what() << std::endl;
     // }
 
+}
+
+
+void PModelDataPair::fillInFromResults(const Result &res) 
+{
+    // Retrieve and populate model and data information
+    std::string model_id = PModel::staticSqlIDName();
+    std::string data_id = PData::staticSqlIDName();
+
+    if (!Utility::isNull(res.at(model_id)))
+    {
+        debugLog << "Hi!! I'm in PModelDataPair::fillInFromResults, _model is not NULL";
+        _model = new PModel();
+        _model->getPidFromResults(res);
+    }
+
+    if (!Utility::isNull(res.at(data_id)))
+    {
+        _data = new PData();
+        _data->getPidFromResults(res);
+    }
 }
 

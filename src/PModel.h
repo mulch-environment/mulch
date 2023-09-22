@@ -41,10 +41,7 @@ namespace mulch
 		}
 		// std::vector<Model*> modelsByRepType(RepresentationEnum rep, mulch::Database *db);
 		// SET the valueson the columns in the Model tbale
-		virtual void setComments(std::string comments)  
-		{
-			_comments = comments;
-		}
+		virtual void setComments(std::string comments);
 		virtual void setPdbName(std::string pdbName)
 		{
 			_pdbName = pdbName;
@@ -58,9 +55,8 @@ namespace mulch
 			_creationDate = creationDate;
 		}
 		// GET the values from the columns in the Model table
-		virtual const std::string &getComments() const 
+		virtual std::string getComments() const 
 		{
-			std::cout << "I'm in PModel::&getComments(), line 63"<<std::endl;
 			return _comments;
 		};
 		virtual const std::string &getPdbName() const 

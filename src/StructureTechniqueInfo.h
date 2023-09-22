@@ -16,6 +16,7 @@ namespace mulch
 	{
 	public:
 		StructureTechniqueInfo();
+		StructureTechniqueInfoEnum strcInfo();
 		// static void structureTechniqueInfoByPrimaryId(std::string str_id, Database *db);
 		static StructureTechniqueInfo* structureTechniqueInfoByPrimaryId(int id, Database *db);
 		virtual void retrieveDependencies(Result &res, Database *db);
@@ -31,10 +32,10 @@ namespace mulch
 		virtual std::string insertQuery() ;
 		virtual std::string updateQuery() ;
 		virtual std::string selectPidQuery() ;
-		std::string updateStrInfo(std::string crystInfoIdName, std::string nmrInfoIdName, std::string cryoInfoIdName,  int crystInfoIdValue, int nmrInfoIdValue, int cryoInfoId);
-
+		std::string updateStrInfo(std::string strcInfoIddName, int strcInfoValue);
 		virtual void updateDependenciesBefore(Database *db);
 		virtual void fillInFromResults(const Result &res);
+		void setStrc(StructureTechniqueInfoEnum strc);
 	private:
 		CrystallographicInfo* _crystallographicInfo = nullptr;
 		NMRInfo* _nmrInfo = nullptr;

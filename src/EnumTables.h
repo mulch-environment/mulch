@@ -98,6 +98,14 @@ enum DataEnum
 	Cryo = 3
 };
 
+enum StructureTechniqueInfoEnum
+{
+	NoneStructureTechniqueInfo = 0,	
+	StrcXray = 1,
+	StrcNMR = 2, 
+	StrcCryo = 3
+};
+
 
 enum DataCryoEMInfoEnum
 {
@@ -158,14 +166,12 @@ enum RepresentationEnum
 	Ensemble = 4
 };
 
+
+
+
 enum RfactorsInfoEnum
 {
 	NoneRfactorsInfo = 0,
-};
-
-enum StructureTechniqueInfoEnum
-{
-	NoneStructureTechniqueInfo = 0,	
 };
 
 

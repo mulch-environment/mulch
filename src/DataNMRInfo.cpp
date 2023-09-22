@@ -25,8 +25,8 @@ std::string DataNMRInfo::updateQuery()
 {
 	std::string query;
 	query = "UPDATE DataNMRInfo SET nmrqualitydata_id =";
-	query += _nmrQualityData->primaryId();
-	query += "WHERE data_nmr_info_id = ";
+	query += std::to_string(_nmrQualityData->primaryId());
+	query += " WHERE data_nmr_info_id = ";
 	query += std::to_string(primaryId());;
 	query += ";";
 	Utility::protectsql(query);

@@ -5,8 +5,7 @@
 #define __mulch__RepresentationType_h__
 
 #include "Object.h"
-#include "RepresentationType.h"
-#include "Utility.h"
+
 
 namespace mulch
 {	
@@ -18,6 +17,7 @@ namespace mulch
 	{
 	public:
 		RepresentationType();
+		RepresentationEnum type() const;
 		/* sets representation type */
 		virtual void setRepType(RepresentationEnum rep);
 		/* sends pdbName to AtomicInfo */
@@ -41,7 +41,7 @@ namespace mulch
 		std::string updateRepType(std::string repTypeIdName, int repTypeIdValue);
 
 	private:
-		RepresentationEnum _type = NoneRepresentation;
+		// RepresentationEnum _type = NoneRepresentation;
 		AtomicModelInfo* _atomicModelInfo = nullptr;
 		BondBasedModelInfo* _bondBasedModelInfo = nullptr;
 		CoarseGrainingModelInfo* _coarseGrainingModelInfo = nullptr;

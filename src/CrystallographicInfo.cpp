@@ -21,8 +21,11 @@ std::string CrystallographicInfo::insertQuery()
 std::string CrystallographicInfo::updateQuery()
 {
 	std::string query;
-	query = "";
-	Utility::protectsql(query);
+	query =	"UPDATE CrystallographicInfo SET comments = '";
+	query += _comments;
+	query += "' WHERE crystallographic_info_id = (";
+	query += std::to_string(primaryId());
+	query += ");";
 	return query;
 }
 
@@ -34,7 +37,6 @@ std::string CrystallographicInfo::selectPidQuery()
 	query = "SELECT * FROM CrystallographicInfo WHERE crystallographic_info_id =";
 	query += std::to_string(primaryId());
 	query += ";";
-	Utility::protectsql(query);
 	return query;
 }
 

@@ -37,6 +37,31 @@ std::string CollectionHasDataset::updateQuery()
 	return query;
 }
 
+// std::string CollectionHasDataset::updateQuery()
+// {
+//     std::string query;
+//     bool hasUpdates = false;
+
+//     if (_modelDataPair != nullptr && _collection != nullptr)
+//     {
+//         query += "modeldatapair_ID = ";
+//         query += std::to_string(_modelDataPair->primaryId());
+//         query += ", ";
+//         query += "collection_id = ";
+//         query += std::to_string(_collection->primaryId());
+//         hasUpdates = true;
+//     }
+
+//     if (hasUpdates) {
+//         query = "UPDATE CollectionHasDataset SET " + query + " WHERE collectionhasdataset_id = " + std::to_string(primaryId()) + ";";
+//         debugLog << "Update query in CollectionHasDataset: " << query;
+//         return query;
+//     } else {
+//         return ""; // No updates to perform
+//     }
+// }
+
+
 std::string CollectionHasDataset::selectPidQuery()
 {
 	std::string query;
@@ -81,6 +106,7 @@ void CollectionHasDataset::fillInFromResults(const Result &res)
 	_collection = new PCollection();
 	_collection->getPidFromResults(res);
 }
+
 
 /// ------------------ RETRIEVING STUFF -----------------------
 CollectionHasDataset* CollectionHasDataset::collectHasDatasetByPrimaryId(int id, Database *db)

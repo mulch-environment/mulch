@@ -40,8 +40,11 @@ ModelDataPair* PCollection::getMDP(int index)
 	{
         throw std::runtime_error("Error: _chds vector is empty. Cannot retrieve ModelDataPair.");
     }
-	const PModelDataPair* pmdp = chdsVector[index]->getModelDataPair();
-	ModelDataPair* mdp = const_cast<ModelDataPair*>(static_cast<const ModelDataPair*>(pmdp));
+    debugLog << "In  PCollection::getMDP, the index is";
+    debugLog << index;
+    debugLog << primaryId();
+	PModelDataPair* pmdp = chdsVector[index]->getModelDataPair(); /// <<-- this might be returnign a const - need to modify
+	ModelDataPair* mdp = (static_cast<ModelDataPair*>(pmdp));
 	return mdp;
 }
 
@@ -59,6 +62,7 @@ std::string PCollection::insertQuery()
 
 std::string PCollection::updateQuery()
 {
+    debugLog << "In PCollection::updateQuery()";
 	std::string query;
 	query = "";
 	Utility::protectsql(query);
@@ -112,13 +116,10 @@ void PCollection::sentToCHD(PModelDataPair *MDpair)
  	chd->setCollection(this);
  	chd->setModelDataPair(MDpair);
  	_chds.push_back(chd); 
- 	std::cout << _chds.size() << std::endl;
  }
 
 void PCollection::updateDependenciesAfter(Database *db) 
 {
-	std::cout << "IN UPDATEDATABASEAFTER, LINE 120" << std::endl; 
-	std::cout << _chds.size() << std::endl; 
 	for (CollectionHasDataset *chd: _chds)
 	{
 		chd->updateDatabase(db);
@@ -172,7 +173,7 @@ PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
         std::string temp_chd_str = result["collectionhasdataset_id"];
         int temp_chd = std::stoi(temp_chd_str);
 
-        std::cout << "Result " << i + 1 << ": " << temp_chd << std::endl;
+        // std::cout << "Result " << i + 1 << ": " << temp_chd << std::endl;
 
         // Store the value in the vector
         temp_chds.push_back(temp_chd);

@@ -26,12 +26,16 @@ std::string DataCrystallographicInfo::updateQuery()
 	std::string query;
 	std::string fileName = DataCrystallographicInfo::getFileName();
 	Utility::protectParameter(fileName);
-	query =	"UPDATE DataCrystallographicInfo SET file_name = '";
-	query += fileName;
-	query += "' WHERE data_crystallographic_info_id = ";		
-	query += std::to_string(DataCrystallographicInfo::primaryId());
-	
-	return query;
+    // Check if fileName is not empty before constructing the query
+    if (!fileName.empty())
+    {
+        query = "UPDATE DataCrystallographicInfo SET file_name = '";
+        query += fileName;
+        query += "' WHERE data_crystallographic_info_id = ";
+        query += std::to_string(DataCrystallographicInfo::primaryId());
+    }
+
+    return query;
 }
 
 
@@ -54,8 +58,7 @@ void DataCrystallographicInfo::updateDependenciesBefore(Database *db)
 
 
 void DataCrystallographicInfo::setFileName(std::string fileName)
-{	
-	MulchExceptions::FileNameIsNone(_fileData);
+{
 	_fileData = fileName;
 	debugLog << _fileData;
 };
@@ -71,7 +74,7 @@ void DataCrystallographicInfo::retrieveDependencies(Result &res, Database *db)
 
 	delete _crystalQualityData;
 	_crystalQualityData = nullptr;
-	
+
 	std::string crysQual_id = CrystalQualityData::staticSqlIDName();
 	std::cout << "res[crysQual_id] = " + res[crysQual_id] << std::endl;
 	CrystalQualityData* cryQual = CrystalQualityData::crystQualDataByPrimaryId(std::stoi(res[crysQual_id]), db);
