@@ -58,7 +58,7 @@ namespace mulch
 		virtual void addModelDataPair(RepresentationEnum rep, std::string pdbName, DataEnum datatype, std::string datafile);
 		// Setter function for debug mode
 		virtual ModelDataPair* getMDP(int index);
-        void setDebugMode(bool mode) override
+        void setDebugMode(bool mode)
         {
         	debugLog.setDebugMode(mode);
     	}
