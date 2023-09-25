@@ -1,8 +1,8 @@
 #ifndef __mulch__Collection_h__
 #define __mulch__Collection_h__
 
-#include "Object.h"
 #include "DebugLog.h"
+#include "EnumTables.h"
 #include <string>
 
 namespace mulch
