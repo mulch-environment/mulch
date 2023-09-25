@@ -17,7 +17,7 @@ PCollection::PCollection()
 
 }
 
-int PCollection::getPrimaryId() const
+int PCollection::returnPrimaryId() const
 {
 	return primaryId();
 }
@@ -131,7 +131,7 @@ void PCollection::updateDependenciesAfter(Database *db)
 int PCollection::countChdIds(Database *db) const
 {
     int count = 0;
-    std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(getPrimaryId()) + ";";
+    std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(primaryId()) + ";";
     
     int CURRENT_VERSION = 2;
     // Execute the query and retrieve the results
@@ -154,7 +154,7 @@ int PCollection::countChdIds(Database *db) const
 PCollection* PCollection::pCollectionByPrimaryId(int id, Database *db)
 {
 	PCollection* pCollect = Cache<PCollection>::cacheByPrimaryId(id, db); // Use the template function from the cache
-	std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(pCollect->getPrimaryId()) + ";";
+	std::string query = "SELECT collectionhasdataset_id FROM CollectionHasDataset WHERE collection_id = " + std::to_string(pCollect->primaryId()) + ";";
 	int CURRENT_VERSION = 2;
     // Execute the query and retrieve the results
     if (db == nullptr)

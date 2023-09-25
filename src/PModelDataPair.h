@@ -19,7 +19,7 @@ namespace mulch
 	{
 	public:
 		PModelDataPair();
-		int getPrimaryId() const;
+		int returnPrimaryId() const;
 		std::vector<PModelDataPair*> mdpVector;
 		static PModelDataPair* modelDataPairByPrimaryId(int id, Database *db);
 		virtual void setRep(RepresentationEnum rep);

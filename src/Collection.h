@@ -18,7 +18,7 @@ namespace mulch
    		static Collection* createCollection();
    		virtual int modelDataPairCount(Database* db = nullptr) const = 0;
 		virtual void persist() = 0;
-		virtual int getPrimaryId() const = 0;
+		virtual int returnPrimaryId() const = 0;
 		virtual ModelDataPair* getMDP(int index) = 0;
 	  	virtual int getCHDsVectorSize() = 0;
 

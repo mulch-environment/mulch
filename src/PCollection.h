@@ -26,7 +26,7 @@ namespace mulch
 		{ 
 			Object::persist(); 
 		}
-		int getPrimaryId() const;
+		int returnPrimaryId() const;
 		/* Set the collection has dataset relationship with a given model-data pair object */
 		void sentToCHD(PModelDataPair *MDpair);
 

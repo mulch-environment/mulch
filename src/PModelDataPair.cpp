@@ -9,15 +9,16 @@
 
 using namespace mulch;
 
-int PModelDataPair::getPrimaryId() const
-{
-    return primaryId();
-}
 
 PModelDataPair::PModelDataPair()
 {
 	_model = nullptr;
 	_data = nullptr;
+}
+
+int PModelDataPair::returnPrimaryId() const
+{
+    return primaryId();
 }
 
 

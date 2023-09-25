@@ -16,7 +16,7 @@ namespace mulch
 	{
 	public:
 		virtual ~ModelDataPair() {};
-		virtual int getPrimaryId() const = 0;
+		virtual int returnPrimaryId() const = 0;
 		virtual void setRep(RepresentationEnum rep) = 0;
 		virtual void setFile(std::string pdbName) = 0;
 		virtual void setDataFile(std::string datafile) = 0;
