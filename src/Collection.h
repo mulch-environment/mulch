@@ -16,7 +16,7 @@ namespace mulch
 	public: 
 	    virtual ~Collection() {};
    		static Collection* createCollection();
-   		virtual int getCountPids(Database* db = nullptr) const = 0;
+   		virtual int modelDataPairCount(Database* db = nullptr) const = 0;
 		virtual void persist() = 0;
 		virtual int getPrimaryId() const = 0;
 		virtual ModelDataPair* getMDP(int index) = 0;

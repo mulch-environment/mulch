@@ -22,7 +22,7 @@ int PCollection::getPrimaryId() const
 	return primaryId();
 }
 
-int PCollection::getCountPids(Database* db) const
+int PCollection::modelDataPairCount(Database* db) const
 {
 	int CURRENT_VERSION = 2;
     if (db == nullptr)

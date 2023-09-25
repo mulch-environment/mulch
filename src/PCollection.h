@@ -21,7 +21,7 @@ namespace mulch
 	public:
 		/* Constructor to initialize member variables */
 		PCollection();
-		int getCountPids(Database* db = nullptr) const;
+		int modelDataPairCount(Database* db = nullptr) const;
 		void persist() 
 		{ 
 			Object::persist(); 
