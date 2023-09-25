@@ -23,6 +23,11 @@ PData::PData()
 
 }
 
+int PModel::returnPrimaryId() const
+{
+    return primaryId();
+}
+
 std::string PData::insertQuery()
 {	
 	std::string query;

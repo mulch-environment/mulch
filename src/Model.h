@@ -15,6 +15,7 @@ namespace mulch
 	{
 	public:
 		virtual ~Model() {};
+		virtual int returnPrimaryId() const = 0;
 		// static void modelsByRepType(RepresentationEnum rep, Database *db);
 		virtual void setComments(std::string comments) = 0; // setter function 
 		virtual void setPdbName(std::string pdbName) = 0;

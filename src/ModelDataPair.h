@@ -8,10 +8,12 @@
 #include "EnumTables.h"
 
 namespace mulch
-{
-	class PModelDataPair;
-	class Object;
+{	
 	class Database;
+	class Object;
+	class PModelDataPair;
+	class Model;
+	class Data;
 	class ModelDataPair
 	{
 	public:
@@ -37,6 +39,13 @@ namespace mulch
 		// virtual const std::string &getDataComments() const = 0;
 		virtual const std::string &getPdbName() const = 0;
 		virtual const std::string &getHasPdb() const = 0;
+
+		// Add getter methods for Model and Data pointers
+        virtual Model* getModel() = 0;
+        virtual Data* getData() = 0;
+        
+
+
 	private:
 		ModelDataPairEnum _hasmd = NoneModelDataPair;
 	};

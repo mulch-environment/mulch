@@ -15,6 +15,11 @@ PModel::PModel()
 	_structureTechniqueInfo = new StructureTechniqueInfo();
 }
 
+int PModel::returnPrimaryId() const
+{
+    return primaryId();
+}
+
 std::string PModel::insertQuery()
 {	
 	std::string query;

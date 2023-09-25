@@ -21,6 +21,21 @@ int PModelDataPair::returnPrimaryId() const
     return primaryId();
 }
 
+Model* PModelDataPair::getModel()
+{
+    debugLog << "In  PModelDataPair::getModel";
+    PModel* pModel = _model;
+    if (pModel != nullptr)
+    {
+        Model* model = (static_cast<Model*>(pModel));
+        return model;
+    } 
+    else
+    {
+        std::runtime_error("In PModelDataPair::getModel: model vector does not exist for this MDP id");
+    }
+}
+
 
 void PModelDataPair::setRep(RepresentationEnum rep)
 {
@@ -31,6 +46,21 @@ void PModelDataPair::setRep(RepresentationEnum rep)
 	_model->setRepType(rep);
 }
 
+Data* PModelDataPair::getData()
+{
+    debugLog << "In  PModelDataPair::getData";
+    PData* pData = _data;
+    if (pData != nullptr)
+    {
+        Data* data = (static_cast<Data*>(pData));
+        return data;
+    }
+    else
+    {
+        std::runtime_error("In PModelDataPair::getData: data vector does not exist for this MDP id");
+    }
+
+}
 
 void PModelDataPair::setFile(std::string pdbName)
 {

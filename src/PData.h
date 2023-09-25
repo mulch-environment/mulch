@@ -18,6 +18,7 @@ namespace mulch
 	{
 	public:
 		PData();
+		int returnPrimaryId() const;
 		static std::string selectQueryDataByInfo(DataEnum dat);
 		virtual void setDataInfo(DataEnum dat);
 		static PData* dataByPrimaryId(int id, Database *db);

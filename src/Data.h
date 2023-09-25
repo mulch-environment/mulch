@@ -16,6 +16,7 @@ namespace mulch
 	{
 	public:
 		virtual ~Data() {};
+		virtual int returnPrimaryId() const = 0;
 		virtual void setComments(std::string comments) = 0; // setter function 
 		virtual void setFileName(std::string fileData) = 0; 
 		virtual std::string getComments() const = 0;

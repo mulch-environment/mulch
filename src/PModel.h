@@ -16,6 +16,7 @@ namespace mulch
 	{
 	public:
 		PModel();
+		int returnPrimaryId() const;
 		struct Date {
 		    int day;
 		    int month;

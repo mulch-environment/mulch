@@ -68,6 +68,7 @@ namespace mulch
  	    }
 
     	// For PModel:
+ 	    virtual Model* getModel();
 		virtual std::string getModelComments() const 
     	{
     		std::cout << "In MDP::getModelComments" <<std::endl;
@@ -85,12 +86,16 @@ namespace mulch
     		std::string hasPdb = _model->getHasPdb();
 		    return hasPdb;
 		}
+
 		// For PData:
+		virtual Data* getData();
 		virtual std::string getDataComments() const 
     	{
     		std::cout << "In MDP::getDataComments"<<std::endl;
 		    return _data->getComments();
 		}
+
+
 	protected:
 		virtual std::string insertQuery();
 		virtual std::string updateQuery();
