@@ -23,7 +23,7 @@ PData::PData()
 
 }
 
-int PModel::returnPrimaryId() const
+int PData::returnPrimaryId() const
 {
     return primaryId();
 }
