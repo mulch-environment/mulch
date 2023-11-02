@@ -118,6 +118,7 @@ namespace mulch
 		// virtual void updateDependenciesAfter(const mulch::Result &res, Database *db) {};
 		virtual void updateDependenciesAfter(Database *db) {};	
 		virtual void fillInFromResults(const mulch::Result &res){};
+		virtual void retrieveCommentsFromResult(const mulch::Result &res){};
 		virtual void populateCHDs(){};
 
 

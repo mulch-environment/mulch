@@ -48,6 +48,7 @@ void Object::selectExisting(Database *db)
 	std::string query = selectPidQuery(); 
 	debugLog << query;
 	db->query(query);
+
 }
 
 
@@ -120,6 +121,7 @@ mulch::Result Object::retrieveExisting(int pid, Database *db)
 	    for (const auto& res : results) 
 	    {
 	        fillInFromResults(res);
+
 	    }
 	}
     // Combine the results into a single mulch::Result object

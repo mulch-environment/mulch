@@ -58,6 +58,8 @@ namespace mulch
 		// GET the values from the columns in the Model table
 		virtual std::string getComments() const 
 		{
+			std::cout << "In PModel::getComments. Comments: ";
+			std::cout << _comments << std::endl;
 			return _comments;
 		};
 		virtual const std::string &getPdbName() const 

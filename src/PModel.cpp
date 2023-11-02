@@ -77,23 +77,6 @@ std::string PModel::updateQuery()
     } else {
         return ""; // No updates to perform
     }
-
-	// query = "UPDATE Model SET pdb_code = '";
-	// query += _pdbName;
-	// query +=  "', haspdb = '";
-	// query += _hasPdb;
-	// query += "' , comments = '";
-	// query += _comments;
-	// query += "' WHERE model_ID = (";
-	// query += std::to_string(primaryId());
-	// query += ");";
-	// debugLog << "Update query in PModel: ";
-	// debugLog << query;
-	// Utility::protectParameter(_pdbName);
-	// Utility::protectParameter(_hasPdb);
-	// Utility::protectParameter(_comments);
-    // Utility::protectsql(query);
-    // return query;
 }
 
 
@@ -107,6 +90,8 @@ std::string PModel::selectPidQuery()
 	Utility::protectsql(query);
 	return query;
 }
+
+
 
 std::string PModel::selectQueryModelsByType(RepresentationEnum rep)
 {
@@ -168,11 +153,7 @@ void PModel::updateDependenciesBefore(Database *db)
 /// ------------------ RETRIEVING STUFF -----------------------
 PModel* PModel::modelByPrimaryId(int id, Database *db)
 {
-	// PModel *model = new PModel();
-	// model->retrieveExisting(id, db);
-	// return model;
 	   return Cache<PModel>::cacheByPrimaryId(id, db); // Use the template function from the cache
-
 }
 
 void PModel::retrieveDependencies(Result &res, Database *db)
@@ -205,26 +186,6 @@ void PModel::retrieveDependencies(Result &res, Database *db)
 
 	}
 }
-    // try {
-    //     int repId = std::stoi(res[rep_id]);
-    //     RepresentationType* repType = RepresentationType::representationTypeByPrimaryId(repId, db);
-    //     _representationType = repType;
-    // } 
-    // catch (const std::invalid_argument& e) {
-    //     // Handle the case when the conversion fails
-    //     std::cerr << "Warning: converting res[rep_id] to integer not necessary " << std::endl;
-    // }
-
-    // try {
-    //     int strId = std::stoi(res[str_id]);
-    //     StructureTechniqueInfo* strTech = StructureTechniqueInfo::structureTechniqueInfoByPrimaryId(strId, db);
-    //     _structureTechniqueInfo = strTech;
-    // } 
-    // catch (const std::invalid_argument& e) {
-    //     // Handle the case when the conversion fails
-    //     std::cerr << "Warning: converting res[str_id] to integer not necessary " << std::endl;
-    // }
-
 
 
 void PModel::fillInFromResults(const Result &res) 
@@ -246,29 +207,33 @@ void PModel::fillInFromResults(const Result &res)
 	} 
 
 
+	// retrieve comments 
+	std::string commentsColumn = "comments";
+    if (res.count(commentsColumn) > 0) {
+        _comments = res.at(commentsColumn);
+    } else {
+        debugLog << "No 'comments' column in the result set";
+    }
+
+	// retrieve pdbname 
+	std::string pdbColumn = "pdb_code";
+    if (res.count(pdbColumn) > 0) {
+        _pdbName = res.at(pdbColumn);
+    } else {
+        debugLog << "No 'pdb_code' column in the result set";
+    }
+
+	// retrieve hasPdb flag  
+	std::string hasPdbColumn = "haspdb";
+    if (res.count(hasPdbColumn) > 0) {
+        _hasPdb = res.at(hasPdbColumn);
+    } else {
+        debugLog << "No 'haspdb' column in the result set";
+    }
+
+
 }
 
-// std::vector<Result> PModel::showRetrievedValues(int pid, Database *db)
-// {
-// 	PModel* model = modelByPrimaryId(pid, db);
-// 	std::cout << "Retrieving values from Database" << std::endl;
-// 	std::cout << "Model_id = " << pid << std::endl;	
-// 	std::vector<Result> retrieved_res = db->results();
-// 	// std::cout << retrieved_res << std::endl;
-// 	for (const auto& res : retrieved_res) 
-// 	{
-//     	std::cout << "Result:" << std::endl;
-//     	for (const auto& kv : res) 
-//     	{
-//     		if (Utility::isNull(kv.second)) 
-//     		{
-//     			kv.second = std::string("Not yet assigned");
-//     		}
-//         	std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
-//     	}
-// 	}
-//     return retrieved_res;
-// }
 
 void PModel::setRepType(RepresentationEnum rep)
 {	
@@ -277,11 +242,6 @@ void PModel::setRepType(RepresentationEnum rep)
 
 void PModel::setFileName(std::string pdbName)
 {	
-	// if (_representationType == nullptr)
-	// {
-	// 	_representationType = new RepresentationType;
-	// }
-
 	_representationType->setFileName(pdbName);
 }
 

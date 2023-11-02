@@ -119,10 +119,6 @@ void PModelDataPair::setModelComments(const std::string& comments)
     if (_model == nullptr)
     {
         _model = new PModel;
-    }  
-    else
-    {
-        debugLog << "No _model object to set comments on.";
     } 
     debugLog << "Before _model->setComments: " << _model->getComments();
     _model->setComments(comments);

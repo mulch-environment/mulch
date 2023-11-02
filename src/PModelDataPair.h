@@ -61,7 +61,6 @@ namespace mulch
     	}
 
     	// Getters:
-
  	    virtual const std::string &getComments() const
  	    {
  	    	return _comments;

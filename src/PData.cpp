@@ -264,6 +264,12 @@ void PData::fillInFromResults(const Result &res)
 		_dataCryoEMInfo->getPidFromResults(res);
 	}
 
+	std::string commentsColumn = "comments";
+    if (res.count(commentsColumn) > 0) {
+        _comments = res.at(commentsColumn);
+    } else {
+        debugLog << "No 'comments' column in the result set";
+    }
 }
 
 void PData::setDataInfo(DataEnum dat)
@@ -287,11 +293,6 @@ void PData::setDataInfo(DataEnum dat)
 
 void PData::setFileName(std::string fileName)
 {	
-	// if (_dataCrystallographicInfo!=nullptr)
-	// {
-	// 	_dataCrystallographicInfo->setFileName(fileName);
-	// }
-
 	if (_dataCrystallographicInfo == nullptr)
 	{
 		_dataCrystallographicInfo = new DataCrystallographicInfo;
@@ -305,28 +306,5 @@ void PData::setComments(std::string comments)
 	debugLog << "In PData::setComments. Received comments: " << _comments;
 };
 
-std::vector<Result> PData::showRetrievedValues(int pid, Database *db)
-{
-    // PData* data = dataByPrimaryId(pid, db);
-    // std::cout << "Retrieving values from Database" << std::endl;
-    // std::cout << "Data_id = " << pid << std::endl;    
-    // std::vector<Result> retrieved_res = db->results();
-    // // std::cout << retrieved_res << std::endl;
-    // for (auto& res : retrieved_res) 
-    // {
-    //     std::cout << "Results from Data:" << std::endl;
-    //     for (auto& kv : res) 
-    //     {
-    //         if (Utility::isNull(kv.second)) 
-    //         {
-    //             std::string temp = std::string("Not yet assigned");
-    //             kv.second = temp;
-    //         }
-    //         std::cout << "Column: " << kv.first << ", Value: " << kv.second << std::endl;
-    //     }
-    // }
-    // return retrieved_res;
 
-
-}
 
